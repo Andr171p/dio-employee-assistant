@@ -1,5 +1,3 @@
-from threading import settrace
-
 from dishka import Provider, provide, Scope
 
 from langchain_core.embeddings import Embeddings
