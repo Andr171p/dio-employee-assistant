@@ -17,6 +17,7 @@ langchain-community = "^0.3.19"
 sentence-transformers = "^3.4.1"
 langchain-gigachat = "^0.3.4"
 aiogram = "^3.18.0"
+alembic = "^1.15.1"
 
 
 [build-system]
