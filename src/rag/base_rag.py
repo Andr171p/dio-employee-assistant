@@ -6,7 +6,7 @@ if TYPE_CHECKING:
 from abc import ABC, abstractmethod
 
 
-class BaseRag(ABC):
+class BaseRAG(ABC):
     _chain: "Runnable"
 
     @abstractmethod
