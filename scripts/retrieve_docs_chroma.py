@@ -10,7 +10,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
 
 
-emdeddings = HuggingFaceEmbeddings(
+embeddings = HuggingFaceEmbeddings(
     model_name="ai-forever/sbert_large_nlu_ru",
     model_kwargs={"device": "cpu"},
     encode_kwargs={"normalize_embeddings": False}
@@ -20,7 +20,7 @@ client = chromadb.PersistentClient(r"C:\Users\andre\IdeaProjects\DIORag\chroma")
 vector_store = Chroma(
     client=client, 
     collection_name="dio-consult",
-    embedding_function=emdeddings
+    embedding_function=embeddings
 )
 
 retriever = vector_store.as_retriever()
