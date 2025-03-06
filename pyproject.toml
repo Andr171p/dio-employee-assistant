@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "diorag"
+version = "0.1.0"
+description = ""
+authors = ["AndreyKosov <andrey.kosov.05@inbox.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.115.11"}
+dishka = "^1.4.2"
+pandas = "^2.2.3"
+langchain = "^0.3.20"
+langchain-core = "^0.3.41"
+langchain-chroma = "^0.2.2"
+langchain-community = "^0.3.19"
+sentence-transformers = "^3.4.1"
+langchain-gigachat = "^0.3.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

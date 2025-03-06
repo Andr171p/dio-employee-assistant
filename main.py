@@ -1,0 +1,1 @@
+from scripts import retrieve_docs_chroma
