@@ -35,12 +35,19 @@ class GigaChatSettings(BaseSettings):
     scope: str = os.getenv("GIGACHAT_SCOPE")
 
 
+class DatabaseSettings(BaseSettings):
+    db_path: str = os.path.join(BASE_DIR, "db.sqlite3")
+    driver: str = "aiosqlite"
+    url: str = f"sqlite+{driver}:///{db_path}"
+
+
 class Settings(BaseSettings):
     bot: BotSettings = BotSettings()
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
     chroma: ChromaSettings = ChromaSettings()
     prompts: PromptsSettings = PromptsSettings()
     giga_chat: GigaChatSettings = GigaChatSettings()
+    db: DatabaseSettings = DatabaseSettings()
 
 
 settings = Settings()
