@@ -26,6 +26,12 @@ class ChromaSettings(BaseSettings):
     persist_directory: str = os.path.join(BASE_DIR, "chroma")
 
 
+class ElasticSettings(BaseSettings):
+    url: str = os.getenv("ELASTIC_URL")
+    user: str = os.getenv("ELASTIC_USER")
+    password: str = os.getenv("ELASTIC_PASSWORD")
+
+
 class PromptsSettings(BaseSettings):
     prompt_path: str = os.path.join(BASE_DIR, "prompts", "Промпт_ДИО_сотрудник.txt")
 
@@ -44,6 +50,7 @@ class DatabaseSettings(BaseSettings):
 class Settings(BaseSettings):
     bot: BotSettings = BotSettings()
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
+    elastic: ElasticSettings = ElasticSettings()
     chroma: ChromaSettings = ChromaSettings()
     prompts: PromptsSettings = PromptsSettings()
     giga_chat: GigaChatSettings = GigaChatSettings()
