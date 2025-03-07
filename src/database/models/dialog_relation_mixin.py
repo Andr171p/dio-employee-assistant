@@ -18,9 +18,9 @@ class DialogRelationMixin:
     _dialog_back_populates: str | None = None
 
     @declared_attr
-    def dialog_id(cls) -> Mapped[int]:
+    def message_id(cls) -> Mapped[int]:
         return mapped_column(
-            ForeignKey("dialogs.id"),
+            ForeignKey("dialogs.message_id"),
             unique=cls._dialog_id_unique,
             nullable=cls._dialog_id_nullable
         )

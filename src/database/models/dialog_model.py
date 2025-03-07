@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.database.models.vote_model import VoteModel
 
-from sqlalchemy import Text, DateTime
+from sqlalchemy import Text, DateTime, BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database.models.base_model import BaseModel
@@ -18,6 +18,7 @@ class DialogModel(UserRelationMixin, BaseModel):
 
     user_message: Mapped[str] = mapped_column(Text)
     chat_bot_message: Mapped[str] = mapped_column(Text)
+    message_id: Mapped[int] = mapped_column(BigInteger, nullable=False, unique=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
 
     vote: Mapped["VoteModel"] = relationship(back_populates="dialog")
