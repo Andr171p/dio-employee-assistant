@@ -19,6 +19,7 @@ langchain-gigachat = "^0.3.4"
 aiogram = "^3.18.0"
 alembic = "^1.15.1"
 aiosqlite = "^0.21.0"
+langchain-elasticsearch = "^0.3.2"
 
 
 [build-system]
