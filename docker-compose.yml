@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  elastic:
+    image: elasticsearch:8.16.1
+    environment:
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      ELASTIC_USERNAME: "elastic"
+      ELASTIC_PASSWORD: "password"
+      discovery.type: single-node
+    volumes:
+      - .docker/configs/elasticsearch/config.yml:/usr/share/elasticsearch/docker/config/elasticsearch.yml:ro
+      - elastic-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+volumes:
+  elastic-data:
