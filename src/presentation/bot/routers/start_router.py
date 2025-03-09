@@ -1,7 +1,6 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
-
 from dishka.integrations.aiogram import FromDishka
 
 from src.core.use_cases import UserUseCase
@@ -15,4 +14,4 @@ start_router = Router()
 async def start(message: Message, users: FromDishka[UserUseCase]) -> None:
     user = UserMapper.from_message(message)
     await users.register(user)
-    await message.answer("Hello")
+    await message.answer("Привет, меня зовут Алёша")
