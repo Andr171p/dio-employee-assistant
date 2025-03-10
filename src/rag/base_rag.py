@@ -10,5 +10,5 @@ class BaseRAG(ABC):
     _chain: "Runnable"
 
     @abstractmethod
-    async def generate(self, query: str) -> str:
+    async def generate(self, query: str, **kwargs) -> str:
         raise NotImplementedError

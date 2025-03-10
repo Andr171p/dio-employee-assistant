@@ -38,7 +38,7 @@ class ChatMemoryRAG(BaseRAG):
                 self._parser
         )
 
-    async def generate(self, query: str) -> str:
+    async def generate(self, query: str, **kwargs) -> str:
         result =  await self._chain.invoke(query)
         self._memory.save_context(
             inputs={"input": query},

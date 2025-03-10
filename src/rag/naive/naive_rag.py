@@ -30,5 +30,5 @@ class NaiveRAG(BaseRAG):
             parser
         )
 
-    async def generate(self, query: str) -> str:
+    async def generate(self, query: str, **kwargs) -> str:
         return await self._chain.ainvoke(query)

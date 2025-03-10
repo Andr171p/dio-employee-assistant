@@ -14,6 +14,15 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+  redis:
+    image: redis:alpine
+    container_name: redis_container
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.docker/data:/data
+    command: redis-server --appendonly yes
+    restart: always
 
 volumes:
   elastic-data:
