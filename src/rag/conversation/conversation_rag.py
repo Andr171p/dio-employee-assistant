@@ -8,15 +8,12 @@ if TYPE_CHECKING:
     from langchain_core.runnables import Runnable
 
 from langchain_core.runnables import RunnablePassthrough
-from langchain_core.runnables.history import RunnableWithMessageHistory
-from langchain_core.messages import HumanMessage, AIMessage
 
 from src.rag.base_rag import BaseRAG
-from src.rag.rag_utils import format_docs
-from src.rag.memory.chat_history_factory import ChatHistoryFactory
+from src.rag.rag_utils import format_docs, format_chat_history
 
 
-class MemoryRAG(BaseRAG):
+class ConversationRAG(BaseRAG):
     def __init__(
             self,
             retriever: "BaseRetriever",
@@ -33,6 +30,7 @@ class MemoryRAG(BaseRAG):
         chain = (
             {
                 "context": self._retriever | format_docs,
+                "chat_history": RunnablePassthrough(),
                 "question": RunnablePassthrough(),
             } |
             self._prompt |
@@ -42,13 +40,5 @@ class MemoryRAG(BaseRAG):
         return chain
 
     async def generate(self, query: str, **kwargs) -> str:
-        session_id: str = kwargs.get("session_id")
-        chat_history_factory = kwargs.get("chat_history_factory")
         chain = self._get_chain()
-        chain_with_history = RunnableWithMessageHistory(
-            chain, chat_history_factory.get_or_create_chat_history,
-            input_messages_key="question",
-            history_key="chat_history",
-            output_messages_key="answer",
-        )
-        return await chain_with_history.ainvoke({"question": query}, config={"configurable": {"session_id": session_id}})
+        return await chain.ainvoke({"question": query, "chat_history": format_chat_history})

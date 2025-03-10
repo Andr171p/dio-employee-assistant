@@ -17,7 +17,3 @@ class ChatHistoryFactory:
             url=self._redis_url,
             ttl=self._ttl,
         )
-
-
-his = ChatHistoryFactory().get_or_create_chat_history("123")
-print(his)
