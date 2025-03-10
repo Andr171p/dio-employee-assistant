@@ -20,7 +20,7 @@ dp: Dispatcher = Dispatcher(
 )
 
 dp.include_routers(
-    # start_router,
+    start_router,
     chatbot_router
 )
 

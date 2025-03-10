@@ -6,5 +6,5 @@ from src.core.use_cases import ChatBotUseCase
 
 class ChatBotProvider(Provider):
     @provide(scope=Scope.APP)
-    def get_chat_bot(self, rag: BaseRAG) -> ChatBotUseCase:
+    def get_chatbot(self, rag: BaseRAG) -> ChatBotUseCase:
         return ChatBotUseCase(rag)
