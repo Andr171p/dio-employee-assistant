@@ -15,7 +15,7 @@ class UserModel(BaseModel):
 
     user_id: Mapped[int] = mapped_column(BigInteger, unique=True)
     username: Mapped[str | None] = mapped_column(nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
 
     dialogs: Mapped[list["DialogModel"]] = relationship(back_populates="user")
 
