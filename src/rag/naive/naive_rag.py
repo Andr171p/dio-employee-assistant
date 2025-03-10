@@ -5,6 +5,7 @@ if TYPE_CHECKING:
     from langchain_core.prompts import BasePromptTemplate
     from langchain_core.language_models import BaseChatModel
     from langchain_core.output_parsers import BaseTransformOutputParser
+    from langchain_core.runnables import Runnable
 
 from langchain_core.runnables import RunnablePassthrough
 
@@ -20,15 +21,23 @@ class NaiveRAG(BaseRAG):
             model: "BaseChatModel",
             parser: "BaseTransformOutputParser",
     ) -> None:
-        self._chain = (
+        self._retriever = retriever
+        self._prompt = prompt
+        self._model = model
+        self._parser = parser
+
+    def _get_chain(self) -> "Runnable":
+        chain = (
             {
-                "context": retriever | format_docs,
+                "context": self._retriever | format_docs,
                 "question": RunnablePassthrough()
             } |
-            prompt |
-            model |
-            parser
+            self._prompt |
+            self._model |
+            self._parser
         )
+        return chain
 
     async def generate(self, query: str, **kwargs) -> str:
-        return await self._chain.ainvoke(query)
+        chain = self._get_chain()
+        return await chain.ainvoke(query)

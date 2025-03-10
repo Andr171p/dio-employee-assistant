@@ -8,7 +8,7 @@ from langchain_gigachat import GigaChat
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
-from langchain.chains.conversation.memory import ConversationSummaryMemory
+from langchain_community.chat_message_histories.redis import RedisChatMessageHistory
 
 
 embeddings = HuggingFaceEmbeddings(
@@ -63,7 +63,10 @@ rag_chain = (
     parser
 )
 
-question = input("Запрос в RAG: ")
 
-res = rag_chain.invoke(question)
-print(res)
+while True:
+    question = input("Запрос в RAG: ")
+    if question == "exit":
+        break
+    res = rag_chain.invoke(question)
+    print(res)
