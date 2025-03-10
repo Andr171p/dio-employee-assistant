@@ -8,6 +8,7 @@ from langchain_gigachat import GigaChat
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
+from langchain.chains.conversation.memory import ConversationSummaryMemory
 
 
 embeddings = HuggingFaceEmbeddings(
