@@ -3,14 +3,14 @@ from typing import TYPE_CHECKING, List
 from sqlalchemy import select
 
 if TYPE_CHECKING:
-    from src.database.database_manager import DatabaseManager
+    from src.database.sql_database_manager import SQLDatabaseManager
 
 from src.database.crud.base_crud import BaseCRUD
 from src.database.models import DialogModel
 
 
 class DialogCRUD(BaseCRUD):
-    def __init__(self, manager: "DatabaseManager") -> None:
+    def __init__(self, manager: "SQLDatabaseManager") -> None:
         self._manager = manager
 
     async def create(self, dialog: DialogModel) -> int:

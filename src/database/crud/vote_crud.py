@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Union, Sequence
 
 if TYPE_CHECKING:
-    from src.database.database_manager import DatabaseManager
+    from src.database.sql_database_manager import SQLDatabaseManager
 
 from sqlalchemy import select
 
@@ -10,7 +10,7 @@ from src.database.models import VoteModel
 
 
 class VoteCRUD(BaseCRUD):
-    def __init__(self, manager: "DatabaseManager") -> None:
+    def __init__(self, manager: "SQLDatabaseManager") -> None:
         self._manager = manager
 
     async def create(self, vote: VoteModel) -> int:

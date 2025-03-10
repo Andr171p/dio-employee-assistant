@@ -1,6 +1,6 @@
 from dishka import Provider, provide, Scope
 
-from src.database.database_manager import DatabaseManager
+from src.database.sql_database_manager import DatabaseManager
 from src.database.crud import UserCRUD, DialogCRUD, VoteCRUD
 from src.config import settings
 

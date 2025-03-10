@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, List
 
 if TYPE_CHECKING:
-    from src.database.database_manager import DatabaseManager
+    from src.database.sql_database_manager import SQLDatabaseManager
     from src.database.models import BaseModel
 
 from abc import ABC, abstractmethod
 
 
 class BaseCRUD(ABC):
-    _manager: "DatabaseManager"
+    _manager: "SQLDatabaseManager"
 
     @abstractmethod
     async def create(self, model: "BaseModel") -> int:
