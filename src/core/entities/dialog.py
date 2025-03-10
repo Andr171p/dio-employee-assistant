@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Dialog(BaseModel):
+    user_id: int
     user_message: str
     chatbot_message: str
-    message_id: int
     created_at: datetime

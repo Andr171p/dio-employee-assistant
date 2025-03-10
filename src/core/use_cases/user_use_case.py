@@ -1,4 +1,4 @@
-from src.core.entities import User, Vote
+from src.core.entities import User
 from src.repository import UserRepository
 
 

@@ -18,10 +18,7 @@ class DialogModel(UserRelationMixin, BaseModel):
 
     user_message: Mapped[str] = mapped_column(Text)
     chatbot_message: Mapped[str] = mapped_column(Text)
-    message_id: Mapped[int] = mapped_column(BigInteger, nullable=False, unique=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-
-    vote: Mapped["VoteModel"] = relationship(back_populates="dialog")
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(user_id={self.user_id}, user_message={self.user_message}, chat_bot_message={self.chatbot_message}, created_at={self.created_at})"

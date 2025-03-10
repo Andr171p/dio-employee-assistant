@@ -1,5 +1,5 @@
-__all__  =(
-    "ChatBotAnswerPresenter"
+__all__ = (
+    "ChatBotPresenter"
 )
 
-from src.presentation.bot.presenters.chat_presenters import ChatBotAnswerPresenter
+from src.presentation.bot.presenters.chatbot_presenter import ChatBotPresenter

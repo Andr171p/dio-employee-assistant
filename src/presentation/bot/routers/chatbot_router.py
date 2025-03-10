@@ -1,18 +1,13 @@
 from aiogram import F, Router
 from aiogram.types import Message
-
 from dishka.integrations.aiogram import FromDishka
 
-from src.core.use_cases import ChatBotUseCase
-from src.presentation.bot.presenters import ChatBotAnswerPresenter
+from src.presentation.bot.controllers import ChatBotController
 
 
 chatbot_router = Router()
 
 
 @chatbot_router.message(F.text)
-async def answer(message: Message, chatbot: FromDishka[ChatBotUseCase]) -> None:
-    await message.bot.send_chat_action(message.chat.id, "typing")
-    user_question: str = message.text
-    chat_bot_answer = await chatbot.answer(user_question)
-    await ChatBotAnswerPresenter.present(message, answer=chat_bot_answer)
+async def answer(message: Message, chatbot_controller: FromDishka[ChatBotController]) -> None:
+    await chatbot_controller.answer_on_message(message)
