@@ -27,3 +27,7 @@ class ChatHistoryService:
         key = self._get_key(user_id)
         messages = self.redis_client.get(key)
         return json.loads(messages) if messages else []
+
+    def delete_messages(self, user_id: Union[int, str]) -> None:
+        key = self._get_key(user_id)
+        self.redis_client.delete(key)
