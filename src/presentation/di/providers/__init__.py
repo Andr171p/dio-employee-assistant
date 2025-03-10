@@ -7,5 +7,5 @@ __all__ = (
 
 from src.presentation.di.providers.database_provider import DatabaseProvider
 from src.presentation.di.providers.rag_provider import RAGProvider
-from src.presentation.di.providers.chat_bot_provider import ChatBotProvider
+from src.presentation.di.providers.chatbot_provider import ChatBotProvider
 from src.presentation.di.providers.users_provider import UsersProvider
