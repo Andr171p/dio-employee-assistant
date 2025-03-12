@@ -33,7 +33,8 @@ class ElasticSettings(BaseSettings):
 
 
 class PromptsSettings(BaseSettings):
-    prompt_path: str = os.path.join(BASE_DIR, "prompts", "Промпт_ДИО_сотрудник.txt")
+    rag_prompt: str = os.path.join(BASE_DIR, "prompts", "Промпт_ДИО_сотрудник.txt")
+    rag_prompt_with_chat_history: str = os.path.join(BASE_DIR, "prompts", "Промпт_ДИО_сотрудник_с_историей_сообщений.txt")
 
 
 class GigaChatSettings(BaseSettings):

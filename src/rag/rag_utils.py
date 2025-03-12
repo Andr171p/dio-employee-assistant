@@ -1,7 +1,6 @@
-from typing import List
+from typing import List, Dict
 
 from langchain_core.documents import Document
-from langchain_core.messages import AIMessage, HumanMessage
 
 
 def format_docs(documents: List[Document]) -> str:
@@ -13,11 +12,5 @@ def cut_docs(documents: List[Document], k: int = 5) -> List[Document]:
     return documents
 
 
-def format_chat_history(message_history: List[List[str]]) -> str:
-    chat_history = ""
-    for message in message_history:
-        if isinstance(message, HumanMessage):
-            chat_history += f"Пользователь: {message.content}\n"
-        elif isinstance(message, AIMessage):
-            chat_history += f"Помощник: {message.content}\n"
-    return chat_history
+def format_messages(messages: List[Dict]) -> str:
+    return "\n".join([f"{message['type']}: {message['content']}" for message in messages])

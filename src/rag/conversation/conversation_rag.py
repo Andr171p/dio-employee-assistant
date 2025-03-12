@@ -5,12 +5,12 @@ if TYPE_CHECKING:
     from langchain_core.prompts import BasePromptTemplate
     from langchain_core.language_models import BaseChatModel
     from langchain_core.output_parsers import BaseTransformOutputParser
-    from langchain_core.runnables import Runnable
 
 from langchain_core.runnables import RunnablePassthrough
 
 from src.rag.base_rag import BaseRAG
-from src.rag.rag_utils import format_docs, format_chat_history
+from src.rag.rag_utils import format_docs, format_messages
+from src.rag.conversation.redis_chat_memory import RedisChatMemory
 
 
 class ConversationRAG(BaseRAG):
@@ -21,24 +21,23 @@ class ConversationRAG(BaseRAG):
             model: "BaseChatModel",
             parser: "BaseTransformOutputParser",
     ) -> None:
-        self._retriever = retriever
-        self._prompt = prompt
-        self._model = model
-        self._parser = parser
-
-    def _get_chain(self) -> "Runnable":
-        chain = (
+        self._chain = (
             {
-                "context": self._retriever | format_docs,
-                "chat_history": RunnablePassthrough(),
+                "context": retriever | format_docs,
                 "question": RunnablePassthrough(),
+                "chat_history": RunnablePassthrough(),
             } |
-            self._prompt |
-            self._model |
-            self._parser
+            prompt |
+            model |
+            parser
         )
-        return chain
 
     async def generate(self, query: str, **kwargs) -> str:
-        chain = self._get_chain()
-        return await chain.ainvoke({"question": query, "chat_history": format_chat_history})
+        session_id: str = kwargs.get("session_id")
+        memory = RedisChatMemory(session_id)
+        messages = memory.get_messages()
+        response = await self._chain.ainvoke(query, chat_history=format_messages(messages))
+        memory.add_message({"type": "human", "content": query})
+        memory.add_message({"type": "ai", "content": response})
+        return response
+

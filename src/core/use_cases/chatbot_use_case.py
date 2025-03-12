@@ -16,4 +16,5 @@ class ChatBotUseCase:
 
     @chat_history_saver
     async def answer(self, question: str, **kwargs) -> str:
-        return await self._rag.generate(question)
+        user_id = str(kwargs.get('user_id'))
+        return await self._rag.generate(question, session_id=user_id)

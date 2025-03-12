@@ -15,7 +15,8 @@ from langchain_gigachat import GigaChat
 from langchain_core.output_parsers.string import StrOutputParser
 
 from src.rag import BaseRAG
-from src.rag.naive import NaiveRAG
+# from src.rag.naive import NaiveRAG
+from src.rag.conversation import ConversationRAG
 from src.misc.file_readers import read_txt
 from src.config import settings
 
@@ -69,7 +70,7 @@ class RAGProvider(Provider):
 
     @provide(scope=Scope.APP)
     def get_prompt(self) -> ChatPromptTemplate:
-        return ChatPromptTemplate.from_template(read_txt(settings.prompts.prompt_path))
+        return ChatPromptTemplate.from_template(read_txt(settings.prompts.rag_prompt_with_chat_history))
 
     @provide(scope=Scope.APP)
     def get_model(self) -> BaseChatModel:
@@ -92,7 +93,7 @@ class RAGProvider(Provider):
             model: BaseChatModel,
             parser: StrOutputParser
     ) -> BaseRAG:
-        return NaiveRAG(
+        return ConversationRAG(
             retriever=retriever,
             prompt=prompt,
             model=model,
