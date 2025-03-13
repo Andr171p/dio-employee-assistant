@@ -1,2 +1,4 @@
 .docker/** filter=lfs diff=lfs merge=lfs -text
+chroma/** filter=lfs diff=lfs merge=lfs -text
 *.sqlite filter=lfs diff=lfs merge=lfs -text
+chroma filter=lfs diff=lfs merge=lfs -text
