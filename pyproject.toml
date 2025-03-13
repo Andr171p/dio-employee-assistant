@@ -21,6 +21,7 @@ alembic = "^1.15.1"
 aiosqlite = "^0.21.0"
 langchain-elasticsearch = "^0.3.2"
 redis = "^5.2.1"
+markdown = "^3.7"
 
 
 [build-system]
