@@ -51,7 +51,7 @@ print(f"Первые {N} чанков:")
 
 
 embeddings = HuggingFaceEmbeddings(
-    model_name="ai-forever/sbert_large_nlu_ru",
+    model_name="intfloat/multilingual-e5-large",
     model_kwargs={"device": "cpu"},
     encode_kwargs={"normalize_embeddings": False}
 )

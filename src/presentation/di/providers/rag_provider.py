@@ -15,8 +15,8 @@ from langchain_gigachat import GigaChat
 from langchain_core.output_parsers.string import StrOutputParser
 
 from src.rag import BaseRAG
-# from src.rag.naive import NaiveRAG
-from src.rag.conversation import ConversationRAG
+from src.rag.chat_models import NaiveRAG
+# from src.rag.chat_models import ConversationRAG
 from src.misc.file_readers import read_txt
 from src.config import settings
 
@@ -93,7 +93,7 @@ class RAGProvider(Provider):
             model: BaseChatModel,
             parser: StrOutputParser
     ) -> BaseRAG:
-        return ConversationRAG(
+        return NaiveRAG(
             retriever=retriever,
             prompt=prompt,
             model=model,

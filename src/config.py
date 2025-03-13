@@ -16,7 +16,8 @@ class BotSettings(BaseSettings):
 
 
 class EmbeddingsSettings(BaseSettings):
-    model_name: str = "ai-forever/sbert_large_nlu_ru"
+    # model_name: str = "ai-forever/sbert_large_nlu_ru"
+    model_name: str = "intfloat/multilingual-e5-large"
     model_kwargs: dict = {"device": "cpu"}
     encode_kwargs: dict = {"normalize_embeddings": False}
 

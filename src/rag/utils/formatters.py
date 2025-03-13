@@ -14,3 +14,7 @@ def cut_docs(documents: List[Document], k: int = 5) -> List[Document]:
 
 def format_messages(messages: List[Dict]) -> str:
     return "\n".join([f"{message['type']}: {message['content']}" for message in messages])
+
+
+def cut_messages(messages: List[Dict], k: int = 3) -> List[Dict]:
+    return messages[:k]

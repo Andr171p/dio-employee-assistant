@@ -5,15 +5,13 @@ if TYPE_CHECKING:
     from langchain_core.prompts import BasePromptTemplate
     from langchain_core.language_models import BaseChatModel
     from langchain_core.output_parsers import BaseTransformOutputParser
-    from langchain_core.runnables import Runnable
 
-from langchain_core.runnables import RunnablePassthrough
-
-from src.rag.base_rag import BaseRAG
-from src.rag.rag_utils import format_docs
+from src.rag.chat_models.base_rag import BaseRAG
+from src.rag.chat_memory import save_chat_memory
+from src.rag.utils.chain_factories import get_conversation_rag_chain
 
 
-class NaiveRAG(BaseRAG):
+class ConversationRAG(BaseRAG):
     def __init__(
             self,
             retriever: "BaseRetriever",
@@ -26,18 +24,14 @@ class NaiveRAG(BaseRAG):
         self._model = model
         self._parser = parser
 
-    def _get_chain(self) -> "Runnable":
-        chain = (
-            {
-                "context": self._retriever | format_docs,
-                "question": RunnablePassthrough()
-            } |
-            self._prompt |
-            self._model |
-            self._parser
-        )
-        return chain
-
+    @save_chat_memory
     async def generate(self, query: str, **kwargs) -> str:
-        chain = self._get_chain()
+        session_id: str = kwargs.get("session_id")
+        chain = get_conversation_rag_chain(
+            session_id=session_id,
+            retriever=self._retriever,
+            prompt=self._prompt,
+            model=self._model,
+            parser=self._parser
+        )
         return await chain.ainvoke(query)
