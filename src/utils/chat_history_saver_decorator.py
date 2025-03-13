@@ -14,9 +14,6 @@ def chat_history_saver(
     @wraps(func)
     async def wrapper(self: T, question: str, *args, **kwargs) -> str:
         user_id = kwargs.get("user_id")
-        print("11111111111111111111111111111111111111111111111111111111111111")
-        print(f"user_id: {user_id}")
-        print("11111111111111111111111111111111111111111111111111111111111111")
         if user_id is None:
             raise ValueError("user_id is required")
         answer = await func(self, question, *args, **kwargs)

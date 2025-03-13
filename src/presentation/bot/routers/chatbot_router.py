@@ -2,7 +2,7 @@ from aiogram import F, Router
 from aiogram.types import Message
 from dishka.integrations.aiogram import FromDishka
 
-from src.presentation.bot.controllers import ChatBotController
+from src.controllers import ChatBotController
 
 
 chatbot_router = Router()

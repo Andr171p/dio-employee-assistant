@@ -4,7 +4,7 @@ from src.rag import BaseRAG
 from src.database.crud import DialogCRUD
 from src.repository import DialogRepository
 from src.core.use_cases import ChatBotUseCase
-from src.presentation.bot.controllers import ChatBotController
+from src.controllers import ChatBotController
 
 
 class ChatBotProvider(Provider):
