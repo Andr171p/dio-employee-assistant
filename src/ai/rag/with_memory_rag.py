@@ -6,11 +6,12 @@ if TYPE_CHECKING:
     from langchain_core.language_models import BaseChatModel
     from langchain_core.output_parsers import BaseTransformOutputParser
 
-from src.rag.chat_models.base_rag import BaseRAG
-from src.rag.utils.chain_factories import get_naive_rag_chain
+from src.ai.rag.base_rag import BaseRAG
+from src.ai.chat_memory import save_chat_memory
+from src.ai.utils import get_with_memory_rag_chain
 
 
-class NaiveRAG(BaseRAG):
+class WithMemoryRAG(BaseRAG):
     def __init__(
             self,
             retriever: "BaseRetriever",
@@ -23,8 +24,11 @@ class NaiveRAG(BaseRAG):
         self._model = model
         self._parser = parser
 
+    @save_chat_memory
     async def generate(self, query: str, **kwargs) -> str:
-        chain = get_naive_rag_chain(
+        session_id: str = kwargs.get("session_id")
+        chain = get_with_memory_rag_chain(
+            session_id=session_id,
             retriever=self._retriever,
             prompt=self._prompt,
             model=self._model,

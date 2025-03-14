@@ -9,11 +9,11 @@ if TYPE_CHECKING:
 
 from langchain_core.runnables import RunnablePassthrough
 
-from src.rag.utils.formatters import format_docs, format_messages, cut_messages
-from src.rag.chat_memory import RedisChatMemory
+from src.ai.utils.formatters import format_docs, format_messages, cut_messages
+from src.ai.chat_memory import RedisChatMemory
 
 
-def get_naive_rag_chain(
+def get_rag_chain(
         retriever: "BaseRetriever",
         prompt: "BasePromptTemplate",
         model: "BaseChatModel",
@@ -31,7 +31,7 @@ def get_naive_rag_chain(
     return chain
 
 
-def get_conversation_rag_chain(
+def get_with_memory_rag_chain(
         session_id: str,
         retriever: "BaseRetriever",
         prompt: "BasePromptTemplate",

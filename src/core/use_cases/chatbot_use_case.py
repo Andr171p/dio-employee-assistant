@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.rag import BaseRAG
+from src.ai.rag import BaseRAG
 from src.repository import DialogRepository
 from src.utils import chat_history_saver
 
