@@ -41,4 +41,6 @@ class QueryRewriter(Runnable):
             model=self._model,
             parser=self._parser
         )
-        return await chain.ainvoke(input, config, **kwargs)
+        res = await chain.ainvoke(input, config, **kwargs)
+        print(res)
+        return res

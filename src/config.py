@@ -24,7 +24,7 @@ class EmbeddingsSettings(BaseSettings):
 
 
 class CrossEncoderSettings(BaseSettings):
-    model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    model_name: str = "deepvk/USER-bge-m3"
     device: Literal["cpu", "cuda"] = "cpu"
 
 
@@ -41,7 +41,7 @@ class ElasticSettings(BaseSettings):
 
 class PromptsSettings(BaseSettings):
     rag_prompt: str = os.path.join(BASE_DIR, "prompts", "Промпт_ДИО_сотрудник.txt")
-    rag_prompt_with_chat_history: str = os.path.join(BASE_DIR, "prompts", "Промпт_ДИО_сотрудник_с_историей_сообщений.txt")
+    query_rewriter_prompt: str = os.path.join(BASE_DIR, "prompts", "Перефразирование_запроса.txt")
 
 
 class GigaChatSettings(BaseSettings):

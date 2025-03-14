@@ -14,8 +14,9 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_gigachat import GigaChat
 from langchain_core.output_parsers.string import StrOutputParser
 
-from src.ai.rag import BaseRAG, RerankerRAG, RAG
+from src.ai.rag import BaseRAG, RerankerRAG, RAG, QueryRewriterRAG
 from src.ai.reranker import CrossEncoderReranker
+from src.ai.rewriter import QueryRewriter
 from src.misc.file_readers import read_txt
 from src.config import settings
 
@@ -67,12 +68,25 @@ class RAGProvider(Provider):
             weights=[0.6, 0.4]
         )
 
-    '''@provide(scope=Scope.APP)
+    @provide(scope=Scope.APP)
     def get_reranker(self) -> CrossEncoderReranker:
         return CrossEncoderReranker(
             model_name=settings.cross_encoder.model_name,
-            top_n=5
-        )'''
+            top_n=7
+        )
+
+    @provide(scope=Scope.APP)
+    def get_rewriter(
+            self,
+            model: BaseChatModel,
+            parser: StrOutputParser
+    ) -> QueryRewriter:
+        prompt = ChatPromptTemplate.from_template(read_txt(settings.prompts.query_rewriter_prompt))
+        return QueryRewriter(
+            prompt=prompt,
+            model=model,
+            parser=parser
+        )
 
     @provide(scope=Scope.APP)
     def get_prompt(self) -> ChatPromptTemplate:
@@ -94,12 +108,14 @@ class RAGProvider(Provider):
     @provide(scope=Scope.APP)
     def get_rag(
             self,
+            rewriter: QueryRewriter,
             retriever: BaseRetriever,
             prompt: ChatPromptTemplate,
             model: BaseChatModel,
             parser: StrOutputParser
     ) -> BaseRAG:
-        return RAG(
+        return QueryRewriterRAG(
+            rewriter=rewriter,
             retriever=retriever,
             prompt=prompt,
             model=model,

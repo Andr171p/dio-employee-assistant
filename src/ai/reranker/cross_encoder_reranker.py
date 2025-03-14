@@ -35,7 +35,6 @@ class CrossEncoderReranker(RunnableSerializable, BaseReranker):
         if return_scores:
             for document, score in zip(sorted_documents, scores[sorted_indices]):
                 document.metadata["score"] = float(score)
-        # print(sorted_documents[:self._top_n])
         return sorted_documents[:self._top_n]
 
     def invoke(
@@ -57,9 +56,8 @@ class CrossEncoderReranker(RunnableSerializable, BaseReranker):
             config: Optional[RunnableConfig] = None,
             **kwargs: Any
     ) -> Output:
-        print(input)
-        print(len(input["context"]))
         return self.rerank(
             query=input["question"],
             documents=input["context"],
+            return_scores=True
         )
