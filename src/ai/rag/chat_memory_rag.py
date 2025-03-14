@@ -8,10 +8,10 @@ if TYPE_CHECKING:
 
 from src.ai.rag.base_rag import BaseRAG
 from src.ai.chat_memory import save_chat_memory
-from src.ai.utils import get_with_memory_rag_chain
+from src.ai.utils.chain_factories import get_chat_memory_rag_chain
 
 
-class WithMemoryRAG(BaseRAG):
+class ChatMemoryRAG(BaseRAG):
     def __init__(
             self,
             retriever: "BaseRetriever",
@@ -27,11 +27,11 @@ class WithMemoryRAG(BaseRAG):
     @save_chat_memory
     async def generate(self, query: str, **kwargs) -> str:
         session_id: str = kwargs.get("session_id")
-        chain = get_with_memory_rag_chain(
+        rag_chain = get_chat_memory_rag_chain(
             session_id=session_id,
             retriever=self._retriever,
             prompt=self._prompt,
             model=self._model,
             parser=self._parser
         )
-        return await chain.ainvoke(query)
+        return await rag_chain.ainvoke(query)

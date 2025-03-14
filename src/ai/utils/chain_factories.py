@@ -11,6 +11,16 @@ from langchain_core.runnables import RunnablePassthrough
 
 from src.ai.utils.formatters import format_docs, format_messages, cut_messages
 from src.ai.chat_memory import RedisChatMemory
+from src.ai.rewriter import QueryRewriter
+
+
+def get_chain(
+        prompt: "BasePromptTemplate",
+        model: "BaseChatModel",
+        parser: "BaseTransformOutputParser"
+) -> "Runnable":
+    chain = prompt | model | parser
+    return chain
 
 
 def get_rag_chain(
@@ -31,7 +41,7 @@ def get_rag_chain(
     return chain
 
 
-def get_with_memory_rag_chain(
+def get_chat_memory_rag_chain(
         session_id: str,
         retriever: "BaseRetriever",
         prompt: "BasePromptTemplate",
@@ -43,6 +53,28 @@ def get_with_memory_rag_chain(
             "context": RedisChatMemory(session_id) |
                        cut_messages |
                        format_messages |
+                       retriever |
+                       format_docs,
+            "question": RunnablePassthrough()
+        } |
+        prompt |
+        model |
+        parser
+    )
+    return chain
+
+
+def get_query_rewriter_rag_chain(
+        rewriter: "QueryRewriter",
+        retriever: "BaseRetriever",
+        prompt: "BasePromptTemplate",
+        model: "BaseChatModel",
+        parser: "BaseTransformOutputParser"
+) -> "Runnable":
+    chain = (
+        {
+            "context": RunnablePassthrough() |
+                       rewriter |
                        retriever |
                        format_docs,
             "question": RunnablePassthrough()
