@@ -21,6 +21,10 @@ print(info)
 directory = Path(DOCUMENTS_DIR)
 files = directory.iterdir()
 
+print("---Файлы в директории:---")
+print(files)
+print("---Чтение файлов---")
+
 texts = []
 for file in files:
     with open(file=file, mode='r', encoding='utf-8') as f:
