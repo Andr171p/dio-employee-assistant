@@ -7,11 +7,13 @@ if TYPE_CHECKING:
     from langchain_core.language_models import BaseChatModel
     from langchain_core.output_parsers import BaseTransformOutputParser
 
-from langchain_core.runnables import RunnablePassthrough
+    from src.ai.rewriter import QueryRewriter
+    from src.ai.reranker import CrossEncoderReranker
+
+from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 
 from src.ai.utils.formatters import format_docs, format_messages, cut_messages
 from src.ai.chat_memory import RedisChatMemory
-from src.ai.rewriter import QueryRewriter
 
 
 def get_chain(
@@ -48,7 +50,7 @@ def get_chat_memory_rag_chain(
         model: "BaseChatModel",
         parser: "BaseTransformOutputParser"
 ) -> "Runnable":
-    chain = (
+    rag_chain = (
         {
             "context": RedisChatMemory(session_id) |
                        cut_messages |
@@ -61,7 +63,7 @@ def get_chat_memory_rag_chain(
         model |
         parser
     )
-    return chain
+    return rag_chain
 
 
 def get_query_rewriter_rag_chain(
@@ -71,7 +73,7 @@ def get_query_rewriter_rag_chain(
         model: "BaseChatModel",
         parser: "BaseTransformOutputParser"
 ) -> "Runnable":
-    chain = (
+    rag_chain = (
         {
             "context": RunnablePassthrough() |
                        rewriter |
@@ -83,4 +85,24 @@ def get_query_rewriter_rag_chain(
         model |
         parser
     )
-    return chain
+    return rag_chain
+
+
+def get_reranker_rag_chain(
+        retriever: "BaseRetriever",
+        reranker: "CrossEncoderReranker",
+        prompt: "BasePromptTemplate",
+        model: "BaseChatModel",
+        parser: "BaseTransformOutputParser"
+) -> "Runnable":
+    rag_chain = (
+        RunnableParallel({
+            "question": RunnablePassthrough(),
+            "context": retriever
+        })
+        .assign(context=reranker | format_docs)
+        | prompt
+        | model
+        | parser
+    )
+    return rag_chain

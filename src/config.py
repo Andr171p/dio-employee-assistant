@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Literal
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
@@ -20,6 +21,11 @@ class EmbeddingsSettings(BaseSettings):
     model_name: str = "intfloat/multilingual-e5-large"
     model_kwargs: dict = {"device": "cpu"}
     encode_kwargs: dict = {"normalize_embeddings": False}
+
+
+class CrossEncoderSettings(BaseSettings):
+    model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    device: Literal["cpu", "cuda"] = "cpu"
 
 
 class ChromaSettings(BaseSettings):
@@ -52,6 +58,7 @@ class DatabaseSettings(BaseSettings):
 class Settings(BaseSettings):
     bot: BotSettings = BotSettings()
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
+    cross_encoder: CrossEncoderSettings = CrossEncoderSettings()
     elastic: ElasticSettings = ElasticSettings()
     chroma: ChromaSettings = ChromaSettings()
     prompts: PromptsSettings = PromptsSettings()

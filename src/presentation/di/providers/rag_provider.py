@@ -14,9 +14,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_gigachat import GigaChat
 from langchain_core.output_parsers.string import StrOutputParser
 
-from src.ai.rag import BaseRAG
-from src.ai.rag import RAG
-# from src.rag.chat_models import ConversationRAG
+from src.ai.rag import BaseRAG, RerankerRAG, RAG
+from src.ai.reranker import CrossEncoderReranker
 from src.misc.file_readers import read_txt
 from src.config import settings
 
@@ -68,9 +67,16 @@ class RAGProvider(Provider):
             weights=[0.6, 0.4]
         )
 
+    '''@provide(scope=Scope.APP)
+    def get_reranker(self) -> CrossEncoderReranker:
+        return CrossEncoderReranker(
+            model_name=settings.cross_encoder.model_name,
+            top_n=5
+        )'''
+
     @provide(scope=Scope.APP)
     def get_prompt(self) -> ChatPromptTemplate:
-        return ChatPromptTemplate.from_template(read_txt(settings.prompts.rag_prompt_with_chat_history))
+        return ChatPromptTemplate.from_template(read_txt(settings.prompts.rag_prompt))
 
     @provide(scope=Scope.APP)
     def get_model(self) -> BaseChatModel:
