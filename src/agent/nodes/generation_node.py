@@ -2,7 +2,7 @@ from langchain_core.prompts import BasePromptTemplate
 from langchain_core.language_models import BaseChatModel
 from langchain_core.output_parsers import BaseTransformOutputParser
 
-from src.ai_graph.states import GraphState
+from src.agent.states import GraphState
 
 
 class GenerationNode:
@@ -19,8 +19,8 @@ class GenerationNode:
         question = state["question"]
         documents = state["documents"]
         generation = self._chain.invoke({"context": documents, "question": question})
-        return {
-            "documents": documents,
-            "generation": generation,
-            "question": question
-        }
+        print("GENERATED:", generation)
+        return {"documents": documents, "generation": generation, "question": question}
+
+    def __call__(self, state: GraphState) -> dict:
+        return self.generate(state)

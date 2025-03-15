@@ -2,7 +2,7 @@ from langchain_core.prompts import BasePromptTemplate
 from langchain_core.language_models import BaseChatModel
 from langchain_core.output_parsers import BaseTransformOutputParser
 
-from src.ai_graph.states import GraphState
+from src.agent.states import GraphState
 
 
 class RewriterNode:
@@ -19,4 +19,8 @@ class RewriterNode:
         question = state["question"]
         documents = state["documents"]
         rewritten_question = self._chain.invoke({"question": question})
+        print("---REWRITTEN QUESTION---", rewritten_question)
         return {"documents": documents, "question": rewritten_question}
+
+    def __call__(self, state: GraphState) -> dict:
+        return self.rewrite(state)

@@ -2,26 +2,43 @@ from pprint import pprint
 
 from langgraph.graph import START, StateGraph, END
 
-from src.ai_graph.states import GraphState
-from src.ai_graph.nodes import RetrieverNode, GenerationNode, RewriterNode
+from src.agent.states import GraphState
+from src.agent.nodes import (
+    RetrieverNode,
+    GenerationNode,
+    RewriterNode,
+    GenerationQualityCheckerNode
+)
 
 
-class Workflow:
+class Agent:
     def __init__(
             self,
             retriever_node: RetrieverNode,
             generation_node: GenerationNode,
-            rewriter_node: RewriterNode
+            rewriter_node: RewriterNode,
+            generation_quality_checker_node: GenerationQualityCheckerNode
     ) -> None:
         workflow = StateGraph(GraphState)
-        workflow.add_node("retrieve", retriever_node.retrieve)
-        workflow.add_node("rewrite", rewriter_node.rewrite)
-        workflow.add_node("generate", generation_node.generate)
+
+        workflow.add_node("retrieve", retriever_node)
+        workflow.add_node("generate", generation_node)
+        workflow.add_node("check_generation_quality", generation_quality_checker_node)
+        workflow.add_node("rewrite", rewriter_node)
+
         workflow.add_edge(START, "retrieve")
-        workflow.add_edge("retrieve", "rewrite")
-        workflow.add_edge("rewrite", "generate")
+        workflow.add_edge("retrieve", "generate")
+        workflow.add_edge("generate", "check_generation_quality")
+        workflow.add_conditional_edges("check_generation_quality", self.decide_to_retrieve_or_end)
+        workflow.add_edge("rewrite", "retrieve")
         workflow.add_edge("generate", END)
         self._app = workflow.compile()
+
+    @staticmethod
+    def decide_to_retrieve_or_end(state: GraphState) -> str:
+        if state.get("generation_quality", False):
+            return END
+        return "rewrite"
 
     def execute(self, question: str) -> str:
         inputs = {"question": question}
@@ -88,15 +105,18 @@ parser = StrOutputParser()
 
 rag_prompt = ChatPromptTemplate.from_template(read_txt(settings.prompts.rag_prompt))
 rewriter_prompt = ChatPromptTemplate.from_template(read_txt(settings.prompts.rewriter_prompt))
+judge_prompt = ChatPromptTemplate.from_template(read_txt(settings.prompts.judge_prompt))
 
 retriever_node = RetrieverNode(retriever)
 generation_node = GenerationNode(rag_prompt, model, parser)
 rewriter_node = RewriterNode(rewriter_prompt, model, parser)
+generation_quality_checker_node = GenerationQualityCheckerNode(judge_prompt, model, parser)
 
-ai = Workflow(
+ai = Agent(
     retriever_node=retriever_node,
     generation_node=generation_node,
-    rewriter_node=rewriter_node
+    rewriter_node=rewriter_node,
+    generation_quality_checker_node=generation_quality_checker_node
 )
-res = ai.execute("Как правильно заполнять письмо?")
+res = ai.execute("Как уйти в оплачиваемый отпуск?")
 print(res)
