@@ -40,8 +40,8 @@ class ElasticSettings(BaseSettings):
 
 
 class PromptsSettings(BaseSettings):
-    rag_prompt: str = os.path.join(BASE_DIR, "prompts", "Промпт_ДИО_сотрудник.txt")
-    query_rewriter_prompt: str = os.path.join(BASE_DIR, "prompts", "Перефразирование_запроса.txt")
+    rag_prompt: str = os.path.join(BASE_DIR, "prompts", "rag_prompt.txt")
+    rewriter_prompt: str = os.path.join(BASE_DIR, "prompts", "rewriter_prompt.txt")
 
 
 class GigaChatSettings(BaseSettings):
