@@ -1,24 +1,23 @@
 from dishka import Provider, provide, Scope
 
-from langchain_core.embeddings import Embeddings
-from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
-from langchain_core.retrievers import BaseRetriever
-from langchain_core.language_models.chat_models import BaseChatModel
-from langchain.embeddings import HuggingFaceEmbeddings
-from elasticsearch import Elasticsearch
-from langchain_community.retrievers import ElasticSearchBM25Retriever
-from langchain.retrievers import EnsembleRetriever
 import chromadb
 from langchain_chroma import Chroma
+from elasticsearch import Elasticsearch
 from langchain_gigachat import GigaChat
+from langchain_core.embeddings import Embeddings
+from langchain.prompts import ChatPromptTemplate
+from langchain.retrievers import EnsembleRetriever
+from langchain_core.retrievers import BaseRetriever
+from langchain_core.prompts import BasePromptTemplate
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.language_models import BaseChatModel, LLM
+from langchain_core.output_parsers import BaseTransformOutputParser
+from langchain_community.retrievers import ElasticSearchBM25Retriever
+from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 
-from src.ai_agents import AIAgent, BaseAIAgent
-from src.ai_agents.nodes import (
-    DecisionNode,
-    RewriterNode,
-    RetrieverNode,
-    GenerationNode
-)
+from src.misc.file_readers import read_txt
+from src.rag import RAG, BaseRAG
 from src.config import settings
 
 
@@ -70,7 +69,11 @@ class RAGProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_model(self) -> BaseChatModel:
+    def get_prompt(self) -> ChatPromptTemplate:
+        return ChatPromptTemplate.from_template(read_txt(settings.prompts.prompt_path))
+
+    @provide(scope=Scope.APP)
+    def get_model(self) -> BaseChatModel | LLM:
         return GigaChat(
             credentials=settings.giga_chat.api_key,
             scope=settings.giga_chat.scope,
@@ -79,32 +82,20 @@ class RAGProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_decision_node(self, model: BaseChatModel) -> DecisionNode:
-        return DecisionNode(model)
+    def get_parser(self) -> StrOutputParser:
+        return StrOutputParser()
 
     @provide(scope=Scope.APP)
-    def get_rewriter_node(self, model: BaseChatModel) -> RewriterNode:
-        return RewriterNode(model)
-
-    @provide(scope=Scope.APP)
-    def get_retriever_node(self, retriever: BaseRetriever) -> RetrieverNode:
-        return RetrieverNode(retriever)
-
-    @provide(scope=Scope.APP)
-    def get_generation_node(self, model: BaseChatModel) -> GenerationNode:
-        return GenerationNode(model)
-
-    @provide(scope=Scope.APP)
-    def get_ai_agent(
+    def get_rag(
             self,
-            decision: DecisionNode,
-            rewriter: RewriterNode,
-            retriever: RetrieverNode,
-            generation: GenerationNode
-    ) -> BaseAIAgent:
-        return AIAgent(
-            decision=decision,
-            rewriter=rewriter,
+            retriever: BaseRetriever,
+            prompt: BasePromptTemplate,
+            model: BaseChatModel | LLM,
+            parser: BaseTransformOutputParser
+    ) -> BaseRAG:
+        return RAG(
             retriever=retriever,
-            generation=generation
+            prompt=prompt,
+            model=model,
+            parser=parser
         )

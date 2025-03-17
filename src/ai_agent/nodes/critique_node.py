@@ -33,7 +33,7 @@ class CritiqueNode(BaseNode):
         prompt = ChatPromptTemplate.from_messages([
             ("system", read_txt(SYSTEM_MESSAGE))
         ]).partial(format_instructions=parser.get_format_instructions())
-        return prompt | self._model | parser.parser
+        return prompt | self._model | parser
 
     async def execute(self, state: ReasoningState) -> Command[ACTIONS]:
         print("---CRITIQUE NODE EXECUTE---")

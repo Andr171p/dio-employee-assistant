@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from langgraph.graph import START, StateGraph, END
 
 from src.ai_agent.states import ReasoningState
@@ -41,14 +39,19 @@ class ReasoningAgent(BaseAgent):
 
         self._graph_compiled = graph.compile()
 
-    async def generate(self, question: str) -> str:
-        inputs = {"question": question}
-        async for output in self._graph_compiled.astream(inputs):
-            for key, value in output.items():
-                pprint(f"Node '{key}':")
-            pprint("\n---\n")
-        pprint(value["answer"])
-        return value["answer"]
+    async def generate(self, question: str) -> ...:
+        inputs = {"user_question": question}
+        async for event in self._graph_compiled.astream_events(inputs, version="v2"):
+            event_type = event.get('event', None)
+            agent = event.get('name', '')
+            if agent in ["_write", "RunnableSequence", "__start__", "__end__", "LangGraph"]:
+                continue
+            if event_type == 'on_chat_model_stream':
+                print(event['data']['chunk'].content, end='')
+            elif event_type == 'on_chain_start':
+                print(f"<{agent}>")
+            elif event_type == 'on_chain_end':
+                print(f"</{agent}>")
 
 
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -125,8 +128,9 @@ questions = [
     "Кто работает в отделе ЗУП"
 ]
 
+
 async def main() -> None:
-    res = await agent.generate(questions[-1])
+    res = await agent.generate(questions[1])
     print(res)
 
 

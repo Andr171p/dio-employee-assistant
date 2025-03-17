@@ -34,7 +34,7 @@ def format_docs(documents: List[Document]) -> str:
 GIGACHAT_API_KEY = "OTAyMDdkMDItNTQ4Yi00YWViLTk4YjYtYjBhMTE4ZTI1MDJmOjUxOTFjYzk2LWExNWItNDZkMS1hZDdjLWI0N2M4OWU0NDJhZg=="
 GIGACHAT_SCOPE = "GIGACHAT_API_PERS"
 
-PROMPT_PATH = r"/prompts/rag_prompt.txt"
+PROMPT_PATH = r"/prompts/ДИО_Консалт_сотрудник.txt"
 
 with open(PROMPT_PATH, encoding="utf-8") as file:
     template = file.read()

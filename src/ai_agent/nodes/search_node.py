@@ -14,6 +14,6 @@ class SearchNode(BaseNode):
 
     async def execute(self, state: ReasoningState) -> dict:
         print("---RETRIEVE---")
-        documents = await self._retriever.ainvoke(state.get("user_question"))
+        documents = await self._retriever.ainvoke(state.get("user_question", ""))
         search_results = format_docs(documents)
         return {"search_results": search_results}

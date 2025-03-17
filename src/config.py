@@ -17,7 +17,6 @@ class BotSettings(BaseSettings):
 
 
 class EmbeddingsSettings(BaseSettings):
-    # model_name: str = "ai-forever/sbert_large_nlu_ru"
     model_name: str = "intfloat/multilingual-e5-large"
     model_kwargs: dict = {"device": "cpu"}
     encode_kwargs: dict = {"normalize_embeddings": False}
@@ -40,9 +39,7 @@ class ElasticSettings(BaseSettings):
 
 
 class PromptsSettings(BaseSettings):
-    rag_prompt: str = os.path.join(BASE_DIR, "prompts", "rag_prompt.txt")
-    rewriter_prompt: str = os.path.join(BASE_DIR, "prompts", "rewriter_prompt.txt")
-    judge_prompt: str = os.path.join(BASE_DIR, "prompts", "Критик.txt")
+    prompt_path: str = os.path.join(BASE_DIR, "prompts", "ДИО_Консалт_сотрудник.txt")
 
 
 class GigaChatSettings(BaseSettings):
