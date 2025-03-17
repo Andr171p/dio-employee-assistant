@@ -21,3 +21,6 @@ numpy~=1.26.4
 Markdown~=3.7
 typing_extensions~=4.12.2
 langgraph~=0.3.11
+requests~=2.32.3
+bs4~=0.0.2
+beautifulsoup4~=4.13.3
