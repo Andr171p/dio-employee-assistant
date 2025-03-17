@@ -8,7 +8,7 @@ from sentence_transformers import CrossEncoder
 from langchain_core.runnables import RunnableSerializable, RunnableConfig
 from langchain_core.runnables.utils import Output
 
-from src.ai.reranker.base_reranker import BaseReranker
+from src.rag.reranker.base_reranker import BaseReranker
 
 
 class CrossEncoderReranker(RunnableSerializable, BaseReranker):

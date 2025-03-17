@@ -7,13 +7,13 @@ if TYPE_CHECKING:
     from langchain_core.language_models import BaseChatModel
     from langchain_core.output_parsers import BaseTransformOutputParser
 
-    from src.ai.rewriter import QueryRewriter
-    from src.ai.reranker import CrossEncoderReranker
+    from src.rag.rewriter import QueryRewriter
+    from src.rag.reranker import CrossEncoderReranker
 
 from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 
-from src.ai.utils.formatters import format_docs, format_messages, cut_messages
-from src.ai.chat_memory import RedisChatMemory
+from src.rag.utils.formatters import format_docs, format_messages, cut_messages
+from src.rag.chat_memory import RedisChatMemory
 
 
 def get_chain(

@@ -6,31 +6,30 @@ if TYPE_CHECKING:
     from langchain_core.language_models import BaseChatModel
     from langchain_core.output_parsers import BaseTransformOutputParser
 
-    from src.ai.reranker import CrossEncoderReranker
+from src.rag.rag.base_rag import BaseRAG
+from src.rag.chat_memory import save_chat_memory
+from src.rag.utils.chain_factories import get_chat_memory_rag_chain
 
-from src.ai.rag.base_rag import BaseRAG
-from src.ai.utils.chain_factories import get_reranker_rag_chain
 
-
-class RerankerRAG(BaseRAG):
+class ChatMemoryRAG(BaseRAG):
     def __init__(
             self,
             retriever: "BaseRetriever",
-            reranker: "CrossEncoderReranker",
             prompt: "BasePromptTemplate",
             model: "BaseChatModel",
             parser: "BaseTransformOutputParser",
     ) -> None:
         self._retriever = retriever
-        self._reranker = reranker
         self._prompt = prompt
         self._model = model
         self._parser = parser
 
+    @save_chat_memory
     async def generate(self, query: str, **kwargs) -> str:
-        rag_chain = get_reranker_rag_chain(
+        session_id: str = kwargs.get("session_id")
+        rag_chain = get_chat_memory_rag_chain(
+            session_id=session_id,
             retriever=self._retriever,
-            reranker=self._reranker,
             prompt=self._prompt,
             model=self._model,
             parser=self._parser

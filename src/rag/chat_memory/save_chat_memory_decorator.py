@@ -1,7 +1,7 @@
 from functools import wraps
 from typing import Callable
 
-from src.ai.chat_memory.redis_chat_memory import RedisChatMemory
+from src.rag.chat_memory.redis_chat_memory import RedisChatMemory
 
 
 def save_chat_memory(generate: Callable) -> Callable:

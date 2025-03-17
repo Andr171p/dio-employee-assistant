@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_core.runnables.utils import Input, Output
 
-from src.ai.utils.chain_factories import get_chain
+from src.rag.utils.chain_factories import get_chain
 
 
 class QueryRewriter(Runnable):
