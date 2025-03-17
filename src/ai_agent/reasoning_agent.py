@@ -9,7 +9,8 @@ from src.ai_agent.nodes import (
     SearchNode,
     FinalizerNode,
     CritiqueNode,
-    ReasonerNode
+    ReasonerNode,
+    AnswerNode
 )
 
 
@@ -18,19 +19,31 @@ class ReasoningAgent(BaseAgent):
             self,
             first_step: FirstStepNode,
             search: SearchNode,
-            finalizer: FinalizerNode,
+            finalize: FinalizerNode,
             critique: CritiqueNode,
-            reasoner: ReasonerNode
+            reason: ReasonerNode,
+            answer: AnswerNode
     ) -> None:
         graph = StateGraph(ReasoningState)
 
-        ...
+        graph.add_node("think", reason)
+        graph.add_node("first_step", first_step)
+        graph.add_node("write", answer)
+        graph.add_node("critic", critique)
+        graph.add_node("search", search)
+        graph.add_node("finalize", finalize)
+
+        graph.add_edge(START, "think")
+        graph.add_edge("think", "first_step")
+        graph.add_edge("write", "critic")
+        graph.add_edge("search", "write")
+        graph.add_edge("finalize", END)
 
         self._graph_compiled = graph.compile()
 
     async def generate(self, question: str) -> str:
-        input = {"question": question}
-        async for output in self._graph_compiled.astream(input):
+        inputs = {"question": question}
+        async for output in self._graph_compiled.astream(inputs):
             for key, value in output.items():
                 pprint(f"Node '{key}':")
             pprint("\n---\n")
@@ -85,16 +98,20 @@ model = GigaChat(
     profanity_check=False
 )
 
-retriever_node = RetrieverNode(retriever)
-generation_node = GenerationNode(model)
-rewriter_node = RewriterNode(model)
-decision_node = DecisionNode(model)
+search_node = SearchNode(retriever)
+first_step_node = FirstStepNode(model)
+reasoner_node = ReasonerNode(model)
+critique_node = CritiqueNode(model)
+answer_node = AnswerNode(model)
+finalizer_node = FinalizerNode(model)
 
 agent = ReasoningAgent(
-    retriever=retriever_node,
-    generation=generation_node,
-    rewriter=rewriter_node,
-    decision=decision_node
+    search=search_node,
+    answer=answer_node,
+    reason=reasoner_node,
+    critique=critique_node,
+    first_step=first_step_node,
+    finalize=finalizer_node
 )
 
 import asyncio
