@@ -10,14 +10,15 @@ from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain.retrievers import EnsembleRetriever
 import chromadb
 from langchain_chroma import Chroma
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_gigachat import GigaChat
-from langchain_core.output_parsers.string import StrOutputParser
 
-from src.ai.rag import BaseRAG, RerankerRAG, RAG, QueryRewriterRAG
-from src.ai.reranker import CrossEncoderReranker
-from src.ai.rewriter import QueryRewriter
-from src.misc.file_readers import read_txt
+from src.ai_agents import AIAgent, BaseAIAgent
+from src.ai_agents.nodes import (
+    DecisionNode,
+    RewriterNode,
+    RetrieverNode,
+    GenerationNode
+)
 from src.config import settings
 
 
@@ -69,30 +70,6 @@ class RAGProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_reranker(self) -> CrossEncoderReranker:
-        return CrossEncoderReranker(
-            model_name=settings.cross_encoder.model_name,
-            top_n=7
-        )
-
-    @provide(scope=Scope.APP)
-    def get_rewriter(
-            self,
-            model: BaseChatModel,
-            parser: StrOutputParser
-    ) -> QueryRewriter:
-        prompt = ChatPromptTemplate.from_template(read_txt(settings.prompts.query_rewriter_prompt))
-        return QueryRewriter(
-            prompt=prompt,
-            model=model,
-            parser=parser
-        )
-
-    @provide(scope=Scope.APP)
-    def get_prompt(self) -> ChatPromptTemplate:
-        return ChatPromptTemplate.from_template(read_txt(settings.prompts.rag_prompt))
-
-    @provide(scope=Scope.APP)
     def get_model(self) -> BaseChatModel:
         return GigaChat(
             credentials=settings.giga_chat.api_key,
@@ -102,22 +79,32 @@ class RAGProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_parser(self) -> StrOutputParser:
-        return StrOutputParser()
+    def get_decision_node(self, model: BaseChatModel) -> DecisionNode:
+        return DecisionNode(model)
 
     @provide(scope=Scope.APP)
-    def get_rag(
+    def get_rewriter_node(self, model: BaseChatModel) -> RewriterNode:
+        return RewriterNode(model)
+
+    @provide(scope=Scope.APP)
+    def get_retriever_node(self, retriever: BaseRetriever) -> RetrieverNode:
+        return RetrieverNode(retriever)
+
+    @provide(scope=Scope.APP)
+    def get_generation_node(self, model: BaseChatModel) -> GenerationNode:
+        return GenerationNode(model)
+
+    @provide(scope=Scope.APP)
+    def get_ai_agent(
             self,
-            rewriter: QueryRewriter,
-            retriever: BaseRetriever,
-            prompt: ChatPromptTemplate,
-            model: BaseChatModel,
-            parser: StrOutputParser
-    ) -> BaseRAG:
-        return QueryRewriterRAG(
+            decision: DecisionNode,
+            rewriter: RewriterNode,
+            retriever: RetrieverNode,
+            generation: GenerationNode
+    ) -> BaseAIAgent:
+        return AIAgent(
+            decision=decision,
             rewriter=rewriter,
             retriever=retriever,
-            prompt=prompt,
-            model=model,
-            parser=parser
+            generation=generation
         )
