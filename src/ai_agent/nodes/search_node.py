@@ -4,16 +4,16 @@ if TYPE_CHECKING:
     from langchain_core.retrievers import BaseRetriever
 
 from src.ai_agent.nodes.base_node import BaseNode
-from src.ai_agent.states import GraphState
+from src.ai_agent.states import ReasoningState
 from src.ai_agent.utils import format_docs
 
 
-class RetrieverNode(BaseNode):
+class SearchNode(BaseNode):
     def __init__(self, retriever: "BaseRetriever") -> None:
         self._retriever = retriever
 
-    async def execute(self, state: GraphState) -> dict:
+    async def execute(self, state: ReasoningState) -> dict:
         print("---RETRIEVE---")
         documents = await self._retriever.ainvoke(state.get("user_question"))
-        context = format_docs(documents)
-        return {"context": context}
+        search_results = format_docs(documents)
+        return {"search_results": search_results}

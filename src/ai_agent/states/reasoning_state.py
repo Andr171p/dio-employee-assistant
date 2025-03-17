@@ -10,4 +10,4 @@ class ReasoningState(TypedDict):
     final_decision: str
     final_answer: str
     search_query: str
-    context: str
+    search_results: str

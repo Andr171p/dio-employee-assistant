@@ -17,3 +17,7 @@ uvicorn~=0.34.0
 langsmith~=0.3.11
 langchain-text-splitters~=0.3.6
 sentence-transformers~=3.4.1
+numpy~=1.26.4
+Markdown~=3.7
+typing_extensions~=4.12.2
+langgraph~=0.3.11

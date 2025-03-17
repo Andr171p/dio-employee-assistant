@@ -9,8 +9,8 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.output_parsers import PydanticOutputParser
 
 from src.ai_agent.nodes.base_node import BaseNode
-from src.ai_agent.states import GraphState
-from src.ai_agent.response_models import Critique
+from src.ai_agent.states import ReasoningState
+from src.ai_agent.instructions import Critique
 from src.misc.file_readers import read_txt
 from src.config import BASE_DIR
 
@@ -35,7 +35,7 @@ class CritiqueNode(BaseNode):
         ]).partial(format_instructions=parser.get_format_instructions())
         return prompt | self._model | parser.parser
 
-    async def execute(self, state: GraphState) -> Command[ACTIONS]:
+    async def execute(self, state: ReasoningState) -> Command[ACTIONS]:
         print("---CRITIQUE NODE EXECUTE---")
         chain = self._build_chain()
         response = await chain.ainvoke(
@@ -44,7 +44,7 @@ class CritiqueNode(BaseNode):
                 "last_reason": state.get("last_reason"),
                 "last_answer": state.get("last_answer", ""),
                 "old_critique": state.get("critique", []),
-                "context": state.get("context", ""),
+                "search_results": state.get("search_results", ""),
             }
         )
         final_decision = response.final_decision
