@@ -7,8 +7,8 @@ if TYPE_CHECKING:
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
-from src.ai_agents.base_node import BaseNode
-from src.ai_agents.states import GraphState
+from src.ai_agent.nodes.base_node import BaseNode
+from src.ai_agent.states import GraphState
 from src.misc.file_readers import read_txt
 from src.config import BASE_DIR
 

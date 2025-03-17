@@ -15,5 +15,5 @@ class RetrieverNode(BaseNode):
     async def execute(self, state: GraphState) -> dict:
         print("---RETRIEVE---")
         documents = await self._retriever.ainvoke(state.get("user_question"))
-        documents = format_docs(documents)
+        context = format_docs(documents)
         return {"context": context}
