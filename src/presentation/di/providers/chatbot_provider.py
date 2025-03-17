@@ -13,7 +13,7 @@ class ChatBotProvider(Provider):
         return DialogRepository(crud)
 
     @provide(scope=Scope.APP)
-    def get_chatbot(
+    def get_chatbot_use_case(
             self,
             rag: BaseRAG,
             dialog_repository: DialogRepository
