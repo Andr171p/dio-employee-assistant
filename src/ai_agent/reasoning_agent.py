@@ -54,7 +54,7 @@ class ReasoningAgent(BaseAgent):
                 print(f"</{agent}>")
 
 
-from langchain.embeddings import HuggingFaceEmbeddings
+'''from langchain.embeddings import HuggingFaceEmbeddings
 from elasticsearch import Elasticsearch
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain.retrievers import EnsembleRetriever
@@ -134,4 +134,4 @@ async def main() -> None:
     print(res)
 
 
-asyncio.run(main())
+asyncio.run(main())'''

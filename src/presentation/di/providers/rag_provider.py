@@ -69,7 +69,7 @@ class RAGProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_prompt(self) -> ChatPromptTemplate:
+    def get_prompt(self) -> BasePromptTemplate:
         return ChatPromptTemplate.from_template(read_txt(settings.prompts.prompt_path))
 
     @provide(scope=Scope.APP)
@@ -82,7 +82,7 @@ class RAGProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_parser(self) -> StrOutputParser:
+    def get_parser(self) -> BaseTransformOutputParser:
         return StrOutputParser()
 
     @provide(scope=Scope.APP)
