@@ -2,35 +2,29 @@ from pprint import pprint
 
 from langgraph.graph import START, StateGraph, END
 
-from src.ai_agent.states import GraphState
+from src.ai_agent.states import ReasoningState
 from src.ai_agent.base_agent import BaseAgent
 from src.ai_agent.nodes import (
-    DecisionNode,
-    RetrieverNode,
-    RewriterNode,
-    GenerationNode
+    FirstStepNode,
+    SearchNode,
+    FinalizerNode,
+    CritiqueNode,
+    ReasonerNode
 )
 
 
 class ReasoningAgent(BaseAgent):
     def __init__(
             self,
-            decision: DecisionNode,
-            rewriter: RewriterNode,
-            retriever: RetrieverNode,
-            generation: GenerationNode,
+            first_step: FirstStepNode,
+            search: SearchNode,
+            finalizer: FinalizerNode,
+            critique: CritiqueNode,
+            reasoner: ReasonerNode
     ) -> None:
-        graph = StateGraph(GraphState)
+        graph = StateGraph(ReasoningState)
 
-        graph.add_node("start_step", decision)
-        graph.add_node("rewrite", rewriter)
-        graph.add_node("retrieve", retriever)
-        graph.add_node("generate", generation)
-
-        graph.add_edge(START, "start_step")
-        graph.add_edge("rewrite", "retrieve")
-        graph.add_edge("retrieve", "generate")
-        graph.add_edge("generate", END)
+        ...
 
         self._graph_compiled = graph.compile()
 
