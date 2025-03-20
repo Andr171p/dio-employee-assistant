@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 from langchain_core.runnables import RunnablePassthrough
 
 from src.rag.base_rag import BaseRAG
-from src.rag.utils import format_docs
+from src.utils.documents import format_docs
 
 
 class RAG(BaseRAG):

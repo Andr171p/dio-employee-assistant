@@ -13,4 +13,4 @@ class FileSaver:
         file_name = f"{uuid.uuid4()}.eml"
         file_path = self.directory / file_name
         await write_eml(file_path, binary_file)
-        return file_name
+        return file_path

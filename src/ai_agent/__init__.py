@@ -1,7 +1,7 @@
 __all__ = (
     "BaseAgent",
-    "ReasoningAgent"
+    "LettersAgent"
 )
 
 from src.ai_agent.base_agent import BaseAgent
-from src.ai_agent.reasoning_agent import ReasoningAgent
+from src.ai_agent.letters_agent import LettersAgent

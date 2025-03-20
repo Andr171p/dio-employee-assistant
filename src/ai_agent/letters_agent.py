@@ -5,7 +5,7 @@ from src.ai_agent.base_agent import BaseAgent
 from src.ai_agent.nodes import RewriterNode
 
 
-class ReasoningAgent(BaseAgent):
+class LettersAgent(BaseAgent):
     def __init__(
             self,
             rewriter_node: RewriterNode
@@ -19,8 +19,8 @@ class ReasoningAgent(BaseAgent):
 
         self._graph_compiled = graph.compile()
 
-    async def generate(self, question: str) -> ...:
-        inputs = {"user_letter": question}
+    async def generate(self, user_letter: str) -> ...:
+        inputs = {"user_letter": user_letter}
         async for event in self._graph_compiled.astream_events(inputs, version="v2"):
             event_type = event.get('event', None)
             agent = event.get('name', '')
@@ -47,7 +47,7 @@ model = GigaChat(
 
 rewriter = RewriterNode(model)
 
-agent = ReasoningAgent(rewriter_node=rewriter)
+agent = LettersAgent(rewriter_node=rewriter)
 
 import asyncio
 
