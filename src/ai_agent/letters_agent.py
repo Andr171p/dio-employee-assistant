@@ -19,9 +19,9 @@ class LettersAgent(BaseAgent):
 
         self._graph_compiled = graph.compile()
 
-    async def generate(self, user_letter: str) -> ...:
+    async def generate(self, user_letter: str) -> dict:
         inputs = {"user_letter": user_letter}
-        async for event in self._graph_compiled.astream_events(inputs, version="v2"):
+        '''async for event in self._graph_compiled.astream_events(inputs, version="v2"):
             event_type = event.get('event', None)
             agent = event.get('name', '')
             if agent in ["_write", "RunnableSequence", "__start__", "__end__", "LangGraph"]:
@@ -31,7 +31,8 @@ class LettersAgent(BaseAgent):
             elif event_type == 'on_chain_start':
                 print(f"<{agent}>")
             elif event_type == 'on_chain_end':
-                print(f"</{agent}>")
+                print(f"</{agent}>")'''
+        return await self._graph_compiled.ainvoke(inputs)
 
 
 '''from langchain_gigachat import GigaChat
