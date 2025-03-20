@@ -17,7 +17,6 @@ from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 
 from src.misc.file_readers import read_txt
-from src.rag import RAG, BaseRAG
 from src.config import settings
 
 
@@ -84,18 +83,3 @@ class RAGProvider(Provider):
     @provide(scope=Scope.APP)
     def get_parser(self) -> BaseTransformOutputParser:
         return StrOutputParser()
-
-    @provide(scope=Scope.APP)
-    def get_rag(
-            self,
-            retriever: BaseRetriever,
-            prompt: BasePromptTemplate,
-            model: BaseChatModel | LLM,
-            parser: BaseTransformOutputParser
-    ) -> BaseRAG:
-        return RAG(
-            retriever=retriever,
-            prompt=prompt,
-            model=model,
-            parser=parser
-        )
