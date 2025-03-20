@@ -10,4 +10,4 @@ chatbot_router = Router()
 
 @chatbot_router.message(F.text)
 async def answer(message: Message, chatbot_controller: FromDishka[ChatBotController]) -> None:
-    await chatbot_controller.answer_on_message(message)
+    await chatbot_controller.answer(message)
