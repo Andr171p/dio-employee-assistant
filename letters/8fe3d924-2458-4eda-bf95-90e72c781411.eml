@@ -1,0 +1,158 @@
+Delivered-To: andrey.kosov.05@inbox.ru
+Return-path: <educon@tsogu.ru>
+Authentication-Results: mxs.mail.ru; spf=pass (exim-mx-5996cd79c-5h2k6: domain of tsogu.ru designates 217.116.51.45 as permitted sender) smtp.mailfrom=educon@tsogu.ru smtp.helo=mail.tyuiu.ru
+Received-SPF: pass (exim-mx-5996cd79c-5h2k6: domain of tsogu.ru designates 217.116.51.45 as permitted sender) client-ip=217.116.51.45; envelope-from=educon@tsogu.ru; helo=mail.tyuiu.ru;
+Received: from mail.tyuiu.ru ([217.116.51.45]:40368)
+	by exim-mx-5996cd79c-5h2k6 with esmtp (envelope-from <educon@tsogu.ru>)
+	id 1tsbgt-000000009Y6-3Ghb
+	for andrey.kosov.05@inbox.ru; Thu, 13 Mar 2025 09:05:12 +0300
+Received: from educon2 (educon2.tyuiu.ru [217.116.51.229] (may be forged))
+	by mail.tyuiu.ru (8.14.5/8.12.9) with ESMTP id 52D65Aap080815
+	for <andrey.kosov.05@inbox.ru>; Thu, 13 Mar 2025 11:05:11 +0500 (GMT-5)
+Date: Thu, 13 Mar 2025 11:05:09 +0500
+To: "=?utf-8?B?0JrQvtGB0L7QsiDQkNC90LTRgNC10Lkg0KHQtdGA0LPQtdC10LLQuNGH?=" <andrey.kosov.05@inbox.ru>
+From: "=?utf-8?B?0JvQvtC30LjQutC+0LLQsCDQmNC90L3QsCDQntC70LXQs9C+0LLQvdCwIA==?=
+ =?utf-8?B?KNC+0YLQv9GA0LDQstC70LXQvdC+INGH0LXRgNC10LcgZWR1Y29uMi50eXU=?=
+ =?utf-8?B?aXUucnUp?=" <educon@tsogu.ru>
+Reply-To: "=?utf-8?B?0J3QtSDQvdGD0LbQvdC+INC+0YLQstC10YfQsNGC0Ywg0L3QsCDRjdGC0L4g?=
+ =?utf-8?B?0YHQvtC+0LHRidC10L3QuNC1?=" <educon@tsogu.ru>
+Subject: =?utf-8?B?0J/QnNC40JAgLSDQkNCh0J7QmNCjOiDQm9CgMyAtINCy0LDRgNC40LDQvQ==?=
+ =?utf-8?B?0YLRiyDQuNC90LTQuNCy0LjQtNGD0LDQu9GM0L3Ri9GFINC30LDQtNCw0Yc=?=
+Message-ID: <fb1dfd294dc1ceaf6cae36bfb3c75b99bba842f2354d5a9824f4c729be3cc5a7@educon2.tyuiu.ru>
+X-Mailer: PHPMailer 6.0.1 (https://github.com/PHPMailer/PHPMailer)
+List-Id: =?utf-8?B?ItCe0LHRitGP0LLQu9C10L3QuNGPIiA8bW9vZGxlZm9ydW0zOTAzNkBlZA==?=
+ =?utf-8?B?dWNvbjIudHl1aXUucnU+?=
+List-Help: https://educon2.tyuiu.ru/mod/forum/view.php?f=39036
+X-Course-Id: 29195
+X-Course-Name: =?utf-8?B?0J/QsNGA0LDQu9C70LXQu9GM0L3Ri9C1INC80LXRgtC+0LTRiyDQuCDQsNC7?=
+ =?utf-8?B?0LPQvtGA0LjRgtC80YsgLSDQkNCh0J7QmNCj?=
+Precedence: Bulk
+X-Auto-Response-Suppress: All
+Auto-Submitted: auto-generated
+List-Unsubscribe: <>
+Thread-Topic: =?utf-8?B?0J/QnNC40JAgLSDQkNCh0J7QmNCjOiDQm9CgMyAtINCy0LDRgNC40LDQvQ==?=
+ =?utf-8?B?0YLRiyDQuNC90LTQuNCy0LjQtNGD0LDQu9GM0L3Ri9GFINC30LDQtNCw0Yc=?=
+Thread-Index: fb1dfd294dc1ceaf6cae36bfb3c7
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="b1_O8i3zGFhFp77oHC6jX1ClRVV7RmDxYdR4qamuUHWw"
+X-Mailru-Src: mx
+X-6b629377: 1
+X-7564579A: 646B95376F6C166E
+X-77F55803: E822A06ED42C499A1A12D9D4BB427FE12E111EDCF20F1B9F76323C2FEF33AB780BBDAAE39103F3638701F0628C4B95CB679EE4A7355BE00C6A6C183BCFB2CD39C0F2D33E57466613D5F75CE80B635C99F8D9167951635F18
+X-7FA49CB5: A9FCD207E66530D8A18204E546F3947CD31E62F6120B52D31288C9E4A12A65B8C8A9BA7A39EFB7660FC4035857402960CEA83A4A5FB14F47D5E8D9A59859A8B6B471EC5013F602D871492C2D3FF63AF69449624AB7ADAF37528A4D58D2E36DB3277E793F4B08E8848C8AD277984D5AFF7445A73D91B48462BD9CCCA9EDD067B1FBF8F08B6B98D3B44E1E7243831EC1F578DA827A17800CE7888920A006B389496320D30F47244B790FC4035857402960922FDBD9EBA3C5B4B287FD4696A6DC2F5F5C1EE8F4F765FC791E6C230873D55CBFD28B28ED4578732EF20D2F80756B5F40A5AABA2AD37119BCF491FFA38154B6D5E8D9A59859A8B6D6067D551E3383D8BCF491FFA38154B6B5C8C57E37DE458B543C44CD4AFD0029B289B51CCB092ABD8AA50765F7900637B289B51CCB092ABD5571747095F342E8C234C8B12C006B7AC2A00B5268399024648CC844F60643FBAE1A0C3FFFA7CB7B1DA0E3D1EC8169D60C819B32DFABC24A725E5C173C3A84C3CA5A41EBD8A3A0199FA2833FD35BB23D9E625A9149C048EE9ECD01F8117BC8BEA471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F44604297287769387670735209ECD01F8117BC8BEA471835C12D1D977C4224003CC8364767DFF0A840B692CF8
+X-C1DE0DAB: 0D63561A33F958A5AEE4A708C4BD5A815002B1117B3ED6964F399CE9E2468701361FAC1196A180DE823CB91A9FED034534781492E4B8EEAD0CC187E7B980E3E7C79554A2A72441328621D336A7BC284946AD531847A6065A01D2833353C8CBA37CDA689C54079AF113D920A87098A3ED2E763F503762DF50A9EF90D429862135
+X-C8649E89: 1C3962B70DF3F0AD26C0D434D75DEB27AEC556CA64981ABE2CCB5A6D6581D03D0776B5B2C279835F17BCBE6708A5A68D02015372BE9702A25D947CC9608A46069F5DC4DB29AECF0D026621EA53E3CC01187420CCCB63ED6A51AF68F592F254ABCE9253A3F4078F9322F50742CF3815913DF36B7AB5C670A378A4AC840ECD689BCAACD699CDC6F98202C26D483E81D6BEBABCE0451C61BC941A688A45BEB9B5FCCC2E138FFB4ACBED
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+OURs3E5O9HgLbe1f6qYhvLutKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS3ysCEUJX3xZOcFJBMuNLgfyUEYJzDs4tZA==
+X-F696D7D5: LcsZD7EkEiI6zylGvP7EUpVkv1eOl9nftoJf10s7X/g5ayaVgDpFhcZG7lmUObea
+X-Mras: Ok
+X-Spam: undefined
+X-Mailru-Intl-Transport: d,369b93c
+
+This is a multi-part message in MIME format.
+--b1_O8i3zGFhFp77oHC6jX1ClRVV7RmDxYdR4qamuUHWw
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+
+=D0=9F=D0=9C=D0=B8=D0=90 - =D0=90=D0=A1=D0=9E=D0=98=D0=A3 -> =D0=A4=D0=
+=BE=D1=80=D1=83=D0=BC=D1=8B -> =D0=9E=D0=B1=D1=8A=D1=8F=D0=B2=D0=BB=D0=
+=B5=D0=BD=D0=B8=D1=8F -> =D0=9B=D0=A03 -
+=D0=B2=D0=B0=D1=80=D0=B8=D0=B0=D0=BD=D1=82=D1=8B =D0=B8=D0=BD=D0=B4=D0=
+=B8=D0=B2=D0=B8=D0=B4=D1=83=D0=B0=D0=BB=D1=8C=D0=BD=D1=8B=D1=85 =D0=B7=
+=D0=B0=D0=B4=D0=B0=D1=87=20
+https://educon2.tyuiu.ru/mod/forum/discuss.php?d=3D54893#p65938
+=D0=9B=D0=A03 - =D0=B2=D0=B0=D1=80=D0=B8=D0=B0=D0=BD=D1=82=D1=8B =D0=B8=
+=D0=BD=D0=B4=D0=B8=D0=B2=D0=B8=D0=B4=D1=83=D0=B0=D0=BB=D1=8C=D0=BD=D1=8B=
+=D1=85 =D0=B7=D0=B0=D0=B4=D0=B0=D1=87
+=D0=BE=D1=82 =D0=9B=D0=BE=D0=B7=D0=B8=D0=BA=D0=BE=D0=B2=D0=B0 =D0=98=D0=
+=BD=D0=BD=D0=B0 =D0=9E=D0=BB=D0=B5=D0=B3=D0=BE=D0=B2=D0=BD=D0=B0 - Thursday=
+, 13 March 2025,
+10:30
+---------------------------------------------------------------------
+=D0=94=D0=BE=D0=B1=D1=80=D1=8B=D0=B9 =D0=B4=D0=B5=D0=BD=D1=8C,
+
+=D0=B4=D0=BB=D1=8F=C2=A0 =D0=9B=D0=A03 (=D0=BF.5 =D0=B7=D0=B0=D0=B4=D0=
+=B0=D0=BD=D0=B8=D1=8F) =D1=80=D0=B0=D1=81=D1=81=D1=82=D0=B0=D0=B2=D0=B8=
+=D0=BB=D0=B0 =D0=B2=D1=81=D0=B5=D0=BC=C2=A0 =D0=B2
+=D0=BE=D1=82=D0=B7=D1=8B=D0=B2=D0=B5 =D0=BF=D1=80=D0=B5=D0=BF=D0=BE=D0=
+=B4=D0=B0=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8F =D0=B2=D0=B0=D1=80=D0=B8=
+=D0=B0=D0=BD=D1=82=D1=8B (=D0=B1=D1=83=D0=BA=D0=B2=D0=B0 =D0=90,
+=D0=92, =D0=A1)=C2=A0 =D0=B8=D0=BD=D0=B4=D0=B8=D0=B2=D0=B8=D0=B4=D1=83=
+=D0=B0=D0=BB=D1=8C=D0=BD=D1=8B=D1=85 =D0=B7=D0=B0=D0=B4=D0=B0=D1=87.=C2=
+=A0
+
+
+
+---------------------------------------------------------------------
+=D0=98=D0=B7=D0=BC=D0=B5=D0=BD=D0=B8=D1=82=D1=8C =D0=92=D0=B0=D1=88=D0=
+=B8 =D0=BD=D0=B0=D1=81=D1=82=D1=80=D0=BE=D0=B9=D0=BA=D0=B8 =D0=B4=D0=B0=
+=D0=B9=D0=B4=D0=B6=D0=B5=D1=81=D1=82=D0=B0 =D1=84=D0=BE=D1=80=D1=83=D0=
+=BC=D0=B0:
+https://educon2.tyuiu.ru/mod/forum/index.php?id=3D29195
+
+--b1_O8i3zGFhFp77oHC6jX1ClRVV7RmDxYdR4qamuUHWw
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"navbar">=0A    <a target=3D"_blank" href=3D"https://educon2.t=
+yuiu.ru/course/view.php?id=3D29195">=D0=9F=D0=9C=D0=B8=D0=90 - =D0=90=D0=
+=A1=D0=9E=D0=98=D0=A3</a>=0A    &raquo;=0A    <a target=3D"_blank" href=3D"=
+https://educon2.tyuiu.ru/mod/forum/index.php?id=3D29195">=D0=A4=D0=BE=D1=
+=80=D1=83=D0=BC=D1=8B</a>=0A    &raquo;=0A    <a target=3D"_blank" href=3D"=
+https://educon2.tyuiu.ru/mod/forum/view.php?f=3D39036">=D0=9E=D0=B1=D1=
+=8A=D1=8F=D0=B2=D0=BB=D0=B5=D0=BD=D0=B8=D1=8F</a>=0A    &raquo;=0A    <a ta=
+rget=3D"_blank" href=3D"https://educon2.tyuiu.ru/mod/forum/discuss.php?d=3D=
+54893">=D0=9B=D0=A03 - =D0=B2=D0=B0=D1=80=D0=B8=D0=B0=D0=BD=D1=82=D1=8B =
+=D0=B8=D0=BD=D0=B4=D0=B8=D0=B2=D0=B8=D0=B4=D1=83=D0=B0=D0=BB=D1=8C=D0=BD=
+=D1=8B=D1=85 =D0=B7=D0=B0=D0=B4=D0=B0=D1=87</a>=0A</div>=0A=0A=0A    <table=
+ border=3D"0" cellpadding=3D"3" cellspacing=3D"0" class=3D"forumpost">=0A  =
+      <tr class=3D"header">=0A            <td width=3D"35" valign=3D"top" c=
+lass=3D"picture left">=0A                <a href=3D"https://educon2.tyuiu.r=
+u/user/view.php?id=3D3569&amp;course=3D29195"><img src=3D"https://educon2.t=
+yuiu.ru/theme/image.php/_s/educon2/core/1741827601/u/f2" alt=3D"=D0=98=
+=D0=B7=D0=BE=D0=B1=D1=80=D0=B0=D0=B6=D0=B5=D0=BD=D0=B8=D0=B5 =D0=BF=D0=
+=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8F =D0=9B=
+=D0=BE=D0=B7=D0=B8=D0=BA=D0=BE=D0=B2=D0=B0 =D0=98=D0=BD=D0=BD=D0=B0 =D0=
+=9E=D0=BB=D0=B5=D0=B3=D0=BE=D0=B2=D0=BD=D0=B0" title=3D"=D0=98=D0=B7=D0=
+=BE=D0=B1=D1=80=D0=B0=D0=B6=D0=B5=D0=BD=D0=B8=D0=B5 =D0=BF=D0=BE=D0=BB=
+=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8F =D0=9B=D0=BE=D0=
+=B7=D0=B8=D0=BA=D0=BE=D0=B2=D0=B0 =D0=98=D0=BD=D0=BD=D0=B0 =D0=9E=D0=BB=
+=D0=B5=D0=B3=D0=BE=D0=B2=D0=BD=D0=B0" class=3D"userpicture defaultuserpic" =
+width=3D"35" height=3D"35" /></a>=0A            </td>=0A            <td cla=
+ss=3D"topic starter">=0A                <div class=3D"subject">=0A         =
+           =D0=9B=D0=A03 - =D0=B2=D0=B0=D1=80=D0=B8=D0=B0=D0=BD=D1=82=D1=
+=8B =D0=B8=D0=BD=D0=B4=D0=B8=D0=B2=D0=B8=D0=B4=D1=83=D0=B0=D0=BB=D1=8C=
+=D0=BD=D1=8B=D1=85 =D0=B7=D0=B0=D0=B4=D0=B0=D1=87=0A                </div>=
+=0A                <div class=3D"author">=0A                    =D0=BE=
+=D1=82 <a target=3D'_blank' href=3D'https://educon2.tyuiu.ru/user/view.php?=
+id=3D3569&course=3D29195'>=D0=9B=D0=BE=D0=B7=D0=B8=D0=BA=D0=BE=D0=B2=D0=
+=B0 =D0=98=D0=BD=D0=BD=D0=B0 =D0=9E=D0=BB=D0=B5=D0=B3=D0=BE=D0=B2=D0=BD=
+=D0=B0</a> - Thursday, 13 March 2025, 10:30=0A                </div>=0A    =
+        </td>=0A        </tr>=0A        <tr>=0A            <td class=3D"lef=
+t side" valign=3D"top">=0A                    &nbsp;=0A            </td>=0A=
+            <td class=3D"content">=0A                =0A                <p>=
+=D0=94=D0=BE=D0=B1=D1=80=D1=8B=D0=B9 =D0=B4=D0=B5=D0=BD=D1=8C,</p><p>=D0=
+=B4=D0=BB=D1=8F=C2=A0 =D0=9B=D0=A03 (=D0=BF.5 =D0=B7=D0=B0=D0=B4=D0=B0=
+=D0=BD=D0=B8=D1=8F) =D1=80=D0=B0=D1=81=D1=81=D1=82=D0=B0=D0=B2=D0=B8=D0=
+=BB=D0=B0 =D0=B2=D1=81=D0=B5=D0=BC=C2=A0 =D0=B2 =D0=BE=D1=82=D0=B7=D1=8B=
+=D0=B2=D0=B5 =D0=BF=D1=80=D0=B5=D0=BF=D0=BE=D0=B4=D0=B0=D0=B2=D0=B0=D1=
+=82=D0=B5=D0=BB=D1=8F =D0=B2=D0=B0=D1=80=D0=B8=D0=B0=D0=BD=D1=82=D1=8B (=
+=D0=B1=D1=83=D0=BA=D0=B2=D0=B0 =D0=90, =D0=92, =D0=A1)=C2=A0 =D0=B8=D0=
+=BD=D0=B4=D0=B8=D0=B2=D0=B8=D0=B4=D1=83=D0=B0=D0=BB=D1=8C=D0=BD=D1=8B=D1=
+=85 =D0=B7=D0=B0=D0=B4=D0=B0=D1=87.=C2=A0</p>=0A                =0A=0A     =
+           <div class=3D"commands">=0A                </div>=0A=0A         =
+       <div class=3D"link">=0A                    <a target=3D"_blank" href=
+=3D"https://educon2.tyuiu.ru/mod/forum/discuss.php?d=3D54893#p65938">=0A   =
+                     =D0=9F=D0=BE=D0=BA=D0=B0=D0=B7=D0=B0=D1=82=D1=8C =
+=D0=B2 =D0=BA=D0=BE=D0=BD=D1=82=D0=B5=D0=BA=D1=81=D1=82=D0=B5=0A           =
+         </a>=0A                </div>=0A            </td>=0A        </tr>=
+=0A    </table>=0A=0A<hr />=0A<div class=3D"mdl-align unsubscribelink">=0A =
+   <a href=3D"https://educon2.tyuiu.ru/mod/forum/index.php?id=3D29195">=
+=D0=98=D0=B7=D0=BC=D0=B5=D0=BD=D0=B8=D1=82=D1=8C =D1=81=D0=B2=D0=BE=D0=
+=B8 =D0=BD=D0=B0=D1=81=D1=82=D1=80=D0=BE=D0=B9=D0=BA=D0=B8 =D0=B4=D0=B0=
+=D0=B9=D0=B4=D0=B6=D0=B5=D1=81=D1=82=D0=B0 =D1=84=D0=BE=D1=80=D1=83=D0=
+=BC=D0=B0</a>=0A</div>
+
+--b1_O8i3zGFhFp77oHC6jX1ClRVV7RmDxYdR4qamuUHWw--
+
