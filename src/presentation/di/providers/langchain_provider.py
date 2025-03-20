@@ -74,10 +74,12 @@ class LangchainProvider(Provider):
     @provide(scope=Scope.APP)
     def get_model(self) -> BaseChatModel | LLM:
         return GigaChat(
+            # model="GigaChat-Pro",
             credentials=settings.giga_chat.api_key,
             scope=settings.giga_chat.scope,
             verify_ssl_certs=False,
-            profanity_check=False
+            profanity_check=False,
+            temperature=0.2
         )
 
     @provide(scope=Scope.APP)

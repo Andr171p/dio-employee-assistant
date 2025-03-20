@@ -50,7 +50,7 @@ chunks = text_splitter.create_documents([text])
 N = 5
 
 print(f"Всего чанков: {len(chunks)}")
-print(f"Первые {N} чанков:")
+# print(f"Первые {N} чанков:")
 
 
 indices = elastic_client.cat.indices(h='index').split()

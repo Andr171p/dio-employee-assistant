@@ -4,3 +4,4 @@ chroma/** filter=lfs diff=lfs merge=lfs -text
 chroma filter=lfs diff=lfs merge=lfs -text
 letters filter=lfs diff=lfs merge=lfs -text
 documents filter=lfs diff=lfs merge=lfs -text
+documents_library filter=lfs diff=lfs merge=lfs -text
