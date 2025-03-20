@@ -1,16 +1,18 @@
 from dishka import make_async_container
 
 from src.presentation.di.providers import (
-    DatabaseProvider,
-    RAGProvider,
+    UsersProvider,
     ChatBotProvider,
-    UsersProvider
+    DatabaseProvider,
+    LangchainProvider,
+    LettersAssistantProvider
 )
 
 
 container = make_async_container(
-    DatabaseProvider(),
-    RAGProvider(),
+    UsersProvider(),
     ChatBotProvider(),
-    UsersProvider()
+    DatabaseProvider(),
+    LangchainProvider(),
+    LettersAssistantProvider()
 )

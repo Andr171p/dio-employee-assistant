@@ -2,10 +2,15 @@ from aiogram import Router
 from aiogram.types import Message
 from dishka.integrations.aiogram import FromDishka
 
+from src.controllers import LettersAssistantController
+
 
 letters_assistant_router = Router()
 
 
 @letters_assistant_router.message(content_types=["document"])
-async def assist(message: Message) -> None:
-    ...
+async def assist(
+        message: Message,
+        letters_assistant_controller: FromDishka[LettersAssistantController]
+) -> None:
+    await letters_assistant_controller.assist(message)

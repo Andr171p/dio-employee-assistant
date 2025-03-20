@@ -20,7 +20,7 @@ from src.misc.file_readers import read_txt
 from src.config import settings
 
 
-class RAGProvider(Provider):
+class LangchainProvider(Provider):
     @provide(scope=Scope.APP)
     def get_embeddings(self) -> Embeddings:
         return HuggingFaceEmbeddings(
