@@ -16,7 +16,7 @@ class TelegramFileLoader(BaseFileLoader):
             message: "Message",
             directory: str
     ) -> BinaryIO:
-        file_id: str = message.document.file_i
+        file_id: str = message.document.file_id
         file = await self._bot.get_file(file_id)
         file_path = file.file_path
         downloaded_file = await self._bot.download_file(file_path)

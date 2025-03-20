@@ -1,15 +1,14 @@
-import os
-import uuid
+import aiofiles
 from pathlib import Path
 from typing import BinaryIO, Union
 
 
-def write_eml(
+async def write_eml(
+        file_path: Union[Path, str],
         binary_file: BinaryIO,
-        directory: Union[Path, str]
 ) -> None:
-    with open(
-        file=os.path.join(directory, f"{uuid.uuid4()}.eml"),
+    async with aiofiles.open(
+        file=file_path,
         mode="wb"
     ) as file:
-        file.write(binary_file.read())
+        await file.write(binary_file.read())
