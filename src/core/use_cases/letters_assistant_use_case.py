@@ -16,5 +16,6 @@ class LettersAssistantUseCase:
 
     async def assist(self, letter_file: BinaryIO) -> AILetter:
         letter = await self._letters_service.get_letter(letter_file)
+        print(letter)
         generated = await self._ai_agent.generate(letter)
         return AILetter(**generated)

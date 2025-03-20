@@ -34,7 +34,7 @@ class LettersAgent(BaseAgent):
                 print(f"</{agent}>")
 
 
-from langchain_gigachat import GigaChat
+'''from langchain_gigachat import GigaChat
 from src.config import settings
 
 
@@ -70,4 +70,4 @@ async def main() -> None:
     print(res)
 
 
-asyncio.run(main())
+asyncio.run(main())'''

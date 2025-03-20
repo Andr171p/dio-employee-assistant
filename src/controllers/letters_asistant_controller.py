@@ -17,4 +17,4 @@ class LettersAssistantController:
         await message.bot.send_chat_action(message.chat.id, action="typing")
         letters_file = await self._telegram_file_loader.load(message)
         ai_letter = await self._letters_assistant_use_case.assist(letters_file)
-        await message.answer(str(ai_letter))
+        await message.answer(str(ai_letter.model_dump()))

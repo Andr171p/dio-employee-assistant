@@ -13,7 +13,7 @@ from langchain_community.document_loaders import (
 
 class FileToDocumentLoader:
     def __init__(self, file_path: Union["Path", str]) -> None:
-        self._file_path = file_path
+        self._file_path = str(file_path)
 
     async def load(self) -> List["Document"]:
         extension = self._file_path.split(".")[-1]
