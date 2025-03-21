@@ -36,16 +36,6 @@ for index in indices:
 print("Все индексы удалены.")
 
 
-def get_1c_text() -> str:
-    files = DIR_1C.iterdir()
-    texts = []
-    for file in files:
-        with open(file=file, mode="r", encoding="utf-8") as f:
-            text = f.read()
-            texts.append(text)
-    return '\n\n'.join(texts)
-
-
 def get_dio_text() -> str:
     files = DIR_DIO.iterdir()
     texts = []
@@ -68,16 +58,6 @@ def get_instructions_text() -> str:
 
 def get_commercial_text() -> str:
     files = DIR_COMMERCIAL.iterdir()
-    texts = []
-    for file in files:
-        with open(file=file, mode="r", encoding="utf-8") as f:
-            text = f.read()
-            texts.append(text)
-    return '\n\n'.join(texts)
-
-
-def get_new_text() -> str:
-    files = DIR_NEW.iterdir()
     texts = []
     for file in files:
         with open(file=file, mode="r", encoding="utf-8") as f:
@@ -122,11 +102,9 @@ def create_elastic_index(name: str, chunks: list[Document]) -> None:
 
 
 texts = {
-    "products-1c": get_1c_text(),
     "dio-consult": get_dio_text(),
     "instructions": get_instructions_text(),
     "commercial": get_commercial_text(),
-    "beginners": get_new_text(),
     "info": get_info_text()
 }
 

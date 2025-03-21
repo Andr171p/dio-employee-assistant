@@ -28,6 +28,7 @@ bs4 = "^0.0.2"
 unstructured = "^0.17.0"
 libmagic = "^1.0"
 yandexcloud = "^0.337.0"
+langchain-huggingface = "^0.1.2"
 
 
 [build-system]
