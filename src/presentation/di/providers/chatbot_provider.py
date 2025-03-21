@@ -1,11 +1,6 @@
 from dishka import Provider, provide, Scope
 
-from langchain_core.retrievers import BaseRetriever
-from langchain_core.prompts import BasePromptTemplate
-from langchain_core.language_models import BaseChatModel, LLM
-from langchain_core.output_parsers import BaseTransformOutputParser
-
-from src.rag import BaseRAG, RAG
+from src.dio_ai.agent import Agent
 from src.database.crud import DialogCRUD
 from src.repository import DialogRepository
 from src.core.use_cases import ChatBotUseCase
@@ -18,27 +13,12 @@ class ChatBotProvider(Provider):
         return DialogRepository(crud)
 
     @provide(scope=Scope.APP)
-    def get_rag(
-            self,
-            retriever: BaseRetriever,
-            prompt: BasePromptTemplate,
-            model: BaseChatModel | LLM,
-            parser: BaseTransformOutputParser
-    ) -> BaseRAG:
-        return RAG(
-            retriever=retriever,
-            prompt=prompt,
-            model=model,
-            parser=parser
-        )
-
-    @provide(scope=Scope.APP)
     def get_chatbot_use_case(
             self,
-            rag: BaseRAG,
+            ai_assistant: Agent,
             dialog_repository: DialogRepository
     ) -> ChatBotUseCase:
-        return ChatBotUseCase(rag, dialog_repository)
+        return ChatBotUseCase(ai_assistant, dialog_repository)
 
     @provide(scope=Scope.APP)
     def get_chatbot_controller(self, chatbot: ChatBotUseCase) -> ChatBotController:

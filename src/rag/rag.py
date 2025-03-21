@@ -8,11 +8,11 @@ if TYPE_CHECKING:
 
 from langchain_core.runnables import RunnablePassthrough
 
-from src.rag.base_rag import BaseRAG
+from src.core.base import BaseAI
 from src.utils.documents import format_docs
 
 
-class RAG(BaseRAG):
+class RAG(BaseAI):
     def __init__(
             self,
             retriever: "BaseRetriever",

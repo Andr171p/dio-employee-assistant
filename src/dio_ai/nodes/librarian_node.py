@@ -23,6 +23,8 @@ class LibrarianNode(BaseNode):
         self._chain = prompt | model | parser
 
     async def execute(self, state: GraphState) -> dict:
+        print("---CHANGE CHAPTER---")
         response = await self._chain.ainvoke({"user_question": state["user_question"]})
         chapter = response.chapter
+        print(chapter)
         return {"chapter": chapter}

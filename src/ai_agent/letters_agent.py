@@ -1,11 +1,11 @@
 from langgraph.graph import START, StateGraph, END
 
+from src.core.base import BaseAI
 from src.ai_agent.states import ReasoningState
-from src.ai_agent.base_agent import BaseAgent
 from src.ai_agent.nodes import RewriterNode
 
 
-class LettersAgent(BaseAgent):
+class LettersAgent(BaseAI):
     def __init__(
             self,
             rewriter_node: RewriterNode

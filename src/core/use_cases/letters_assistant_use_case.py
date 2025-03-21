@@ -1,6 +1,6 @@
 from typing import BinaryIO
 
-from src.ai_agent import BaseAgent
+from src.core.base import BaseAI
 from src.services import LettersService
 from src.core.entities import AILetter
 
@@ -8,7 +8,7 @@ from src.core.entities import AILetter
 class LettersAssistantUseCase:
     def __init__(
             self,
-            ai_agent: BaseAgent,
+            ai_agent: BaseAI,
             letters_service: LettersService
     ) -> None:
         self._ai_agent = ai_agent

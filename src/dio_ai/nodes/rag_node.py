@@ -6,7 +6,6 @@ from elasticsearch import Elasticsearch
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.embeddings import Embeddings
 from langchain.retrievers import EnsembleRetriever
-from langchain_core.vectorstores import VectorStore
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.language_models import BaseChatModel, LLM
@@ -19,6 +18,9 @@ from src.utils.documents import format_docs
 from src.dio_ai.nodes.base_node import BaseNode
 
 
+RAG_TEMPLATE = BASE_DIR / "prompts" / "rag" / "ДИО_Консалт_сотрудник.txt"
+
+
 class RAGNode(BaseNode):
     def __init__(
             self,
@@ -29,6 +31,7 @@ class RAGNode(BaseNode):
         self._model = model
 
     async def execute(self, state: GraphState) -> dict:
+        print("---RAG---")
         vector_store = Chroma(
             client=chromadb.PersistentClient(settings.chroma.persist_directory),
             collection_name=state.get("chapter"),
@@ -48,10 +51,16 @@ class RAGNode(BaseNode):
             retrievers=[vector_store_retriever, bm25_retriever],
             weights=[0.6, 0.4]
         )
-        vector_store_retriever = vector_store.as_retriever()
+        prompt = ChatPromptTemplate.from_template(read_txt(RAG_TEMPLATE))
+        parser = StrOutputParser()
         chain = (
             {
                 "context": retriever | format_docs,
-                "user_question": RunnablePassthrough()
-            }
+                "question": RunnablePassthrough()
+            } |
+            prompt |
+            self._model |
+            parser
         )
+        final_answer = await chain.ainvoke(state["user_question"])
+        return {"final_answer": final_answer}

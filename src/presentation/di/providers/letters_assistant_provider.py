@@ -6,7 +6,7 @@ from langchain_core.language_models import BaseChatModel, LLM
 from src.utils import FileSaver
 from src.services import LettersService
 from src.ai_agent.nodes import RewriterNode
-from src.ai_agent import BaseAgent, LettersAgent
+from src.ai_agent import LettersAgent
 from src.core.use_cases import LettersAssistantUseCase
 from src.controllers import LettersAssistantController
 from src.services.file_loader import TelegramFileLoader
@@ -30,13 +30,13 @@ class LettersAssistantProvider(Provider):
         return RewriterNode(model)
 
     @provide(scope=Scope.APP)
-    def get_agent(self, rewriter_node: RewriterNode) -> BaseAgent:
+    def get_agent(self, rewriter_node: RewriterNode) -> LettersAgent:
         return LettersAgent(rewriter_node)
 
     @provide(scope=Scope.APP)
     def get_letters_assistant_use_case(
             self,
-            ai_agent: BaseAgent,
+            ai_agent: LettersAgent,
             letters_service: LettersService
     ) -> LettersAssistantUseCase:
         return LettersAssistantUseCase(ai_agent, letters_service)
