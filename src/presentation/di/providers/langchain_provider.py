@@ -9,9 +9,10 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.retrievers import EnsembleRetriever
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.prompts import BasePromptTemplate
+from langchain_community.llms.yandex import YandexGPT
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.language_models import BaseChatModel, LLM
+# from langchain_core.language_models import BaseChatModel, LLM
 from langchain_core.output_parsers import BaseTransformOutputParser
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
@@ -72,14 +73,20 @@ class LangchainProvider(Provider):
         return ChatPromptTemplate.from_template(read_txt(settings.prompts.prompt_path))
 
     @provide(scope=Scope.APP)
-    def get_model(self) -> BaseChatModel | LLM:
+    def get_giga_chat(self) -> GigaChat:
         return GigaChat(
-            # model="GigaChat-Pro",
             credentials=settings.giga_chat.api_key,
             scope=settings.giga_chat.scope,
             verify_ssl_certs=False,
             profanity_check=False,
             temperature=0.2
+        )
+
+    @provide(scope=Scope.APP)
+    def get_yandex_gpt(self) -> YandexGPT:
+        return YandexGPT(
+            api_key=settings.yandex_gpt.api_key,
+            folder_id=settings.yandex_gpt.folder_id
         )
 
     @provide(scope=Scope.APP)

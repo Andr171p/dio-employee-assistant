@@ -6,5 +6,6 @@ class ChatBotPresenter:
         self.message = message
 
     async def present(self, chatbot_answer: str) -> int:
-        message = await self.message.answer(chatbot_answer, parse_mode="Markdown")
+        # message = await self.message.answer(chatbot_answer, parse_mode="Markdown")
+        message = await self.message.answer(chatbot_answer)
         return message.message_id

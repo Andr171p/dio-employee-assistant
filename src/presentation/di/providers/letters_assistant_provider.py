@@ -1,7 +1,8 @@
 from dishka import Provider, provide, Scope
 
 from aiogram import Bot
-from langchain_core.language_models import BaseChatModel, LLM
+from langchain_gigachat import GigaChat
+# from langchain_core.language_models import BaseChatModel, LLM
 
 from src.utils import FileSaver
 from src.services import LettersService
@@ -26,7 +27,7 @@ class LettersAssistantProvider(Provider):
         return LettersService(file_saver)
 
     @provide(scope=Scope.APP)
-    def get_rewriter_node(self, model: BaseChatModel | LLM) -> RewriterNode:
+    def get_rewriter_node(self, model: GigaChat) -> RewriterNode:
         return RewriterNode(model)
 
     @provide(scope=Scope.APP)

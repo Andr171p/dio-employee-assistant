@@ -47,6 +47,11 @@ class GigaChatSettings(BaseSettings):
     scope: str = os.getenv("GIGACHAT_SCOPE")
 
 
+class YandexGPTSettings(BaseSettings):
+    folder_id: str = os.getenv("YANDEX_FOLDER_ID")
+    api_key: str = os.getenv("YANDEX_GPT_API_KEY")
+
+
 class DatabaseSettings(BaseSettings):
     db_path: str = os.path.join(BASE_DIR, "db.sqlite3")
     driver: str = "aiosqlite"
@@ -61,6 +66,7 @@ class Settings(BaseSettings):
     chroma: ChromaSettings = ChromaSettings()
     prompts: PromptsSettings = PromptsSettings()
     giga_chat: GigaChatSettings = GigaChatSettings()
+    yandex_gpt: YandexGPTSettings = YandexGPTSettings()
     db: DatabaseSettings = DatabaseSettings()
 
 
