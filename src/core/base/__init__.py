@@ -1,5 +1,5 @@
 __all__ = (
-    "BaseAI"
+    "BaseAIAssistant"
 )
 
-from src.core.base.base_ai import BaseAI
+from src.core.base.base_ai_assistant import BaseAIAssistant

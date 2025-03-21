@@ -1,6 +1,6 @@
-from typing import Optional, Union
+from typing import Optional
 
-from src.core.base import BaseAI
+from src.core.base import BaseAIAssistant
 from src.repository import DialogRepository
 from src.decorators import chat_history_saver
 
@@ -8,7 +8,7 @@ from src.decorators import chat_history_saver
 class ChatBotUseCase:
     def __init__(
             self,
-            ai_assistant: BaseAI,
+            ai_assistant: BaseAIAssistant,
             dialog_repository: Optional[DialogRepository]
     ) -> None:
         self._ai_assistant = ai_assistant
