@@ -4,5 +4,5 @@ from pydantic import BaseModel
 
 
 class ChatMessage(BaseModel):
-    type: Literal["human", "ai"]
+    type: Literal["human", "dio"]
     content: str

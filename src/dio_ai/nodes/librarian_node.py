@@ -11,7 +11,7 @@ from src.dio_ai.nodes.base_node import BaseNode
 from src.dio_ai.format_instructions import CurrentChapter
 
 
-LIBRARIAN_TEMPLATE = BASE_DIR / "prompts" / "ai" / "Библиотекарь.txt"
+LIBRARIAN_TEMPLATE = BASE_DIR / "prompts" / "dio" / "Библиотекарь.txt"
 
 
 class LibrarianNode(BaseNode):
