@@ -14,4 +14,4 @@ start_router = Router()
 async def start(message: Message, users: FromDishka[UserUseCase]) -> None:
     user = UserMapper.from_message(message)
     await users.register(user)
-    await message.answer("Привет, меня зовут Алёша")
+    await message.answer("Привет, я ИИ ассистент ДИО")
