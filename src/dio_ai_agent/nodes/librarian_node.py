@@ -5,7 +5,7 @@ from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.language_models import BaseChatModel, LLM
 
 from src.config import BASE_DIR
-from src.dio_ai_agent.state import GraphState
+from src.dio_ai_agent.state import State
 from src.misc.file_readers import read_txt
 from src.dio_ai_agent.nodes.base_node import BaseNode
 from src.dio_ai_agent.format_instructions import CurrentChapter
@@ -22,7 +22,7 @@ class LibrarianNode(BaseNode):
         ]).partial(format_instructions=parser.get_format_instructions())
         self._chain = prompt | model | parser
 
-    async def execute(self, state: GraphState) -> dict:
+    async def execute(self, state: State) -> dict:
         print("---CHOICE OF CHAPTER---")
         response = await self._chain.ainvoke({"user_question": state["user_question"]})
         chapter = response.chapter

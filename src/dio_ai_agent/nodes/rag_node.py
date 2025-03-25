@@ -13,7 +13,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.language_models import BaseChatModel, LLM
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 
-from src.dio_ai_agent.state import GraphState
+from src.dio_ai_agent.state import State
 from src.config import BASE_DIR, settings
 from src.misc.file_readers import read_txt
 from src.utils.documents import format_docs
@@ -32,7 +32,7 @@ class RAGNode(BaseNode):
         self._embeddings = embeddings
         self._model = model
 
-    def __create_vector_store(self, collection_name: str) -> VectorStore:
+    def _create_vector_store(self, collection_name: str) -> VectorStore:
         return Chroma(
             client=chromadb.PersistentClient(settings.chroma.persist_directory),
             collection_name=collection_name,
@@ -40,7 +40,7 @@ class RAGNode(BaseNode):
         )
 
     @staticmethod
-    def __get_elastic_search_client() -> Elasticsearch:
+    def _get_elastic_search_client() -> Elasticsearch:
         return Elasticsearch(
             hosts=settings.elastic.url,
             basic_auth=(settings.elastic.user, settings.elastic.password),
@@ -48,9 +48,9 @@ class RAGNode(BaseNode):
         )
 
     def _create_retriever(self, chapter: str) -> BaseRetriever:
-        vector_store = self.__create_vector_store(chapter)
+        vector_store = self._create_vector_store(chapter)
         vector_store_retriever = vector_store.as_retriever()
-        elastic_search = self.__get_elastic_search_client()
+        elastic_search = self._get_elastic_search_client()
         bm25_retriever = ElasticSearchBM25Retriever(
             client=elastic_search,
             index_name=chapter
@@ -60,7 +60,7 @@ class RAGNode(BaseNode):
             weights=[0.6, 0.4]
         )
 
-    async def execute(self, state: GraphState) -> dict:
+    async def execute(self, state: State) -> dict:
         print("---RAG---")
         retriever = self._create_retriever(state.get("chapter"))
         prompt = ChatPromptTemplate.from_template(read_txt(RAG_TEMPLATE))
