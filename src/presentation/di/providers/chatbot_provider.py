@@ -1,6 +1,6 @@
 from dishka import Provider, provide, Scope
 
-from src.dio_ai.agent import Agent
+from src.dio_ai_agent.agent import Agent
 from src.database.crud import DialogCRUD
 from src.repository import DialogRepository
 from src.core.use_cases import ChatBotUseCase

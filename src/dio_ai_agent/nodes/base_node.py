@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.dio_ai.state import GraphState
+from src.dio_ai_agent.state import GraphState
 
 
 class BaseNode(ABC):

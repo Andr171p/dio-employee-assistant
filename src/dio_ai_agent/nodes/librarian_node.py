@@ -5,10 +5,10 @@ from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.language_models import BaseChatModel, LLM
 
 from src.config import BASE_DIR
-from src.dio_ai.state import GraphState
+from src.dio_ai_agent.state import GraphState
 from src.misc.file_readers import read_txt
-from src.dio_ai.nodes.base_node import BaseNode
-from src.dio_ai.format_instructions import CurrentChapter
+from src.dio_ai_agent.nodes.base_node import BaseNode
+from src.dio_ai_agent.format_instructions import CurrentChapter
 
 
 LIBRARIAN_TEMPLATE = BASE_DIR / "prompts" / "dio" / "Библиотекарь.txt"

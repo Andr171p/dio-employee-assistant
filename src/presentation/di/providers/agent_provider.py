@@ -5,8 +5,8 @@ from langchain_core.embeddings import Embeddings
 from langchain_community.llms.yandex import YandexGPT
 # from langchain_core.language_models import BaseChatModel, LLM
 
-from src.dio_ai.agent import Agent
-from src.dio_ai.nodes import LibrarianNode, RAGNode
+from src.dio_ai_agent.agent import Agent
+from src.dio_ai_agent.nodes import LibrarianNode, RAGNode
 
 
 class AgentProvider(Provider):

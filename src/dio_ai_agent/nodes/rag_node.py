@@ -13,11 +13,11 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.language_models import BaseChatModel, LLM
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 
-from src.dio_ai.state import GraphState
+from src.dio_ai_agent.state import GraphState
 from src.config import BASE_DIR, settings
 from src.misc.file_readers import read_txt
 from src.utils.documents import format_docs
-from src.dio_ai.nodes.base_node import BaseNode
+from src.dio_ai_agent.nodes.base_node import BaseNode
 
 
 RAG_TEMPLATE = BASE_DIR / "prompts" / "rag" / "ДИО_Консалт_сотрудник.txt"

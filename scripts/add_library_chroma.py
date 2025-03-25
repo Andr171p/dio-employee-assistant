@@ -12,8 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CHROMA_DIR = BASE_DIR / "chroma"
 
 client = chromadb.PersistentClient(path=str(CHROMA_DIR))
-client.delete_collection("products-1c")
-client.delete_collection("beginners")
+try:
+    client.delete_collection("products-1c")
+    client.delete_collection("beginners")
+except Exception as ex:
+    print(ex)
 
 LIBRARY_DIR = BASE_DIR / "documents_library"
 
