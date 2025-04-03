@@ -5,5 +5,5 @@ from abc import ABC, abstractmethod
 
 class BaseAIAssistant(ABC):
     @abstractmethod
-    async def generate(self, query: str) -> Union[dict, str]:
+    async def generate(self, user_question: str) -> Union[dict, str]:
         raise NotImplementedError

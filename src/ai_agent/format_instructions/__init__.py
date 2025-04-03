@@ -1,5 +1,5 @@
 __all__ = (
-    "LetterCritique"
+    "CurrentChapter"
 )
 
-from src.ai_agent.format_instructions.letter_critique import LetterCritique
+from src.ai_agent.format_instructions.current_chapter import CurrentChapter

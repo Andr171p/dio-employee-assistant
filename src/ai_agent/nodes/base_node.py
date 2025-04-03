@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
-from src.ai_agent.states import ReasoningState
+from src.ai_agent.state import State
 
 
 class BaseNode(ABC):
     @abstractmethod
-    async def execute(self, state: ReasoningState) -> dict:
-        raise NotImplementedError
+    async def execute(self, state: State) -> dict:
+        raise NotImplemented
 
-    async def __call__(self, state: ReasoningState) -> dict:
+    async def __call__(self, state: State) -> dict:
         return await self.execute(state)

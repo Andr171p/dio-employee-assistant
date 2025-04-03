@@ -1,11 +1,11 @@
 from langgraph.graph import START, StateGraph, END
 
-from src.dio_ai_agent.state import State
+from src.ai_agent.state import State
 from src.core.base import BaseAIAssistant
-from src.dio_ai_agent.nodes import LibrarianNode, RAGNode
+from src.ai_agent.nodes import LibrarianNode, RAGNode
 
 
-class DIOAIAgent(BaseAIAssistant):
+class DIOAgent(BaseAIAssistant):
     def __init__(self, librarian_node: LibrarianNode, rag_node: RAGNode) -> None:
         graph = StateGraph(State)
 
