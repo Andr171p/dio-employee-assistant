@@ -5,11 +5,12 @@ from langchain_core.embeddings import Embeddings
 from langchain_community.llms.yandex import YandexGPT
 # from langchain_core.language_models import BaseChatModel, LLM
 
-from src.ai_agent import DIOAgent
+from src.ai_agent import DIOAIAgent
+from src.core.base import BaseAIAssistant
 from src.ai_agent.nodes import LibrarianNode, RAGNode
 
 
-class AgentProvider(Provider):
+class AIAgentProvider(Provider):
     @provide(scope=Scope.APP)
     def get_librarian_node(self, model: GigaChat) -> LibrarianNode:
         return LibrarianNode(model)
@@ -23,9 +24,9 @@ class AgentProvider(Provider):
         return RAGNode(embeddings, model)
 
     @provide(scope=Scope.APP)
-    def get_agent(
+    def get_ai_agent(
             self,
             librarian_node: LibrarianNode,
             rag_node: RAGNode
-    ) -> DIOAgent:
-        return DIOAgent(librarian_node, rag_node)
+    ) -> BaseAIAssistant:
+        return DIOAIAgent(librarian_node, rag_node)

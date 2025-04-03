@@ -11,6 +11,6 @@ class ChatBotController:
     async def answer(self, message: Message) -> None:
         await message.bot.send_chat_action(message.chat.id, action="typing")
         user_id = message.from_user.id
-        user_message = message.text
-        chatbot_message: str = await self._chatbot_use_case.answer(user_message, user_id=user_id)
-        await ChatBotPresenter(message).present(chatbot_message)
+        user_question = message.text
+        chatbot_answer = await self._chatbot_use_case.answer(user_question, user_id=user_id)
+        await ChatBotPresenter(message).present(chatbot_answer)

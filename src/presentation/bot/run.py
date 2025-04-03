@@ -1,6 +1,6 @@
 from aiogram import Bot
 
-from src.presentation.di import container
+from src.di import container
 from src.presentation.bot.dp import create_dp
 
 

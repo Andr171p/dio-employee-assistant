@@ -1,22 +1,20 @@
 from dishka import make_async_container
 
-from src.presentation.di.providers import (
+from src.di.providers import (
     BotProvider,
     UsersProvider,
-    AgentProvider,
+    AIAgentProvider,
     ChatBotProvider,
     DatabaseProvider,
-    LangchainProvider,
-    LettersAssistantProvider
+    LangchainProvider
 )
 
 
 container = make_async_container(
     BotProvider(),
     UsersProvider(),
-    AgentProvider(),
+    AIAgentProvider(),
     ChatBotProvider(),
     DatabaseProvider(),
-    LangchainProvider(),
-    LettersAssistantProvider()
+    LangchainProvider()
 )

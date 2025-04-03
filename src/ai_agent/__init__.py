@@ -1,5 +1,5 @@
 __all__ = (
-    "DIOAgent"
+    "DIOAIAgent"
 )
 
-from src.ai_agent.agent import DIOAgent
+from src.ai_agent.dio_ai_agent import DIOAIAgent

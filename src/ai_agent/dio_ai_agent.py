@@ -5,7 +5,7 @@ from src.core.base import BaseAIAssistant
 from src.ai_agent.nodes import LibrarianNode, RAGNode
 
 
-class DIOAgent(BaseAIAssistant):
+class DIOAIAgent(BaseAIAssistant):
     def __init__(self, librarian_node: LibrarianNode, rag_node: RAGNode) -> None:
         graph = StateGraph(State)
 

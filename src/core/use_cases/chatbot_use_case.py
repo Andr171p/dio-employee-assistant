@@ -2,7 +2,7 @@ from typing import Optional
 
 from src.core.base import BaseAIAssistant
 from src.repository import DialogRepository
-from src.decorators import chat_history_saver
+from src.handlers import chat_history_saver
 
 
 class ChatBotUseCase:
@@ -15,5 +15,5 @@ class ChatBotUseCase:
         self._dialog_repository = dialog_repository
 
     @chat_history_saver
-    async def answer(self, question: str, **kwargs) -> str:
-        return await self._ai_assistant.generate(question)
+    async def answer(self, user_question: str, **kwargs) -> str:
+        return await self._ai_assistant.generate(user_question)

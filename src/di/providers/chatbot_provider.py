@@ -1,7 +1,7 @@
 from dishka import Provider, provide, Scope
 
-from src.ai_agent import DIOAgent
 from src.database.crud import DialogCRUD
+from src.core.base import BaseAIAssistant
 from src.repository import DialogRepository
 from src.core.use_cases import ChatBotUseCase
 from src.controllers import ChatBotController
@@ -15,10 +15,10 @@ class ChatBotProvider(Provider):
     @provide(scope=Scope.APP)
     def get_chatbot_use_case(
             self,
-            ai_agent: DIOAgent,
+            ai_assistant: BaseAIAssistant,
             dialog_repository: DialogRepository
     ) -> ChatBotUseCase:
-        return ChatBotUseCase(ai_agent, dialog_repository)
+        return ChatBotUseCase(ai_assistant, dialog_repository)
 
     @provide(scope=Scope.APP)
     def get_chatbot_controller(self, chatbot: ChatBotUseCase) -> ChatBotController:
