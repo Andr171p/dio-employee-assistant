@@ -25,3 +25,5 @@ requests~=2.32.3
 bs4~=0.0.2
 beautifulsoup4~=4.13.3
 aiofiles~=24.1.0
+typing_extensions~=4.12.2
+docx2md~=1.0.3
