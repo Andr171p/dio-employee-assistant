@@ -3,8 +3,8 @@ import asyncio
 
 from aiogram import Bot
 
-from src.container import container
-from src.bot.dispatcher import create_dispatcher
+from src.employee_assistant.container import container
+from src.employee_assistant.bot.dispatcher import create_dispatcher
 
 
 async def main() -> None:
