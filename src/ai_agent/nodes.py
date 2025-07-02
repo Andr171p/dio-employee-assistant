@@ -29,9 +29,8 @@ class SummarizeNode(BaseNode):
     async def __call__(self, state: AgentState) -> Result:
         self.logger.info("---SUMMARIZE---")
         messages = state["messages"]
-        formatted_messages = format_messages(messages)
         question = messages[-1].content
-        summary = await self.llm_chain.ainvoke({"messages": formatted_messages})
+        summary = await self.llm_chain.ainvoke({"messages": format_messages(messages)})
         question_with_summary = f"{summary}\n\n{question}"
         return {"question": question_with_summary}
 

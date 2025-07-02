@@ -1,13 +1,19 @@
 import logging
 import asyncio
 
-from src.presentation import run_bot
+from aiogram import Bot
+
+from src.container import container
+from src.bot.dispatcher import create_dispatcher
 
 
 async def main() -> None:
-    logging.basicConfig(level=logging.INFO)
-    await run_bot()
+    bot = await container.get(Bot)
+    dp = create_dispatcher()
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
