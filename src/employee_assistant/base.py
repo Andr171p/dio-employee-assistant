@@ -1,6 +1,7 @@
 from typing import Optional
 
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 from .schemas import BaseMessage
 
@@ -16,3 +17,12 @@ class MessageRepository(ABC):
 
     @abstractmethod
     async def update(self, id: int, **kwargs) -> Optional[BaseMessage]: pass
+
+
+class DocumentLoadingError(Exception):
+    pass
+
+
+class Document2MarkdownLoader(ABC):
+    @abstractmethod
+    def load(self, file_path: Path | str, **kwargs) -> str: pass

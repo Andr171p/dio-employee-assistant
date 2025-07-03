@@ -101,6 +101,7 @@ class AppProvider(Provider):
         return GigaChat(
             credentials=config.giga_chat.API_KEY,
             scope=config.giga_chat.SCOPE,
+            model=config.giga_chat.MODEL_NAME,
             profanity_check=False,
             verify_ssl_certs=False
         )
@@ -120,7 +121,11 @@ class AppProvider(Provider):
             model: BaseChatModel,
             checkpointer: BaseCheckpointSaver
     ) -> AIAgent:
-        return RAGAgent(retriever, model, checkpointer)
+        return RAGAgent(
+            retriever=retriever,
+            model=model,
+            checkpointer=checkpointer
+        )
 
 
 settings = Settings()

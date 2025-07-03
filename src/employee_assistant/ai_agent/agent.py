@@ -6,20 +6,20 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_core.language_models import BaseChatModel
 from langchain_core.runnables.config import RunnableConfig
 
-from .states import AgentState
+from .states import RAGState
 from .nodes import SummarizeNode, RetrieveNode, GenerateNode
 
 from ..base import AIAgent
 
 
-def create_workflow(
+def create_rag_workflow(
         summarize: SummarizeNode,
         retrieve: RetrieveNode,
         generate: GenerateNode,
         checkpointer: ...
 ) -> CompiledStateGraph:
     workflow = (
-        StateGraph(AgentState)
+        StateGraph(RAGState)
         .add_node("summarize", summarize)
         .add_node("retrieve", retrieve)
         .add_node("generate", generate)
@@ -38,7 +38,7 @@ class RAGAgent(AIAgent):
             model: BaseChatModel,
             checkpointer: BaseCheckpointSaver
     ) -> None:
-        self.graph = create_workflow(
+        self.graph = create_rag_workflow(
             summarize=SummarizeNode(model),
             retrieve=RetrieveNode(retriever),
             generate=GenerateNode(model),

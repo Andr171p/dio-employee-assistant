@@ -9,7 +9,7 @@ from langgraph.types import Command
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.language_models import BaseChatModel
 
-from .states import AgentState
+from .states import RAGState
 from .utils import create_llm_chain, format_messages, format_documents
 from .templates import SUMMARIZATION_TEMPLATE, GENERATION_TEMPLATE
 
@@ -26,7 +26,7 @@ class SummarizeNode(BaseNode):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.llm_chain = create_llm_chain(SUMMARIZATION_TEMPLATE, model)
 
-    async def __call__(self, state: AgentState) -> Result:
+    async def __call__(self, state: RAGState) -> Result:
         self.logger.info("---SUMMARIZE---")
         messages = state["messages"]
         question = messages[-1].content
@@ -40,7 +40,7 @@ class RetrieveNode(BaseNode):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.retriever = retriever
 
-    async def __call__(self, state: AgentState) -> Result:
+    async def __call__(self, state: RAGState) -> Result:
         self.logger.info("---RETRIEVE---")
         documents = await self.retriever.ainvoke(state["question"])
         return {"documents": documents}
@@ -51,7 +51,7 @@ class GenerateNode(BaseNode):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.llm_chain = create_llm_chain(GENERATION_TEMPLATE, model)
 
-    async def __call__(self, state: AgentState) -> Result:
+    async def __call__(self, state: RAGState) -> Result:
         self.logger.info("---GENERATE---")
         message = await self.llm_chain.ainvoke({
             "question": state["question"],

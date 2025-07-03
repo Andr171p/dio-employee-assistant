@@ -6,7 +6,7 @@ authors = ["AndreyKosov <andrey.kosov.05@inbox.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.14"
 fastapi = {extras = ["all"], version = "^0.115.11"}
 dishka = "^1.4.2"
 pandas = "^2.2.3"
@@ -36,6 +36,9 @@ pillow = "^11.1.0"
 langgraph-checkpoint = "^2.1.0"
 docx2md = "^1.0.3"
 pymupdf4llm = "^0.0.25"
+spacy = "^3.8.7"
+pptx2md = "^2.0.6"
+markitdown = {extras = ["all"], version = "^0.1.2"}
 
 
 [build-system]
