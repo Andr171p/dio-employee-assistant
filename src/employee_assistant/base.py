@@ -3,7 +3,7 @@ from typing import Optional
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from .schemas import BaseMessage
+from .schemas import BaseMessage, MarkdownDocument
 
 
 class AIAgent(ABC):
@@ -19,10 +19,10 @@ class MessageRepository(ABC):
     async def update(self, id: int, **kwargs) -> Optional[BaseMessage]: pass
 
 
-class DocumentLoadingError(Exception):
+class LoadFileError(Exception):
     pass
 
 
 class Document2MarkdownLoader(ABC):
     @abstractmethod
-    def load(self, file_path: Path | str, **kwargs) -> str: pass
+    def load(self, file_path: Path | str, **kwargs) -> MarkdownDocument: pass

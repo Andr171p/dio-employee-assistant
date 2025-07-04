@@ -40,6 +40,9 @@ spacy = "^3.8.7"
 pptx2md = "^2.0.6"
 markitdown = {extras = ["all"], version = "^0.1.2"}
 docx2txt = "^0.9"
+langchain-upstage = "^0.6.0"
+docx = "^0.2.4"
+python-docx = "^1.2.0"
 
 
 [build-system]
