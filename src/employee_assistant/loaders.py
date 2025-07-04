@@ -14,8 +14,7 @@ class Docx2MarkdownLoader(Document2MarkdownLoader):
             docx = DocxFile(str(file_path))
             media = DocxMedia(docx)
             converter = Converter(docx.document(), media, use_md_table)
-            md_text = converter.convert()
-            return md_text
+            return converter.convert()
         except DocxFileError as e:
             raise DocumentLoadingError(f"Error while loading document: {e}") from e
 
@@ -23,8 +22,7 @@ class Docx2MarkdownLoader(Document2MarkdownLoader):
 class PDF2MarkdownLoader(Document2MarkdownLoader):
     def load(self, file_path: Path | str, **kwargs) -> str:
         try:
-            md_text = pymupdf4llm.to_markdown(str(file_path))
-            return md_text
+            return pymupdf4llm.to_markdown(str(file_path))
         except Exception as e:
             raise DocumentLoadingError(f"Error while loading document: {e}") from e
 

@@ -47,16 +47,16 @@ class AppProvider(Provider):
     @provide(scope=Scope.APP)
     def get_embeddings(self, config: Settings) -> Embeddings:
         return HuggingFaceEmbeddings(
-            model_name=config.embeddings.model_name,
-            model_kwargs=config.embeddings.model_kwargs,
-            encode_kwargs=config.embeddings.encode_kwargs,
+            model_name=config.embeddings.MODEL_NAME,
+            model_kwargs=config.embeddings.MODEL_KWARGS,
+            encode_kwargs=config.embeddings.ENCODE_KWARGS,
         )
 
     @provide(scope=Scope.APP)
     def get_elastic(self, config: Settings) -> Elasticsearch:
         return Elasticsearch(
-            hosts=config.elastic.elastic_url,
-            basic_auth=(config.elastic.ELASTIC_USER, config.elastic.ELASTIC_PASSWORD),
+            hosts=config.elasticsearch.elastic_url,
+            basic_auth=(config.elasticsearch.ELASTIC_USER, config.elasticsearch.ELASTIC_PASSWORD),
             verify_certs=False
         )
 

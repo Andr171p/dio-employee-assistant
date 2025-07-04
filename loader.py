@@ -1,9 +1,11 @@
-import markitdown
+import docx2txt
 
-file_path = r"C:\Users\andre\IdeaProjects\DIORag\knowledge_base\Презентации\навыки_деловой_переписки.pptx"
 
-md = markitdown.MarkItDown()
+docx_path = r"C:\Users\andre\IdeaProjects\DIORag\knowledge_base\Инструкции\ИНСТРУКЦИЯ_1С_УФФ_АРМ_Специалиста.docx"
+output_image_directory = "extracted_images/"
 
-md_text = md.convert(file_path)
+# Extract text and save images
+text = docx2txt.process(docx_path, output_image_directory)
 
-print(md_text.text_content)
+print(f"Text extracted: {text[:200]}...") # Print first 200 characters of extracted text
+print(f"Images saved to: {output_image_directory}")

@@ -1108,6 +1108,17 @@ Pillow = "*"
 dev = ["build", "twine"]
 
 [[package]]
+name = "docx2txt"
+version = "0.9"
+description = "A pure python-based utility to extract text and images from docx files."
+optional = false
+python-versions = "*"
+files = [
+    {file = "docx2txt-0.9-py3-none-any.whl", hash = "sha256:e3718c0653fd6f2fcf4b51b02a61452ad1c38a4c163bcf0a6fd9486cd38f529a"},
+    {file = "docx2txt-0.9.tar.gz", hash = "sha256:18013f6229b14909028b19aa7bf4f8f3d6e4632d7b089ab29f7f0a4d1f660e28"},
+]
+
+[[package]]
 name = "duckduckgo-search"
 version = "7.5.2"
 description = "Search for words, documents, images, news, maps and text translation using the DuckDuckGo.com search engine."
@@ -7550,4 +7561,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.14"
-content-hash = "970c101589785c72b664b87a961dd77e51258d9dbd1b94c70403f3438bd20dd3"
+content-hash = "c803c196bd665a66361a11e81c0f2093ed62e1b6824bad35e9bcd13db3a84420"

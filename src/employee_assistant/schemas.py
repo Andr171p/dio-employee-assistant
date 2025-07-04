@@ -1,9 +1,8 @@
 from typing import Optional
 
 from enum import StrEnum
-from datetime import datetime
 
-from pydantic import BaseModel, field_validator, FilePath
+from pydantic import BaseModel, field_validator
 
 
 class Role(StrEnum):
@@ -32,12 +31,3 @@ class BaseMessage(BaseModel):
     @field_validator("chat_id")
     def validate_chat_id(cls, chat_id: str | int) -> str:
         return str(chat_id)
-
-
-class FileMetadata(BaseModel):
-    file_name: str
-    path: FilePath
-    format: str
-    size: float
-    type: FileType
-    date: datetime

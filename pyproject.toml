@@ -39,6 +39,7 @@ pymupdf4llm = "^0.0.25"
 spacy = "^3.8.7"
 pptx2md = "^2.0.6"
 markitdown = {extras = ["all"], version = "^0.1.2"}
+docx2txt = "^0.9"
 
 
 [build-system]

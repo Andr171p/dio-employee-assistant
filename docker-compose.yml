@@ -10,8 +10,8 @@ services:
       - .docker/configs/elasticsearch/config.yml:/usr/share/elasticsearch/docker/config/elasticsearch.yml:ro
       - elastic-data:/usr/share/elasticsearch/data
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "9201:9200"
+      - "9301:9300"
   redis:
     image: redis:alpine
     container_name: redis_container
