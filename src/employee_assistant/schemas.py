@@ -15,11 +15,6 @@ class Grade(StrEnum):
     DISLIKE = "dislike"
 
 
-class FileType(StrEnum):
-    IMAGE = "image"
-    DOCUMENT = "document"
-
-
 class BaseMessage(BaseModel):
     id: int
     role: Role
