@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pymupdf4llm
 from markitdown import MarkItDown, FileConversionException
-from docx2md import DocxFile, DocxMedia, Converter, DocxFileError
+from src.employee_assistant.document_loaders.docx2markdown import DocxFile, DocxMedia, Converter, DocxFileError
 
 from .base import Document2MarkdownLoader, DocumentLoadingError
 
