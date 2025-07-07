@@ -78,7 +78,8 @@ class Docx2MdLoader(Base2MdLoader):
                 if not srcs:
                     continue
                 in_text_images = [image for image in images if image["src"] in srcs]
-                metadata = {**document.metadata.pop("images"), "images": in_text_images}
+                metadata = document.metadata
+                metadata["images"] = in_text_images
                 chunks.append(Document(page_content=text, metadata=metadata))
         return chunks
 
