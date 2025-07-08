@@ -33,7 +33,7 @@ from src.employee_assistant.ai_agent.utils import chat
 
 async def main() -> None:
     thread_id = str(uuid4())
-    question = "Какие есть вкладки в АРМ специалиста?"
+    question = "На какую кнопку нужно нажать чтобы создать задание и где она находится?"
 
     agent = await container.get(CompiledGraph)
 

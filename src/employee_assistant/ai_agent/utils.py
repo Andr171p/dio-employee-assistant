@@ -65,11 +65,13 @@ def create_structured_output_llm_chain(
     )
 
 
-def _get_messages_from_files(files: list[str]) -> dict[str, list[HumanMessage]]:
+def _get_messages_from_files(inputs: MultimodalInputs) -> dict[str, list[HumanMessage]]:
     return {
+        "question": inputs["question"],
+        "context": inputs["context"],
         "files": [
             HumanMessage(content="", additional_kwargs={"attachments": [file]})
-            for file in files
+            for file in inputs["files"]
         ]
     }
 
