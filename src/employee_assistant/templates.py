@@ -1,5 +1,5 @@
 
-TITLE_EXTRACTION_TEMPLATE = """
+TITLE_GENERATION_TEMPLATE = """
 Проанализируйте предоставленный текст и определите наиболее подходящий заголовок, который точно отражает его основное содержание.
 Текст: {text}
 
@@ -27,7 +27,7 @@ KEYWORDS_EXTRACTION_TEMPLATE = """
 {format_instructions}
 """
 
-CHUNK_SUMMARIZATION_TEMPLATE = """
+SUMMARIZATION_TEMPLATE = """
 Создайте краткое содержание предоставленного текста, сохраняя ключевые идеи и важные детали.
 Текст: {text}
 

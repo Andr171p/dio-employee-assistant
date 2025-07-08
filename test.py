@@ -1,72 +1,32 @@
-from docx import Document as DOCXDocument
-import base64
+import asyncio
 
-from docx2md import DocxFile, DocxMedia, Converter
+from langchain_core.language_models import BaseChatModel
 
-from src.employee_assistant.base import LoadFileError
-from src.employee_assistant.schemas import MarkdownDocument, ImageMetadata
-from src.employee_assistant.utils import get_file_extension, get_file_size_by_base64
+from src.employee_assistant.container import container
+from src.employee_assistant.document_loaders import Docx2MdLoader
+from src.employee_assistant.splitters.enriched import EnrichedMarkdownTextSplitter
 
-file_path = r"C:\Users\andre\IdeaProjects\DIORag\knowledge_base\Инструкции\ИНСТРУКЦИЯ_по_заполнению_в_1С_УФФ_документа_Задание_сотруднику_29.docx"
+file_path = r"C:\Users\andre\IdeaProjects\DIORag\knowledge_base\Инструкции\ИНСТРУКЦИЯ_1С_УФФ_АРМ_Специалиста.docx"
 
+loader = Docx2MdLoader(docx_path=file_path, use_md_table=True, include_images=True)
 
-def extract_images(file_path: str) -> ...:
-    document = DOCXDocument(file_path)
-    # images: list[str] = []
-    images: dict[str, str] = {}
-    id = 0
-    for rel_value in document.part.rels.values():
-        if "image" in rel_value.target_ref:
-            image_data = rel_value.target_part.blob
-            image_base64 = base64.b64encode(image_data).decode("utf-8")
-            # images.append(image_base64)
-            id += 1
-            images[f"image{id}"] = image_base64
-    return images
+NER_MODEL_NAME = "ru_core_news_md"
 
 
-imgs = extract_images(file_path)
+async def main() -> None:
+    llm = await container.get(BaseChatModel)
+    splitter = EnrichedMarkdownTextSplitter(
+        chunk_size=500,
+        chunk_overlap=20,
+        length_function=len,
+        header_to_split_on=[("#", "Header1"),],
+        llm=llm,
+        use_llm_for_ner=False,
+        ner_model=NER_MODEL_NAME
+    )
+    docs = loader.load_and_split(splitter)
+    print(docs[4])
+    print(docs[4].metadata)
 
-print(imgs.keys())
 
-
-class DOCX2MarkdownLoader:
-    def __init__(self, file_path: str, **kwargs) -> None:
-        self.file_path = file_path
-        self.use_md_table: bool = kwargs.get("use_md_table", False)
-
-    def load(self) -> MarkdownDocument:
-        try:
-            images = self._extract_images()
-            docx = DocxFile(str(file_path))
-            media = DocxMedia(docx)
-            converter = Converter(docx.document(), media, self.use_md_table)
-            md_text = converter.convert()
-            return MarkdownDocument(
-                source=file_path.split("/")[-1],
-                content=md_text,
-                additional_files=images
-            )
-        except Exception as e:
-            raise LoadFileError(f"Error while loading document: {e}") from e
-
-    def _extract_images(self) -> list[ImageMetadata]:
-        document = DOCXDocument(self.file_path)
-        images: list[ImageMetadata] = []
-        id = 0
-        for _, rel in document.part.rels.items():
-            if "image" not in rel.target_ref:
-                continue
-            image_src = rel.target_ref.split("/")[-1]
-            image_data = rel.target_part.blob
-            image_base64 = base64.b64encode(image_data).decode("utf-8")
-            id += 1
-            image = ImageMetadata(
-                file_path=image_src,
-                format=get_file_extension(image_src),
-                size_mb=get_file_size_by_base64(image_base64),
-                file_base64=image_base64,
-                image_id=f"image{id}"
-            )
-            images.append(image)
-        return images
+asyncio.run(main())
