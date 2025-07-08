@@ -57,7 +57,11 @@ class GenerateNode:
 class MultimodalGenerateNode:
     def __init__(self, model: GigaChat) -> None:
         self.model = model
-        self.llm_chain = create_multimodal_llm_chain(MULTIMODAL_GENERATION_PROMPT, self.model)
+        self.llm_chain = create_multimodal_llm_chain(
+            system_message=MULTIMODAL_GENERATION_PROMPT,
+            prompt_template="Вопрос: {question}\n\nИнформация из контекста: {context}",
+            model=model
+        )
 
     async def __call__(self, state: GraphState) -> dict[str, list[BaseMessage | dict[str, str]]]:
         logger.info("---MULTIMODAL GENERATE---")
@@ -71,14 +75,22 @@ class MultimodalGenerateNode:
                 str_base64 = image["str_base64"]
                 data = base64.b64decode(str_base64.strip())
                 image = Image.open(BytesIO(data))
+                if image.mode == "RGBA":
+                    image = image.convert("RGB")
                 buffer = BytesIO()
                 image.save(buffer, format="JPEG")
                 buffer.seek(0)
-                uploaded_file = await self.model.aupload_file(buffer)
+
+                class NamedBytesIO(BytesIO):
+                    name = "image.jpg"  # Это заставит GigaChat распознать тип
+
+                named_buffer = NamedBytesIO(buffer.getvalue())
+
+                uploaded_file = await self.model.aupload_file(named_buffer)
                 files.append(uploaded_file.id_)
         message = await self.llm_chain.ainvoke({
             "question": state["question"],
             "context": format_documents(documents),
-            "history": files
+            "files": files
         })
         return {"messages": [{"role": "ai", "content": message}]}
