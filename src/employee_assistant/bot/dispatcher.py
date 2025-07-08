@@ -5,7 +5,7 @@ from dishka.integrations.aiogram import setup_dishka
 
 from .handlers import router
 
-from ..container import container
+from ..dependencies import container
 
 
 def create_dispatcher() -> Dispatcher:

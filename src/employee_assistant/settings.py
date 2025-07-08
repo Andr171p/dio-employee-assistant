@@ -70,6 +70,7 @@ class Settings(BaseSettings):
     bot: BotSettings = BotSettings()
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
     elasticsearch: ElasticSettings = ElasticSettings()
+    redis: RedisSettings = RedisSettings()
     giga_chat: GigaChatSettings = GigaChatSettings()
     yandex_gpt: YandexGPTSettings = YandexGPTSettings()
     postgres: PostgresSettings = PostgresSettings()

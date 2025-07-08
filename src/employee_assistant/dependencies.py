@@ -25,16 +25,21 @@ from langchain_elasticsearch.vectorstores import ElasticsearchStore
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
-from langgraph.graph.state import CompiledStateGraph
+from langgraph.graph.state import CompiledGraph
 
 from .redis.async_saver import AsyncRedisCheckpointSaver
 from .database.base import create_sessionmaker
 
-from .ai_agent.workflow import build_rag
-from .ai_agent.nodes import SummarizeNode, RetrieveNode, MultimodalGenerateNode
+from .ai_agent.workflow import build_graph
+from .ai_agent.nodes import SummarizeNode, RetrieveNode, GenerateNode, MultimodalGenerateNode
 
 from .settings import Settings
-from .constants import VECTOR_STORE_INDEX, BM25_INDEX, SIMILARITY_WEIGHT, BM25_WEIGHT
+from .constants import (
+    VECTOR_STORE_INDEX,
+    BM25_INDEX,
+    VECTOR_STORE_RETRIEVER_WEIGHT,
+    BM25_RETRIEVER_WEIGHT
+)
 
 
 class AppProvider(Provider):
@@ -103,7 +108,7 @@ class AppProvider(Provider):
     ) -> BaseRetriever:
         return EnsembleRetriever(
             retrievers=[vector_store_retriever, bm25_retriever],
-            weights=[SIMILARITY_WEIGHT, BM25_WEIGHT]
+            weights=[VECTOR_STORE_RETRIEVER_WEIGHT, BM25_RETRIEVER_WEIGHT]
         )
 
     @provide(scope=Scope.APP)
@@ -121,16 +126,17 @@ class AppProvider(Provider):
         return AsyncRedisCheckpointSaver(redis)
 
     @provide(scope=Scope.APP)
-    def get_rag(
+    def get_agent(
             self,
             retriever: BaseRetriever,
             model: GigaChat,
             checkpointer: BaseCheckpointSaver
-    ) -> CompiledStateGraph:
-        return build_rag(
-            summarize=SummarizeNode(model),
-            retrieve=RetrieveNode(retriever),
-            generate=MultimodalGenerateNode(model),
+    ) -> CompiledGraph:
+        return build_graph(
+            summarize_node=SummarizeNode(model),
+            retrieve_node=RetrieveNode(retriever),
+            # generate_node=GenerateNode(model),
+            generate_node=MultimodalGenerateNode(model),
             checkpointer=checkpointer
         )
 

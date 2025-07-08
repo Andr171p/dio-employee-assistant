@@ -4,14 +4,14 @@ from aiogram.filters import CommandStart
 
 from dishka.integrations.aiogram import FromDishka as Depends
 
-from langgraph.graph.state import CompiledStateGraph
+from langgraph.graph.state import CompiledGraph
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .decorators import messages_saver
 from .keyboards import grade_kb, GradeCallback
 
-from ..ai_agent.workflow import chat
+from ..ai_agent.utils import chat
 from ..database.queries import update_message
 
 router = Router(name=__name__)
@@ -24,7 +24,7 @@ async def start(message: Message) -> None:
 
 @router.message(F.text)
 @messages_saver
-async def answer(message: Message, agent: Depends[CompiledStateGraph]) -> Message:
+async def answer(message: Message, agent: Depends[CompiledGraph]) -> Message:
     await message.bot.send_chat_action(message.chat.id, "typing")
     text = await chat(thread_id=message.from_user.id, content=message.text, agent=agent)
     return await message.answer(text=text, reply_markup=grade_kb(message_id=message.message_id))

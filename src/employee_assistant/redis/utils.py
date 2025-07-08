@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
 if TYPE_CHECKING:
-    from .dto import (
+    from .types import (
         RedisCheckpointKey,
         RedisCheckpointWritesKey
     )

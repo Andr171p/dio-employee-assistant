@@ -22,17 +22,3 @@ def get_size_by_base64(str_base64: str) -> float:
     size_bytes = (clean_length * 3) / 4
     size_mb = size_bytes / (1024 * 1024)
     return round(size_mb, 2)
-
-
-class Base2MdLoader(BaseLoader):
-    @property
-    def file_name(self) -> str:
-        raise NotImplementedError
-
-    @property
-    def file_type(self) -> str:
-        raise NotImplementedError
-
-    def _load_images(self) -> list[ImageMetadata]:
-        """Method for loading images in base64 from document."""
-        raise NotImplementedError

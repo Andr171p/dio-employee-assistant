@@ -7,7 +7,7 @@ from langchain_core.documents import Document
 from langgraph.graph.message import add_messages
 
 
-class RAGState(TypedDict):
+class GraphState(TypedDict):
     """Состояние RAG агента"""
     messages: Annotated[Sequence[BaseMessage], add_messages]  # Сообщения пользователя
     question: str                                             # Вопрос пользователя

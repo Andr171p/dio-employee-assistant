@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from dishka import Scope
 
-from ..container import container
+from ..dependencies import container
 from ..database.queries import insert_messages
 from ..schemas import BaseMessage, Role
 

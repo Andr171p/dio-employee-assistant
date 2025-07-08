@@ -8,12 +8,13 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 from langchain_core.documents import Document
+from langchain_core.document_loaders import BaseLoader
 from langchain_text_splitters import TextSplitter, RecursiveCharacterTextSplitter
 
-from .base import Base2MdLoader, ImageMetadata, get_size_by_base64
+from .base import ImageMetadata, get_size_by_base64
 
 
-class Docx2MdLoader(Base2MdLoader):
+class Docx2MdLoader(BaseLoader):
     """Loader for DOCX files that converts them to Markdown format.
 
     Args:

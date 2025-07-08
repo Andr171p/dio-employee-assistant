@@ -7,12 +7,13 @@ from uuid import uuid4
 from pathlib import Path
 
 from langchain_core.documents import Document
+from langchain_core.document_loaders import BaseLoader
 from langchain_text_splitters import TextSplitter, RecursiveCharacterTextSplitter
 
-from .base import ImageMetadata, get_size_by_base64, Base2MdLoader
+from .base import ImageMetadata, get_size_by_base64
 
 
-class Pdf2MdLoader(Base2MdLoader):
+class Pdf2MdLoader(BaseLoader):
     """Loader for PDF files that converts them to Markdown format.
 
     Args:

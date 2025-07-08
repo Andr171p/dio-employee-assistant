@@ -64,11 +64,11 @@ class AsyncRedisCheckpointSaver(BaseCheckpointSaver):
                 await connection.aclose()
 
     async def aput(
-            self,
-            config: RunnableConfig,
-            checkpoint: Checkpoint,
-            metadata: CheckpointMetadata,
-            new_versions: ChannelVersions,
+        self,
+        config: RunnableConfig,
+        checkpoint: Checkpoint,
+        metadata: CheckpointMetadata,
+        new_versions: ChannelVersions,
     ) -> RunnableConfig:
         thread_id = config["configurable"]["thread_id"]
         checkpoint_ns = config["configurable"]["checkpoint_ns"]
@@ -87,8 +87,10 @@ class AsyncRedisCheckpointSaver(BaseCheckpointSaver):
             if parent_checkpoint_id
             else "",
         }
-
-        await self.connection.hset(key, mapping=data)
+        # await self.connection.hset(key, mapping=data)  # Solution for Redis >=4.0
+        for field, value in data.items():  # Solution for Redis <4.0
+            if value is not None:
+                await self.connection.hset(key, field, value)
         await self.connection.expire(key, TTL)
         return {
             "configurable": {
@@ -99,11 +101,11 @@ class AsyncRedisCheckpointSaver(BaseCheckpointSaver):
         }
 
     async def aput_writes(
-            self,
-            config: RunnableConfig,
-            writes: Sequence[Tuple[str, Any]],
-            task_id: str,
-            task_path: str = "",
+        self,
+        config: RunnableConfig,
+        writes: Sequence[Tuple[str, Any]],
+        task_id: str,
+        task_path: str = "",
     ) -> None:
         thread_id = config["configurable"]["thread_id"]
         checkpoint_ns = config["configurable"]["checkpoint_ns"]
@@ -152,12 +154,12 @@ class AsyncRedisCheckpointSaver(BaseCheckpointSaver):
         )
 
     async def alist(
-            self,
-            config: Optional[RunnableConfig],
-            *,
-            filter: Optional[Dict[str, Any]] = None,
-            before: Optional[RunnableConfig] = None,
-            limit: Optional[int] = None,
+        self,
+        config: Optional[RunnableConfig],
+        *,
+        filter: Optional[Dict[str, Any]] = None,
+        before: Optional[RunnableConfig] = None,
+        limit: Optional[int] = None,
     ) -> AsyncGenerator[CheckpointTuple, None]:
         thread_id = config["configurable"]["thread_id"]
         checkpoint_ns = config["configurable"].get("checkpoint_ns", "")
