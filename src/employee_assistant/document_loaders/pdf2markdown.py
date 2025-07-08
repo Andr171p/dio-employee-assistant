@@ -12,7 +12,7 @@ from langchain_text_splitters import TextSplitter, RecursiveCharacterTextSplitte
 from .base import ImageMetadata, get_size_by_base64, Base2MdLoader
 
 
-class Pdf2MarkdownLoader(Base2MdLoader):
+class Pdf2MdLoader(Base2MdLoader):
     """Loader for PDF files that converts them to Markdown format.
 
     Args:
