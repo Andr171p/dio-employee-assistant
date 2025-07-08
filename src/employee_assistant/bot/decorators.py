@@ -4,10 +4,12 @@ from functools import wraps
 
 from aiogram.types import Message
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from dishka import Scope
 
 from ..container import container
-from ..base import MessageRepository
+from ..database.queries import insert_messages
 from ..schemas import BaseMessage, Role
 
 P = ParamSpec("P")                                    # Параметры оригинальной функции
@@ -19,7 +21,7 @@ def messages_saver(handler: MessageHandler[P, R]) -> MessageHandler[P, R | None]
     @wraps(handler)
     async def wrapper(message: Message, *args, **kwargs) -> R | None:
         async with container(scope=Scope.REQUEST) as request_container:
-            message_repository = await request_container.get(MessageRepository)
+            session = await request_container.get(AsyncSession)
             user_message = BaseMessage(
                 id=message.message_id,
                 role=Role.USER,
@@ -33,6 +35,6 @@ def messages_saver(handler: MessageHandler[P, R]) -> MessageHandler[P, R | None]
                 chat_id=message.from_user.id,
                 text=msg.text
             )
-            await message_repository.bulk_create([user_message, assistant_message])
+            await insert_messages(session, [user_message, assistant_message])
         return handler
     return wrapper

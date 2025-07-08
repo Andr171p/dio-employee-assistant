@@ -4,10 +4,15 @@ from aiogram.filters import CommandStart
 
 from dishka.integrations.aiogram import FromDishka as Depends
 
+from langgraph.graph.state import CompiledStateGraph
+
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from .decorators import messages_saver
 from .keyboards import grade_kb, GradeCallback
 
-from ..base import AIAgent, MessageRepository
+from ..ai_agent.workflow import chat
+from ..database.queries import update_message
 
 router = Router(name=__name__)
 
@@ -19,9 +24,9 @@ async def start(message: Message) -> None:
 
 @router.message(F.text)
 @messages_saver
-async def answer(message: Message, ai_agent: Depends[AIAgent]) -> Message:
+async def answer(message: Message, agent: Depends[CompiledStateGraph]) -> Message:
     await message.bot.send_chat_action(message.chat.id, "typing")
-    text = await ai_agent.generate(thread_id=message.from_user.id, content=message.text)
+    text = await chat(thread_id=message.from_user.id, content=message.text, agent=agent)
     return await message.answer(text=text, reply_markup=grade_kb(message_id=message.message_id))
 
 
@@ -29,8 +34,8 @@ async def answer(message: Message, ai_agent: Depends[AIAgent]) -> Message:
 async def rate_message(
         call: CallbackQuery,
         callback_data: GradeCallback,
-        message_repository: Depends[MessageRepository]
+        session: Depends[AsyncSession]
 ) -> None:
     await call.answer()
-    await message_repository.update(callback_data.message_id, grade=callback_data.grade)
+    await update_message(session, callback_data.message_id, grade=callback_data.grade)
     await call.answer("Оценка поставлена!", show_alert=True)

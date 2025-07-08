@@ -249,6 +249,20 @@ files = [
 ]
 
 [[package]]
+name = "asynctempfile"
+version = "0.5.0"
+description = "Async version of tempfile"
+optional = false
+python-versions = "*"
+files = [
+    {file = "asynctempfile-0.5.0-py3-none-any.whl", hash = "sha256:cec59bdb71c850e3de9bb4415f88998165c364709696240eea9ec5204a7439af"},
+    {file = "asynctempfile-0.5.0.tar.gz", hash = "sha256:4a647c747357e8827397baadbdfe87f3095d30923fa789e797111eb02160884a"},
+]
+
+[package.dependencies]
+aiofiles = ">=0.6.0"
+
+[[package]]
 name = "attrs"
 version = "25.1.0"
 description = "Classes Without Boilerplate"
@@ -7867,4 +7881,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.14"
-content-hash = "7cc77f6f1e080444f298ea91db2151288ca56c996fca96c64e7910c849e88a04"
+content-hash = "6d365b877c79e87a2a146d7278f720c6a5e1158269f8733ce5a0e9a49a1c313c"

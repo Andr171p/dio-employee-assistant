@@ -1,3 +1,5 @@
+from collections.abc import AsyncIterator
+
 from dishka import Provider, provide, Scope, from_context, make_async_container
 
 from aiogram import Bot
@@ -23,14 +25,15 @@ from langchain_elasticsearch.vectorstores import ElasticsearchStore
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
+from langgraph.graph.state import CompiledStateGraph
 
 from .redis.async_saver import AsyncRedisCheckpointSaver
 from .database.base import create_sessionmaker
-from .database.repository import SQLMessageRepository
-from .ai_agent.agent import RAGAgent
+
+from .ai_agent.workflow import build_rag
+from .ai_agent.nodes import SummarizeNode, RetrieveNode, MultimodalGenerateNode
 
 from .settings import Settings
-from .base import AIAgent, MessageRepository
 from .constants import VECTOR_STORE_INDEX, BM25_INDEX, SIMILARITY_WEIGHT, BM25_WEIGHT
 
 
@@ -68,6 +71,13 @@ class AppProvider(Provider):
     def get_sessionmaker(self, config: Settings) -> async_sessionmaker[AsyncSession]:
         return create_sessionmaker(config.postgres)
 
+    @provide(scope=Scope.REQUEST)
+    async def get_session(
+            self, sessionmaker: async_sessionmaker[AsyncSession]
+    ) -> AsyncIterator[AsyncSession]:
+        async with sessionmaker() as session:
+            yield session
+
     @provide(scope=Scope.APP)
     def get_bm25_retriever(self, elasticsearch: Elasticsearch) -> ElasticSearchBM25Retriever:
         return ElasticSearchBM25Retriever(
@@ -97,7 +107,7 @@ class AppProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_model(self, config: Settings) -> BaseChatModel:
+    def get_model(self, config: Settings) -> GigaChat:
         return GigaChat(
             credentials=config.giga_chat.API_KEY,
             scope=config.giga_chat.SCOPE,
@@ -111,19 +121,16 @@ class AppProvider(Provider):
         return AsyncRedisCheckpointSaver(redis)
 
     @provide(scope=Scope.APP)
-    def get_message_repository(self, sessionmaker: async_sessionmaker[AsyncSession]) -> MessageRepository:
-        return SQLMessageRepository(sessionmaker)
-
-    @provide(scope=Scope.APP)
-    def get_ai_agent(
+    def get_rag(
             self,
             retriever: BaseRetriever,
-            model: BaseChatModel,
+            model: GigaChat,
             checkpointer: BaseCheckpointSaver
-    ) -> AIAgent:
-        return RAGAgent(
-            retriever=retriever,
-            model=model,
+    ) -> CompiledStateGraph:
+        return build_rag(
+            summarize=SummarizeNode(model),
+            retrieve=RetrieveNode(retriever),
+            generate=MultimodalGenerateNode(model),
             checkpointer=checkpointer
         )
 

@@ -3,11 +3,13 @@ from typing import Sequence
 from pydantic import BaseModel
 
 from langchain_core.documents import Document
-from langchain_core.runnables import Runnable
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import Runnable, RunnableLambda
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
+
+from langchain_gigachat import GigaChat
 
 
 def format_documents(documents: list[Document]) -> str:
@@ -40,9 +42,32 @@ def create_structured_output_llm_chain(
     """Создаёт LLM цепочку со структурным выводом."""
     parser = PydanticOutputParser(pydantic_object=output_schema)
     return (
-        ChatPromptTemplate
-        .from_messages(["system", template])
+        ChatPromptTemplate.from_messages(["system", template])
         .partial(format_instructions=parser.get_format_instructions())
         | model
         | parser
+    )
+
+
+def _get_messages_from_file(urls: list[str]) -> dict[str, list[HumanMessage]]:
+    return {
+        "history":
+            [
+                HumanMessage(content="", additional_kwargs={"attachments": [url]})
+                for url in urls
+            ]
+    }
+
+
+def create_vision_llm_chain(template: str, model: GigaChat) -> Runnable:
+    """Создаёт LLM (GigaChat) цепочку с возможностью обрабатывать изображения."""
+    return (
+        RunnableLambda(_get_messages_from_file)
+        | ChatPromptTemplate.from_messages([
+            ("system", template),
+            ("human", "Вопрос пользователя: {question}\n\nКонтекст: {context}"),
+            MessagesPlaceholder("history")
+        ])
+        | model
+        | StrOutputParser()
     )
