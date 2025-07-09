@@ -31,7 +31,7 @@ from .redis.async_saver import AsyncRedisCheckpointSaver
 from .database.base import create_sessionmaker
 
 from .ai_agent.workflow import build_graph
-from .ai_agent.nodes import SummarizeNode, RetrieveNode, GenerateNode, MultimodalGenerateNode
+from .ai_agent.nodes import SummarizeNode, RetrieveNode, GenerateNode, GigaChatGenerateNode
 
 from .settings import Settings
 from .constants import (
@@ -136,7 +136,7 @@ class AppProvider(Provider):
             summarize_node=SummarizeNode(model),
             retrieve_node=RetrieveNode(retriever),
             # generate_node=GenerateNode(model),
-            generate_node=MultimodalGenerateNode(model),
+            generate_node=GigaChatGenerateNode(model),
             checkpointer=checkpointer
         )
 

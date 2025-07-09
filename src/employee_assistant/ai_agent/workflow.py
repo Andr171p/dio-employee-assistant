@@ -5,15 +5,16 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from .states import GraphState
 from .nodes import (
     SummarizeNode,
-    RetrieveNode, GenerateNode,
-    MultimodalGenerateNode
+    RetrieveNode,
+    GenerateNode,
+    GigaChatGenerateNode
 )
 
 
 def build_graph(
         summarize_node: SummarizeNode,
         retrieve_node: RetrieveNode,
-        generate_node: GenerateNode | MultimodalGenerateNode,
+        generate_node: GenerateNode | GigaChatGenerateNode,
         checkpointer: BaseCheckpointSaver[GraphState]
 ) -> CompiledStateGraph:
     workflow = StateGraph(GraphState)

@@ -76,7 +76,7 @@ def _get_messages_from_files(inputs: MultimodalInputs) -> dict[str, list[HumanMe
     }
 
 
-def create_multimodal_llm_chain(
+def create_gigachat_llm_chain(
         system_message: str,
         prompt_template: Annotated[Optional[str], None],
         model: GigaChat

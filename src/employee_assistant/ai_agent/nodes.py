@@ -1,19 +1,17 @@
-import os
 import base64
 import logging
 from PIL import Image
 from io import BytesIO
 
 from langchain_core.documents import Document
-from langchain_core.messages import BaseMessage
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.language_models import BaseChatModel
 
 from langchain_gigachat import GigaChat
 
 from .states import GraphState
-from .utils import create_llm_chain, create_multimodal_llm_chain, format_documents, format_messages
-from .prompts import SUMMARIZATION_PROMPT, GENERATION_PROMPT, MULTIMODAL_GENERATION_PROMPT
+from .utils import create_llm_chain, create_gigachat_llm_chain, format_documents, format_messages
+from .prompts import SUMMARIZATION_PROMPT, GENERATION_PROMPT, GIGACHAT_SYSTEM_PROMPT, QA_PROMPT
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +43,7 @@ class GenerateNode:
     def __init__(self, model: BaseChatModel) -> None:
         self.llm_chain = create_llm_chain(GENERATION_PROMPT, model)
 
-    async def __call__(self, state: GraphState) -> dict[str, list[BaseMessage | dict[str, str]]]:
+    async def __call__(self, state: GraphState) -> dict[str, list[dict[str, str]]]:
         logger.info("---GENERATE---")
         message = await self.llm_chain.ainvoke({
             "question": state["question"],
@@ -54,17 +52,17 @@ class GenerateNode:
         return {"messages": [{"role": "ai", "content": message}]}
 
 
-class MultimodalGenerateNode:
+class GigaChatGenerateNode:
     def __init__(self, model: GigaChat) -> None:
         self.model = model
-        self.llm_chain = create_multimodal_llm_chain(
-            system_message=MULTIMODAL_GENERATION_PROMPT,
-            prompt_template="Вопрос: {question}\n\nИнформация из контекста: {context}",
+        self.llm_chain = create_gigachat_llm_chain(
+            system_message=GIGACHAT_SYSTEM_PROMPT,
+            prompt_template=QA_PROMPT,
             model=model
         )
 
-    async def __call__(self, state: GraphState) -> dict[str, list[BaseMessage | dict[str, str]]]:
-        logger.info("---MULTIMODAL GENERATE---")
+    async def __call__(self, state: GraphState) -> dict[str, list[dict[str, str]]]:
+        logger.info("---GENERATE---")
         documents = state["documents"]
         files: list[str] = []
         for document in documents:
@@ -72,21 +70,9 @@ class MultimodalGenerateNode:
             if not images:
                 continue
             for image in images:
-                str_base64 = image["str_base64"]
-                data = base64.b64decode(str_base64.strip())
-                image = Image.open(BytesIO(data))
-                if image.mode == "RGBA":
-                    image = image.convert("RGB")
-                buffer = BytesIO()
-                image.save(buffer, format="JPEG")
-                buffer.seek(0)
-
-                class NamedBytesIO(BytesIO):
-                    name = "image.jpg"  # Это заставит GigaChat распознать тип
-
-                named_buffer = NamedBytesIO(buffer.getvalue())
-
-                uploaded_file = await self.model.aupload_file(named_buffer)
+                str_base64, file_name = image["str_base64"], image["file_name"]
+                file_buffer = self._open_buffered_image(str_base64, file_name)
+                uploaded_file = await self.model.aupload_file(file_buffer)
                 files.append(uploaded_file.id_)
         message = await self.llm_chain.ainvoke({
             "question": state["question"],
@@ -94,3 +80,15 @@ class MultimodalGenerateNode:
             "files": files
         })
         return {"messages": [{"role": "ai", "content": message}]}
+
+    @staticmethod
+    def _open_buffered_image(base64_str: str, file_name: str) -> BytesIO:
+        data = base64.b64decode(base64_str.strip())
+        image = Image.open(BytesIO(data))
+        if image.mode == "RGBA":
+            image = image.convert("RGB")
+        buffer = BytesIO()
+        image.save(buffer, format="JPEG")
+        buffer.seek(0)
+        buffer.name = file_name
+        return buffer
