@@ -17,7 +17,7 @@ from langchain.retrievers import EnsembleRetriever
 from langchain_core.embeddings import Embeddings
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.vectorstores import VectorStore
-from langchain_core.language_models import BaseChatModel
+# from langchain_core.language_models import BaseChatModel
 from langchain_core.vectorstores import VectorStoreRetriever
 
 from langchain_gigachat import GigaChat
@@ -63,6 +63,7 @@ class AppProvider(Provider):
 
     @provide(scope=Scope.APP)
     def get_elastic(self, config: Settings) -> Elasticsearch:
+        print(config.elasticsearch.elastic_url)
         return Elasticsearch(
             hosts=config.elasticsearch.elastic_url,
             basic_auth=(config.elasticsearch.ELASTIC_USER, config.elasticsearch.ELASTIC_PASSWORD),
