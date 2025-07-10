@@ -39,7 +39,7 @@ services:
     build: .
     restart: unless-stopped
     volumes:
-      - .:/discount_bot
+      - .:/dio_employee_assistant_bot
     depends_on:
       - postgres
 
