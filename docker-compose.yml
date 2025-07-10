@@ -12,8 +12,12 @@ services:
     ports:
       - "9201:9200"
       - "9301:9300"
-    networks:
-      - elastic-net
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -s -u elastic:password http://localhost:9200/_cluster/health | grep -q '\"status\":\"yellow\"'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   redis:
     image: redis:alpine
@@ -44,15 +48,13 @@ services:
     volumes:
       - .:/dio_employee_assistant_bot
     depends_on:
-      - postgres
-      - elastic
-      - redis
-    networks:
-      - elastic-net
+      postgres:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
-networks:
-  elastic-net:
-    driver: bridge
 
 volumes:
   elastic-data:
