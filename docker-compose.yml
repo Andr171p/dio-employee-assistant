@@ -22,5 +22,22 @@ services:
     command: redis-server --appendonly yes
     restart: always
 
+  postgres:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5401:5432"
+
+  bot:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - .:/discount_bot
+    depends_on:
+      - postgres
+
 volumes:
   elastic-data:
+  postgres_data:
