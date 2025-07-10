@@ -91,11 +91,11 @@ class AppProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_vector_store_retriever(self, embeddings: Embeddings, config: Settings) -> VectorStoreRetriever:
+    def get_vector_store_retriever(
+            self, embeddings: Embeddings, elasticsearch: Elasticsearch
+    ) -> VectorStoreRetriever:
         return ElasticsearchStore(
-            es_url=config.elasticsearch.elastic_url,
-            es_user=config.elasticsearch.ELASTIC_USER,
-            es_password=config.elasticsearch.ELASTIC_PASSWORD,
+            es_connection=elasticsearch,
             index_name=VECTOR_STORE_INDEX,
             embedding=embeddings
         ).as_retriever()
