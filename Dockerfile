@@ -10,4 +10,6 @@ RUN pip install --upgrade pip && \
 
 COPY . .
 
+RUN python -c "from transformers import AutoModel; AutoModel.from_pretrained('deepvk/USER-bge-m3')"
+
 CMD ["/bin/bash", "-c", "python main.py"]
