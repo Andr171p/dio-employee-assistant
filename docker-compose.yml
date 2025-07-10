@@ -42,6 +42,8 @@ services:
       - .:/dio_employee_assistant_bot
     depends_on:
       - postgres
+      - elastic
+      - redis
 
 volumes:
   elastic-data:
