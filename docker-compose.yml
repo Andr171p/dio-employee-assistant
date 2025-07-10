@@ -12,6 +12,9 @@ services:
     ports:
       - "9201:9200"
       - "9301:9300"
+    networks:
+      - elastic-net
+
   redis:
     image: redis:alpine
     container_name: redis_container
@@ -44,6 +47,12 @@ services:
       - postgres
       - elastic
       - redis
+    networks:
+      - elastic-net
+
+networks:
+  elastic-net:
+    driver: bridge
 
 volumes:
   elastic-data:
