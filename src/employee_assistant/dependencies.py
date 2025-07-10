@@ -65,7 +65,7 @@ class AppProvider(Provider):
         return Elasticsearch(
             hosts=config.elasticsearch.elastic_url,
             basic_auth=(config.elasticsearch.ELASTIC_USER, config.elasticsearch.ELASTIC_PASSWORD),
-            verify_certs=False
+            # verify_certs=False
         )
 
     @provide(scope=Scope.APP)
