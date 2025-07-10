@@ -16,6 +16,7 @@ from langchain.retrievers import EnsembleRetriever
 
 from langchain_core.embeddings import Embeddings
 from langchain_core.retrievers import BaseRetriever
+from langchain_core.vectorstores import VectorStore
 from langchain_core.language_models import BaseChatModel
 from langchain_core.vectorstores import VectorStoreRetriever
 
@@ -91,14 +92,16 @@ class AppProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_vector_store_retriever(
-            self, embeddings: Embeddings, elasticsearch: Elasticsearch
-    ) -> VectorStoreRetriever:
+    def get_vector_store(self, embeddings: Embeddings, elasticsearch: Elasticsearch) -> VectorStore:
         return ElasticsearchStore(
             es_connection=elasticsearch,
             index_name=VECTOR_STORE_INDEX,
             embedding=embeddings
-        ).as_retriever()
+        )
+
+    @provide(scope=Scope.APP)
+    def get_vector_store_retriever(self, vector_store: VectorStore) -> VectorStoreRetriever:
+        return vector_store.as_retriever()
 
     @provide(scope=Scope.APP)
     def get_retriever(
