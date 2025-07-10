@@ -1,4 +1,7 @@
 import asyncio
+import logging
+
+from elasticsearch import Elasticsearch
 
 from langchain_community.document_loaders import TextLoader
 
@@ -16,10 +19,18 @@ from src.employee_assistant.document_loaders import (
     Office2MdLoader
 )
 
+logger = logging.getLogger(__name__)
+
 
 async def main() -> None:
-    file_path = r"C:\Users\andre\IdeaProjects\DIORag\knowledge_base\Инструкции\ИНСТРУКЦИЯ_1С_УФФ_АРМ_Специалиста.docx"
+    file_path = r"C:\Users\andre\IdeaProjects\DIORag\knowledge_base\УП_база_знаний\УП_55_Инструкция_по_оформлению_процесса_Заявление_на_увольнение.docx"
     extension = file_path.split(".")[-1]
+
+    '''elastic = await container.get(Elasticsearch)
+    indices = elastic.cat.indices(h="index").split()
+    for index in indices:
+        logger.info(f"Delete index: {index}")
+        elastic.indices.delete(index=index, ignore=[400, 404])'''
 
     llm = await container.get(GigaChat)
     vector_store_retriever = await container.get(VectorStoreRetriever)
@@ -49,4 +60,5 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     asyncio.run(main())

@@ -24,10 +24,10 @@ class EmbeddingsSettings(BaseSettings):
 
 
 class ElasticSettings(BaseSettings):
-    ELASTIC_HOST: str = os.getenv("ELASTIC_HOST")
-    ELASTIC_PORT: int = os.getenv("ELASTIC_PORT")
-    ELASTIC_USER: str = os.getenv("ELASTIC_USER")
-    ELASTIC_PASSWORD: str = os.getenv("ELASTIC_PASSWORD")
+    ELASTIC_HOST: str = os.getenv("ELASTICSEARCH_HOST")
+    ELASTIC_PORT: int = os.getenv("ELASTICSEARCH_PORT")
+    ELASTIC_USER: str = os.getenv("ELASTICSEARCH_USER")
+    ELASTIC_PASSWORD: str = os.getenv("ELASTICSEARCH_PASSWORD")
 
     @property
     def elastic_url(self) -> str:

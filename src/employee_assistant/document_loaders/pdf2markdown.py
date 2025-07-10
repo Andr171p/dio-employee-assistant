@@ -102,7 +102,10 @@ class Pdf2MdLoader(BaseLoader):
         return images
 
     @staticmethod
-    def __parse_image_file_name(md_text: str) -> list[str]:
-        pattern = r"!\[(.*?)\]\((.*?)\)"
-        matches = re.findall(pattern, md_text)
-        return [match.split("/")[-1] for match in matches]
+    def __parse_image_file_name(md_text: str) -> Optional[list[str]]:
+        try:
+            pattern = r"!\[(.*?)\]\((.*?)\)"
+            matches = re.findall(pattern, md_text)
+            return [match.split("/")[-1] for match in matches]
+        except AttributeError:
+            return None
