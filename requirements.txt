@@ -44,3 +44,5 @@ asyncpg~=0.30.0
 langgraph-checkpoint~=2.1.0
 accelerate~=1.6.0
 transformers~=4.41.0
+langchain_elasticsearch~=0.3.2
+unstructured~=0.17.0
