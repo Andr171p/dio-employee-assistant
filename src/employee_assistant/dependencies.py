@@ -22,7 +22,7 @@ from langchain_core.vectorstores import VectorStoreRetriever
 
 from langchain_gigachat import GigaChat
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_elasticsearch.vectorstores import ElasticsearchStore
+from langchain_elasticsearch import ElasticsearchStore
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
