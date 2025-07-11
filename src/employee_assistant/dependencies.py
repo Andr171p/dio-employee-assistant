@@ -39,7 +39,8 @@ from .constants import (
     VECTOR_STORE_INDEX,
     BM25_INDEX,
     VECTOR_STORE_RETRIEVER_WEIGHT,
-    BM25_RETRIEVER_WEIGHT
+    BM25_RETRIEVER_WEIGHT,
+    TIMEOUT
 )
 
 
@@ -123,7 +124,8 @@ class AppProvider(Provider):
             scope=config.giga_chat.SCOPE,
             model=config.giga_chat.MODEL_NAME,
             profanity_check=False,
-            verify_ssl_certs=False
+            verify_ssl_certs=False,
+            timeout=TIMEOUT
         )
 
     @provide(scope=Scope.APP)

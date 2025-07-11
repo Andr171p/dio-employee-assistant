@@ -6,3 +6,5 @@ VECTOR_STORE_INDEX = "vector-store-index"
 BM25_INDEX = "bm25-index"
 
 NER_MODEL_NAME = "ru_core_news_md"
+
+TIMEOUT = 120
