@@ -19,6 +19,7 @@ async def update_message(session: AsyncSession, id: int, **kwargs) -> Optional[B
         update(MessageOrm)
         .values(**kwargs)
         .where(MessageOrm.id == id)
+        .returning(MessageOrm)
     )
     result = await session.execute(stmt)
     await session.commit()
