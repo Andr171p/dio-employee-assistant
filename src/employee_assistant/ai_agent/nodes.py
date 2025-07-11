@@ -37,6 +37,7 @@ class RetrieveNode:
     async def __call__(self, state: GraphState) -> dict[str, list[Document]]:
         logger.info("---RETRIEVE---")
         documents = await self.retriever.ainvoke(state["question"])
+        logger.info(documents)
         return {"documents": documents}
 
 
