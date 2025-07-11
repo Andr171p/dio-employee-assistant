@@ -8,7 +8,7 @@ from langgraph.graph.state import CompiledGraph
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .decorators import messages_saver
+from .decorators import save_messages
 from .keyboards import grade_kb, GradeCallback
 
 from ..ai_agent.utils import chat
@@ -23,7 +23,7 @@ async def start(message: Message) -> None:
 
 
 @router.message(F.text)
-@messages_saver
+@save_messages
 async def answer(message: Message, agent: Depends[CompiledGraph]) -> Message:
     await message.bot.send_chat_action(message.chat.id, "typing")
     text = await chat(thread_id=message.from_user.id, content=message.text, agent=agent)

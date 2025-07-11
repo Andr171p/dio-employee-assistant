@@ -17,7 +17,7 @@ from langchain.retrievers import EnsembleRetriever
 from langchain_core.embeddings import Embeddings
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.vectorstores import VectorStore
-# from langchain_core.language_models import BaseChatModel
+from langchain_core.language_models import BaseChatModel
 from langchain_core.vectorstores import VectorStoreRetriever
 
 from langchain_gigachat import GigaChat
@@ -32,7 +32,7 @@ from .redis.async_saver import AsyncRedisCheckpointSaver
 from .database.base import create_sessionmaker
 
 from .ai_agent.workflow import build_graph
-from .ai_agent.nodes import SummarizeNode, RetrieveNode, GenerateNode, GigaChatGenerateNode
+from .ai_agent.nodes import SummarizeNode, RetrieveNode, GenerateNode
 
 from .settings import Settings
 from .constants import (
@@ -118,7 +118,7 @@ class AppProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_model(self, config: Settings) -> GigaChat:
+    def get_model(self, config: Settings) -> BaseChatModel:
         return GigaChat(
             credentials=config.giga_chat.API_KEY,
             scope=config.giga_chat.SCOPE,
@@ -142,8 +142,7 @@ class AppProvider(Provider):
         return build_graph(
             summarize_node=SummarizeNode(model),
             retrieve_node=RetrieveNode(retriever),
-            # generate_node=GenerateNode(model),
-            generate_node=GigaChatGenerateNode(model),
+            generate_node=GenerateNode(model),
             checkpointer=checkpointer
         )
 
