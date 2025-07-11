@@ -2,6 +2,7 @@ import base64
 import logging
 from PIL import Image
 from io import BytesIO
+from uuid import uuid4
 
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
@@ -70,8 +71,8 @@ class GigaChatGenerateNode:
             if not images:
                 continue
             for image in images:
-                str_base64, file_name = image["str_base64"], image["file_name"]
-                file_buffer = self._open_buffered_image(str_base64, file_name)
+                str_base64 = image["str_base64"]
+                file_buffer = self._open_buffered_image(str_base64, f"{uuid4()}.jpg")
                 uploaded_file = await self.model.aupload_file(file_buffer)
                 files.append(uploaded_file.id_)
         message = await self.llm_chain.ainvoke({
