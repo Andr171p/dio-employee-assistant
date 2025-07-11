@@ -136,7 +136,7 @@ class AppProvider(Provider):
     def get_agent(
             self,
             retriever: BaseRetriever,
-            model: GigaChat,
+            model: BaseChatModel,
             checkpointer: BaseCheckpointSaver
     ) -> CompiledGraph:
         return build_graph(
