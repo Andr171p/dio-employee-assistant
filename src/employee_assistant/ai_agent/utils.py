@@ -94,4 +94,4 @@ async def chat(thread_id: IdType, content: str, agent: CompiledGraph) -> str:
     config["configurable"] = {"thread_id": str(thread_id)}
     inputs = {"messages": [{"role": "human", "content": content}]}
     outputs = await agent.ainvoke(inputs, config=config)
-    return outputs["messages"][-1]
+    return outputs["messages"][-1].content
