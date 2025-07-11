@@ -75,6 +75,3 @@ class Settings(BaseSettings):
     giga_chat: GigaChatSettings = GigaChatSettings()
     yandex_gpt: YandexGPTSettings = YandexGPTSettings()
     postgres: PostgresSettings = PostgresSettings()
-
-
-settings = Settings()
