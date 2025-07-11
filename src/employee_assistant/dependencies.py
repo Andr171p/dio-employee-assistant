@@ -66,7 +66,7 @@ class AppProvider(Provider):
         print(config.elasticsearch.elastic_url)
         return Elasticsearch(
             # hosts=config.elasticsearch.elastic_url,
-            hosts="http://elastic:9200",
+            hosts=["http://elastic:9200"],
             basic_auth=(config.elasticsearch.ELASTIC_USER, config.elasticsearch.ELASTIC_PASSWORD),
             # verify_certs=False
         )

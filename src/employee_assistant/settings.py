@@ -28,6 +28,7 @@ class ElasticSettings(BaseSettings):
     ELASTIC_PORT: int = os.getenv("ELASTICSEARCH_PORT")
     ELASTIC_USER: str = os.getenv("ELASTICSEARCH_USER")
     ELASTIC_PASSWORD: str = os.getenv("ELASTICSEARCH_PASSWORD")
+    print(ELASTIC_HOST, ELASTIC_PORT)
 
     @property
     def elastic_url(self) -> str:
