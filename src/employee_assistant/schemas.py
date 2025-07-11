@@ -2,7 +2,7 @@ from typing import Optional
 
 from enum import StrEnum
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, ConfigDict
 
 
 class Role(StrEnum):
@@ -21,6 +21,8 @@ class BaseMessage(BaseModel):
     chat_id: str | int
     text: str
     grade: Optional[Grade] = None
+
+    model_config = ConfigDict(from_attributes=True)
 
     @classmethod
     @field_validator("chat_id")
