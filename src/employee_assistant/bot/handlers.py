@@ -1,7 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart
-from aiogram.enums.parse_mode import ParseMode
 
 from dishka.integrations.aiogram import FromDishka as Depends
 
