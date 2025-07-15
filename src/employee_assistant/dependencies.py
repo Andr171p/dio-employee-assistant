@@ -51,7 +51,7 @@ class AppProvider(Provider):
     def get_bot(self, app_settings: Settings) -> Bot:
         return Bot(
             token=app_settings.bot.token,
-            default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2)
+            default=DefaultBotProperties(parse_mode=ParseMode.HTML)
         )
 
     @provide(scope=Scope.APP)
