@@ -3,8 +3,8 @@ services:
     image: elasticsearch:8.16.1
     environment:
       ES_JAVA_OPTS: "-Xmx512m -Xms512m"
-      ELASTIC_USERNAME: "elastic"
-      ELASTIC_PASSWORD: "password"
+      ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       discovery.type: single-node
     volumes:
       - .docker/configs/elasticsearch/config.yml:/usr/share/elasticsearch/docker/config/elasticsearch.yml:ro
@@ -22,8 +22,6 @@ services:
   redis:
     image: redis:alpine
     container_name: redis_container
-    ports:
-      - "6301:6379"
     volumes:
       - ./.docker/data:/data
     command: redis-server --appendonly yes

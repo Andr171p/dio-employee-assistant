@@ -54,7 +54,7 @@ class GenerateNode:
         return {"messages": [{"role": "ai", "content": message}]}
 
 
-class GigaChatGenerateNode:
+class GenerateWithFilesNode:
     def __init__(self, model: GigaChat) -> None:
         self.model = model
         self.llm_chain = create_gigachat_llm_chain(

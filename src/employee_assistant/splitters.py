@@ -5,6 +5,7 @@ import spacy
 
 from pydantic import BaseModel, Field
 
+from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.language_models import BaseChatModel
 from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
@@ -23,11 +24,26 @@ from .templates import (
 
 DEFAULT_NER_MODEL = "ru_core_news_md"
 
-ENRICHED_TEXT_TEMPLATE = """Название: {title}
-Содержание: {text}
+ENRICHED_CHUNK = """Название: {title}
+Содержание: {content}
 Краткое содержание: {summary}
 Ключевые слова: {keywords}
 """
+
+ENRICHED_WITH_HEADERS_CHUNK = """Название: {title}
+Главный заголовок: {h1}
+Подзаголовок: {h2}
+Мелкий заголовок: {h3}
+Содержание: {content}
+Краткое содержание: {summary}
+Ключевые слова: {keywords}
+"""
+
+HEADERS_TO_SPLIT_ON: list[tuple[str, str]] = [
+    ("#", "h1"),
+    ("##", "h2"),
+    ("###", "h3"),
+]
 
 
 def extract_keywords_using_nlp(text: str, nlp: spacy.Language) -> list[str]:
@@ -66,9 +82,8 @@ class EnrichedMarkdownTextSplitter(TextSplitter):
             chunk_size (int): Max size of chunk in characters.
             chunk_overlap (int): Overlap between adjacent chunks in characters.
             length_function: (Callable[[Sized], int]): Function for computing length of text.
-            header_to_split_on: (list[tuple[str, str]]): List of tuples for split by headers in Markdown,
-            for example: [("#", "h1"), ("##", "h2")]
             llm: (BaseChatModel): LLM model for title generation, summarization and keyword extraction.
+            use_md_headers_splitter: (bool, optional): Using Markdown splitting by headers.
             use_llm_for_ner: (bool, optional): Using LLM for keyword extraction, default False.
             ner_model: (str, optional): NER model for keyword extraction, default None.
     """
@@ -77,8 +92,8 @@ class EnrichedMarkdownTextSplitter(TextSplitter):
             chunk_size: int,
             chunk_overlap: int,
             length_function: Callable[[Sized], int],
-            header_to_split_on: list[tuple[str, str]],
             llm: BaseChatModel,
+            use_md_headers_splitter: bool = False,
             use_llm_for_ner: bool = False,
             ner_model: Optional[str] = None
     ) -> None:
@@ -90,11 +105,13 @@ class EnrichedMarkdownTextSplitter(TextSplitter):
         self._llm = llm
         self._use_llm_for_ner = use_llm_for_ner
         self._ner_model = ner_model if ner_model else DEFAULT_NER_MODEL
-        self._markdown_splitter = MarkdownHeaderTextSplitter(header_to_split_on)
+        self._use_md_headers_splitter = use_md_headers_splitter
+        self._headers_to_split_on = HEADERS_TO_SPLIT_ON
+        self._markdown_splitter = MarkdownHeaderTextSplitter(self._headers_to_split_on)
         self._recursive_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=self._chunk_size,
-            chunk_overlap=self._chunk_overlap,
-            length_function=self._length_function
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            length_function=length_function
         )
 
     @cached_property
@@ -102,24 +119,45 @@ class EnrichedMarkdownTextSplitter(TextSplitter):
         return spacy.load(self._ner_model)
 
     def split_text(self, text: str) -> list[str]:
-        documents = self._markdown_splitter.split_text(text)
-        title = self.__generate_title(text)
-        enriched_texts: list[str] = []
+        documents = self._markdown_splitter.split_text(text) if self._use_md_headers_splitter \
+            else [Document(page_content=text)]
+        title = self._generate_title(text)
+        enriched_chunks: list[str] = []
         for document in documents:
-            texts = self._recursive_splitter.split_text(document.page_content)
-            for text in texts:
-                enriched_text = self.__enrich(title, text)
-                enriched_texts.append(enriched_text)
-        return enriched_texts
+            headers = document.metadata
+            chunks = self._recursive_splitter.split_text(document.page_content)
+            for chunk in chunks:
+                enriched_chunk = self._enrich_chunk(title, headers, chunk)
+                enriched_chunks.append(enriched_chunk)
+        return enriched_chunks
 
-    def __enrich(self, title: str, text: str) -> str:
-        summary = self.__summarize(text)
-        keywords = self.__extract_keywords(text)
-        return ENRICHED_TEXT_TEMPLATE.format(
-            title=title, text=text, summary=summary, keywords=keywords
+    def _enrich_chunk(
+            self,
+            title: str,
+            headers: Optional[dict[str, str]],
+            chunk: str
+    ) -> str:
+        summary = self._summarize(chunk)
+        keywords = self._extract_keywords(chunk)
+        keywords = " ".join(keywords)
+        if self._use_md_headers_splitter:
+            return ENRICHED_WITH_HEADERS_CHUNK.format(
+                title=title,
+                h1=headers.get("h1"),
+                h2=headers.get("h2"),
+                h3=headers.get("h3"),
+                content=chunk,
+                summary=summary,
+                keywords=keywords
+            )
+        return ENRICHED_CHUNK.format(
+            title=title,
+            content=chunk,
+            summary=summary,
+            keywords=keywords
         )
 
-    def __generate_title(self, text: str) -> str:
+    def _generate_title(self, text: str) -> str:
 
         class TitleResponse(BaseModel):
             title: str = Field(..., description="Заголовок или основная тема текста.")
@@ -135,12 +173,12 @@ class EnrichedMarkdownTextSplitter(TextSplitter):
         response: TitleResponse = llm_chain.invoke({"text": text})
         return response.title
 
-    def __summarize(self, text: str) -> str:
+    def _summarize(self, text: str) -> str:
         llm_chain = ChatPromptTemplate.from_template(SUMMARIZATION_TEMPLATE) | self._llm | StrOutputParser()
         summary = llm_chain.invoke({"text": text})
         return summary
 
-    def __extract_keywords(self, text: str) -> list[str]:
+    def _extract_keywords(self, text: str) -> list[str]:
         keywords = extract_keywords_using_llm(text, llm=self._llm) if self._use_llm_for_ner \
             else extract_keywords_using_nlp(text, nlp=self._nlp)
         return keywords

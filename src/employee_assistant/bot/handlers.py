@@ -36,6 +36,5 @@ async def rate_message(
         callback_data: GradeCallback,
         session: Depends[AsyncSession]
 ) -> None:
-    await call.answer()
     await update_message(session, callback_data.message_id, grade=callback_data.grade)
     await call.answer("Оценка поставлена!", show_alert=True)

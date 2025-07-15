@@ -1,77 +1,92 @@
-import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-from pydantic_settings import BaseSettings
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 ENV_PATH = BASE_DIR / ".env"
 
-PG_DRIVER = "asyncpg"
+load_dotenv(ENV_PATH)
 
-load_dotenv(dotenv_path=ENV_PATH)
+POSTGRES_DRIVER = "asyncpg"
 
 
 class BotSettings(BaseSettings):
-    TOKEN: str = os.getenv("BOT_TOKEN")
+    token: str = ""
+
+    model_config = SettingsConfigDict(env_prefix="BOT_")
 
 
-class EmbeddingsSettings(BaseSettings):
-    MODEL_NAME: str = "deepvk/USER-bge-m3"
-    MODEL_KWARGS: dict = {"device": "cpu"}
-    ENCODE_KWARGS: dict = {"normalize_embeddings": False}
+class EmbeddingsSettings(BaseModel):
+    model_name: str = "deepvk/USER-bge-m3"
+    model_kwargs: dict = {"device": "cpu"}
+    encode_kwargs: dict = {"normalize_embeddings": False}
 
 
 class ElasticSettings(BaseSettings):
-    ELASTIC_HOST: str = os.getenv("ELASTICSEARCH_HOST")
-    ELASTIC_PORT: int = os.getenv("ELASTICSEARCH_PORT")
-    ELASTIC_USER: str = os.getenv("ELASTICSEARCH_USER")
-    ELASTIC_PASSWORD: str = os.getenv("ELASTICSEARCH_PASSWORD")
-    print(ELASTIC_HOST, ELASTIC_PORT)
+    host: str = "elastic"
+    port: int = 9200
+    username: str = "user"
+    password: str = "password"
+
+    model_config = SettingsConfigDict(env_prefix="ELASTIC_")
 
     @property
-    def elastic_url(self) -> str:
-        return f"http://{self.ELASTIC_HOST}:{self.ELASTIC_PORT}"
+    def url(self) -> str:
+        return f"http://{self.host}:{self.port}"
+
+    @property
+    def auth(self) -> tuple[str, str]:
+        return self.username, self.password
 
 
 class RedisSettings(BaseSettings):
-    REDIS_HOST: str = os.getenv("REDIS_HOST")
-    REDIS_PORT: int = os.getenv("REDIS_PORT")
+    host: str = "redis"
+    port: int = 6379
+
+    model_config = SettingsConfigDict(env_prefix="REDIS_")
 
     @property
-    def redis_url(self) -> str:
-        return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/0"
+    def url(self) -> str:
+        return f"redis://{self.host}:{self.port}/0"
 
 
 class GigaChatSettings(BaseSettings):
-    API_KEY: str = os.getenv("GIGACHAT_API_KEY")
-    SCOPE: str = os.getenv("GIGACHAT_SCOPE")
-    MODEL_NAME: str = os.getenv("GIGACHAT_MODEL_NAME")
+    api_key: str = ""
+    scope: str = ""
+    model_name: str = ""
+
+    model_config = SettingsConfigDict(env_prefix="GIGACHAT_")
 
 
-class YandexGPTSettings(BaseSettings):
-    FOLDER_ID: str = os.getenv("YANDEX_FOLDER_ID")
-    API_KEY: str = os.getenv("YANDEX_GPT_API_KEY")
+class YandexCloudSettings(BaseSettings):
+    folder_id: str = ""
+    api_key: str = ""
+
+    model_config = SettingsConfigDict(env_prefix="YANDEX_")
 
 
 class PostgresSettings(BaseSettings):
-    PG_HOST: str = os.getenv("POSTGRES_HOST")
-    PG_PORT: int = os.getenv("POSTGRES_PORT")
-    PG_USER: str = os.getenv("POSTGRES_USER")
-    PG_PASSWORD: str = os.getenv("POSTGRES_PASSWORD")
-    PG_DB: str = os.getenv("POSTGRES_DB")
+    host: str = "postgres"
+    port: int = 5432
+    user: str = "postgres"
+    password: str = "postgres"
+    db: str = "postgres"
+
+    model_config = SettingsConfigDict(env_prefix="POSTGRES_")
 
     @property
-    def sqlalchemy_url(self) -> str:
-        return f"postgresql+{PG_DRIVER}://{self.PG_USER}:{self.PG_PASSWORD}@{self.PG_HOST}:{self.PG_PORT}/{self.PG_DB}"
+    def url(self) -> str:
+        return f"postgresql+{POSTGRES_DRIVER}://{self.user}:{self.password}@{self.host}:{self.port}/{self.db}"
 
 
 class Settings(BaseSettings):
     bot: BotSettings = BotSettings()
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
-    elasticsearch: ElasticSettings = ElasticSettings()
+    elastic: ElasticSettings = ElasticSettings()
     redis: RedisSettings = RedisSettings()
-    giga_chat: GigaChatSettings = GigaChatSettings()
-    yandex_gpt: YandexGPTSettings = YandexGPTSettings()
+    gigachat: GigaChatSettings = GigaChatSettings()
+    yandexcloud: YandexCloudSettings = YandexCloudSettings()
     postgres: PostgresSettings = PostgresSettings()

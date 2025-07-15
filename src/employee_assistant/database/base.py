@@ -23,8 +23,8 @@ class Base(AsyncAttrs, DeclarativeBase):
     )
 
 
-def create_sessionmaker(pg_settings: PostgresSettings) -> async_sessionmaker[AsyncSession]:
-    engine = create_async_engine(url=pg_settings.sqlalchemy_url, echo=True)
+def create_sessionmaker(url: str) -> async_sessionmaker[AsyncSession]:
+    engine = create_async_engine(url=url, echo=True)
     return async_sessionmaker(
         engine,
         class_=AsyncSession,

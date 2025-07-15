@@ -36,49 +36,47 @@ from .ai_agent.nodes import SummarizeNode, RetrieveNode, GenerateNode
 
 from .settings import Settings
 from .constants import (
-    VECTOR_STORE_INDEX,
+    TIMEOUT,
     BM25_INDEX,
-    VECTOR_STORE_RETRIEVER_WEIGHT,
+    VECTOR_STORE_INDEX,
     BM25_RETRIEVER_WEIGHT,
-    TIMEOUT
+    VECTOR_STORE_RETRIEVER_WEIGHT,
 )
 
 
 class AppProvider(Provider):
-    config = from_context(provides=Settings, scope=Scope.APP)
+    app_settings = from_context(provides=Settings, scope=Scope.APP)
 
     @provide(scope=Scope.APP)
-    def get_bot(self, config: Settings) -> Bot:
+    def get_bot(self, app_settings: Settings) -> Bot:
         return Bot(
-            token=config.bot.TOKEN,
+            token=app_settings.bot.token,
             default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN)
         )
 
     @provide(scope=Scope.APP)
-    def get_embeddings(self, config: Settings) -> Embeddings:
+    def get_embeddings(self, app_settings: Settings) -> Embeddings:
         return HuggingFaceEmbeddings(
-            model_name=config.embeddings.MODEL_NAME,
-            model_kwargs=config.embeddings.MODEL_KWARGS,
-            encode_kwargs=config.embeddings.ENCODE_KWARGS,
+            model_name=app_settings.embeddings.model_name,
+            model_kwargs=app_settings.embeddings.model_kwargs,
+            encode_kwargs=app_settings.embeddings.encode_kwargs,
         )
 
     @provide(scope=Scope.APP)
-    def get_elastic(self, config: Settings) -> Elasticsearch:
-        print(config.elasticsearch.elastic_url)
+    def get_elasticsearch(self, app_settings: Settings) -> Elasticsearch:
         return Elasticsearch(
-            # hosts=config.elasticsearch.elastic_url,
-            hosts=["http://elastic:9200"],
-            basic_auth=(config.elasticsearch.ELASTIC_USER, config.elasticsearch.ELASTIC_PASSWORD),
-            # verify_certs=False
+            hosts=app_settings.elastic.url,
+            basic_auth=app_settings.elastic.auth,
+            verify_certs=False
         )
 
     @provide(scope=Scope.APP)
-    def get_redis(self, config: Settings) -> AsyncRedis:
-        return AsyncRedis.from_url(config.redis.redis_url)
+    def get_redis(self, app_settings: Settings) -> AsyncRedis:
+        return AsyncRedis.from_url(app_settings.redis.url)
 
     @provide(scope=Scope.APP)
-    def get_sessionmaker(self, config: Settings) -> async_sessionmaker[AsyncSession]:
-        return create_sessionmaker(config.postgres)
+    def get_sessionmaker(self, app_settings: Settings) -> async_sessionmaker[AsyncSession]:
+        return create_sessionmaker(app_settings.postgres.url)
 
     @provide(scope=Scope.REQUEST)
     async def get_session(
@@ -118,11 +116,11 @@ class AppProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_model(self, config: Settings) -> BaseChatModel:
+    def get_model(self, app_settings: Settings) -> BaseChatModel:
         return GigaChat(
-            credentials=config.giga_chat.API_KEY,
-            scope=config.giga_chat.SCOPE,
-            model=config.giga_chat.MODEL_NAME,
+            credentials=app_settings.gigachat.api_key,
+            scope=app_settings.gigachat.scope,
+            model=app_settings.gigachat.model_name,
             profanity_check=False,
             verify_ssl_certs=False,
             timeout=TIMEOUT
