@@ -7,14 +7,14 @@ from .nodes import (
     SummarizeNode,
     RetrieveNode,
     GenerateNode,
-    GigaChatGenerateNode
+    GenerateWithFilesNode
 )
 
 
 def build_graph(
         summarize_node: SummarizeNode,
         retrieve_node: RetrieveNode,
-        generate_node: GenerateNode | GigaChatGenerateNode,
+        generate_node: GenerateNode | GenerateWithFilesNode,
         checkpointer: BaseCheckpointSaver[GraphState]
 ) -> CompiledStateGraph:
     workflow = StateGraph(GraphState)
