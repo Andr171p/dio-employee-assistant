@@ -1,6 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart
+from aiogram.enums.parse_mode import ParseMode
 
 from dishka.integrations.aiogram import FromDishka as Depends
 
@@ -19,7 +20,7 @@ router = Router(name=__name__)
 
 @router.message(CommandStart())
 async def start(message: Message) -> None:
-    await message.answer(f"Привет, {message.from_user.first_name}\\! Я ваш корпоративный помощник. Чем могу помочь?")
+    await message.answer(f"Привет, {message.from_user.first_name}! Я ваш корпоративный помощник. Чем могу помочь?")
 
 
 @router.message(F.text)
@@ -27,7 +28,11 @@ async def start(message: Message) -> None:
 async def answer(message: Message, agent: Depends[CompiledGraph]) -> Message:
     await message.bot.send_chat_action(message.chat.id, "typing")
     text = await chat(thread_id=message.from_user.id, content=message.text, agent=agent)
-    return await message.answer(text=text, reply_markup=grade_kb(message_id=message.message_id))
+    return await message.answer(
+        text=text,
+        reply_markup=grade_kb(message_id=message.message_id),
+        parse_mode=ParseMode.MARKDOWN
+    )
 
 
 @router.callback_query(GradeCallback.filter())
