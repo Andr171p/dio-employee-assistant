@@ -28,11 +28,7 @@ async def start(message: Message) -> None:
 async def answer(message: Message, agent: Depends[CompiledGraph]) -> Message:
     await message.bot.send_chat_action(message.chat.id, "typing")
     text = await chat(thread_id=message.from_user.id, content=message.text, agent=agent)
-    return await message.answer(
-        text=text,
-        reply_markup=grade_kb(message_id=message.message_id),
-        parse_mode=ParseMode.MARKDOWN
-    )
+    return await message.answer(text=text, reply_markup=grade_kb(message_id=message.message_id))
 
 
 @router.callback_query(GradeCallback.filter())
