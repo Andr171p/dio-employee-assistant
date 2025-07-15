@@ -19,7 +19,7 @@ router = Router(name=__name__)
 
 @router.message(CommandStart())
 async def start(message: Message) -> None:
-    await message.answer("...")
+    await message.answer(f"Привет, {message.from_user.first_name}\\! Я ваш корпоративный помощник. Чем могу помочь?")
 
 
 @router.message(F.text)
